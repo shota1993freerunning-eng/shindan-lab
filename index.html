@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>診断ラボ｜1分でわかる、自分の現在地</title>
+<meta name="description" content="年収の全国順位、ムダ遣いの生涯コスト、SNS発信タイプ。1分で終わる診断ツール。">
+<meta property="og:title" content="診断ラボ｜1分でわかる、自分の現在地">
+<meta property="og:description" content="年収の全国順位、ムダ遣いの生涯コスト、SNS発信タイプ。1分で終わる診断ツール。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f14; --bg2:#141821; --card:#1a1f2b; --line:#262d3b;
+    --text:#f2f4f8; --sub:#9aa3b2; --gold:#ffd76e; --gold2:#f4a93a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:48px 20px 64px;
+    background-image:radial-gradient(1200px 600px at 50% -10%, #1c2433 0%, var(--bg) 60%);
+  }
+  .wrap{max-width:560px;margin:0 auto}
+  .hero{text-align:center;margin-bottom:40px}
+  .kicker{font-size:13px;letter-spacing:.16em;color:var(--gold);font-weight:700;margin-bottom:14px}
+  h1{font-size:30px;font-weight:900;line-height:1.35;margin-bottom:14px}
+  h1 .em{background:linear-gradient(120deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lead{font-size:15px;color:var(--sub);line-height:1.8}
+  .grid{display:flex;flex-direction:column;gap:16px;margin-top:36px}
+  a.card{
+    display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;padding:22px 22px 20px;
+    transition:transform .18s ease,border-color .18s ease;position:relative;overflow:hidden;
+  }
+  a.card:hover{transform:translateY(-3px);border-color:#3a4252}
+  .ctag{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--gold);margin-bottom:10px;display:inline-block}
+  .ctitle{font-size:21px;font-weight:900;margin-bottom:8px;line-height:1.4}
+  .cdesc{font-size:13.5px;color:var(--sub);line-height:1.7}
+  .go{margin-top:16px;font-size:13px;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px}
+  .go .arrow{transition:transform .18s ease}
+  a.card:hover .go .arrow{transform:translateX(4px)}
+  footer{text-align:center;margin-top:48px;font-size:12px;color:#5a6273;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">SHINDAN LAB</div>
+    <h1>1分でわかる、<br><span class="em">自分の現在地</span></h1>
+    <p class="lead">年収、お金の使い方、SNSの立ち回り。<br>数字と結果で、今の自分を測る診断。</p>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="nenshu-rank/">
+      <span class="ctag">年収診断</span>
+      <div class="ctitle">年収全国ランク診断</div>
+      <div class="cdesc">年収を入れると、全国で上位何%かが出る。性別・都道府県別、手取りの内訳、称号まで。</div>
+      <div class="go">診断する<span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="lifetime-cost/">
+      <span class="ctag">浪費診断</span>
+      <div class="ctitle">その習慣、生涯でいくら?</div>
+      <div class="cdesc">毎日のコーヒーやサブスクが、65歳までにいくらになるか。投資してたら、の金額も。</div>
+      <div class="go">計算する<span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="sns-type/">
+      <span class="ctag">性格診断</span>
+      <div class="ctitle">SNS発信タイプ診断</div>
+      <div class="cdesc">10問で8タイプに判定。あなたの発信スタイル、伸ばし方、相性のいいタイプがわかる。</div>
+      <div class="go">診断する<span class="arrow">→</span></div>
+    </a>
+  </div>
+
+  <footer>
+    1分で終わる診断ツール集<br>
+    結果のスクリーンショットはご自由にどうぞ
+  </footer>
+</div>
+</body>
+</html>

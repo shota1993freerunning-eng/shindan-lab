@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>年収全国ランク診断 | あなたの年収は全国で上位何%?</title>
+<meta name="description" content="年収を入力するだけで、全国・同年代での自分の位置が分かる。手取り・時給換算も一発表示。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-0: #0b0e17;
+    --bg-1: #11162a;
+    --card: #161c33;
+    --card-2: #1b2240;
+    --line: rgba(255,255,255,.08);
+    --text: #eef1f8;
+    --muted: #8a93ad;
+    --accent-1: #ffd166;
+    --accent-2: #ff8e53;
+    --accent-3: #6e8bff;
+    --grad-main: linear-gradient(135deg, #ffd166 0%, #ff8e53 55%, #ff5e7d 100%);
+    --grad-sub: linear-gradient(135deg, #6e8bff, #9b6eff);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(110,139,255,.18), transparent 60%),
+      radial-gradient(700px 420px at -10% 25%, rgba(255,142,83,.12), transparent 60%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-0) 40%);
+    color: var(--text);
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+    padding: 28px 18px 40px;
+    flex: 1;
+  }
+
+  /* ---------- header ---------- */
+  header { text-align: center; margin-bottom: 26px; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: var(--accent-1);
+    border: 1px solid rgba(255,209,102,.35);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.3;
+    letter-spacing: .02em;
+  }
+  h1 .grad {
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .lead { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  /* ---------- screens ---------- */
+  .screen { display: none; }
+  .screen.active { display: block; animation: screenIn .5s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes screenIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- card ---------- */
+  .card {
+    background: linear-gradient(160deg, var(--card-2), var(--card));
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 24px 20px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.45);
+  }
+
+  /* ---------- input screen ---------- */
+  .field-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .income-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    margin: 6px 0 16px;
+  }
+  .income-input {
+    width: 150px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255,209,102,.4);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 44px;
+    font-weight: 900;
+    text-align: right;
+    outline: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    caret-color: var(--accent-1);
+  }
+  .income-input::-webkit-outer-spin-button,
+  .income-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .income-input:focus { border-bottom-color: var(--accent-1); }
+  .unit { font-size: 18px; font-weight: 700; color: var(--muted); }
+
+  input[type="range"] {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent-2) var(--fill, 15%), rgba(255,255,255,.12) var(--fill, 15%));
+    outline: none;
+    margin: 4px 0 2px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--grad-main);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 12px rgba(255,142,83,.55);
+    cursor: pointer;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--grad-main);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 12px rgba(255,142,83,.55);
+    cursor: pointer;
+  }
+  .range-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+
+  .select-wrap { position: relative; margin-bottom: 26px; }
+  select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 14px 44px 14px 16px;
+    outline: none;
+    cursor: pointer;
+  }
+  select:focus { border-color: var(--accent-3); }
+  .select-wrap::after {
+    content: "";
+    position: absolute;
+    right: 18px; top: 50%;
+    width: 8px; height: 8px;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  .seg {
+    display: flex;
+    gap: 4px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 26px;
+  }
+  .seg button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 11px 0;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease;
+  }
+  .seg button.active {
+    background: var(--grad-main);
+    color: #1a1206;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: .06em;
+    padding: 17px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary {
+    background: var(--grad-main);
+    color: #1a1206;
+    box-shadow: 0 10px 28px rgba(255,142,83,.35);
+  }
+  .btn-primary:hover { filter: brightness(1.06); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 13px;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
+
+  /* ---------- result screen ---------- */
+  .result-card {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 30px 20px 26px;
+  }
+  .result-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(420px 220px at 50% -8%, rgba(255,209,102,.14), transparent 70%),
+      radial-gradient(300px 200px at 100% 110%, rgba(110,139,255,.12), transparent 70%);
+    pointer-events: none;
+  }
+  .result-tag {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .result-income {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  .rank-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent-1);
+    letter-spacing: .3em;
+    margin-bottom: 2px;
+  }
+  .rank-main {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .rank-prefix { font-size: 26px; font-weight: 900; color: var(--text); }
+  .rank-number {
+    font-size: 84px;
+    font-weight: 900;
+    letter-spacing: -.02em;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+  .rank-pct { font-size: 34px; font-weight: 900; color: var(--text); }
+  .rank-cond {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 12px;
+    margin-top: 2px;
+  }
+
+  /* ---------- 称号バッジ ---------- */
+  .title-badge {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin: 14px auto 2px;
+    padding: 12px 26px;
+    border-radius: 16px;
+    background: linear-gradient(150deg, rgba(255,209,102,.14), rgba(255,142,83,.07));
+    border: 1px solid rgba(255,209,102,.4);
+    box-shadow: 0 8px 28px rgba(255,142,83,.18), inset 0 1px 0 rgba(255,255,255,.06);
+    opacity: 0;
+  }
+  .title-badge .tb-cap {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .3em;
+    color: var(--muted);
+  }
+  .title-badge .tb-name {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    line-height: 1.15;
+  }
+  .title-badge .tb-sub {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 2px;
+  }
+  .rank-comment {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.7;
+    margin: 10px auto 22px;
+    max-width: 300px;
+    opacity: 0;
+  }
+  .fade-in { animation: fadeUp .6s ease both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .stat {
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px;
+    opacity: 0;
+  }
+  .stat .k { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+  .stat .v { font-size: 19px; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .stat .v small { font-size: 12px; font-weight: 700; color: var(--muted); margin-left: 2px; }
+  .stat.hl .v {
+    background: var(--grad-sub);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .stat-wide { grid-column: 1 / -1; }
+  .stat .sub { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 4px; }
+
+  .chart {
+    text-align: left;
+    margin-bottom: 8px;
+    opacity: 0;
+  }
+  .chart-title { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 10px; }
+  .bar-row { margin-bottom: 12px; }
+  .bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .bar-meta .amt { font-variant-numeric: tabular-nums; }
+  .bar-track {
+    height: 14px;
+    border-radius: 7px;
+    background: rgba(255,255,255,.07);
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 7px;
+    width: 0;
+    transition: width 1.1s cubic-bezier(.22,1,.36,1);
+  }
+  .bar-you { background: var(--grad-main); }
+  .bar-med { background: rgba(255,255,255,.30); }
+  .bar-pref { background: linear-gradient(90deg, rgba(110,139,255,.85), rgba(155,110,255,.75)); }
+
+  .result-footnote {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 14px;
+    line-height: 1.6;
+  }
+
+  /* ---------- 天引き内訳カード ---------- */
+  .deduct-card {
+    text-align: left;
+    margin-top: 18px;
+    padding: 16px 16px 14px;
+    border-radius: 16px;
+    background: linear-gradient(150deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    border: 1px solid var(--line);
+    opacity: 0;
+  }
+  .deduct-card .deduct-cap {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: .04em;
+    margin-bottom: 12px;
+  }
+  .deduct-rate {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .deduct-rate .dr-num {
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(135deg, #ff8e7a, #d65d5d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .deduct-rate .dr-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .deduct-rows { margin-bottom: 14px; }
+  .deduct-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+  .deduct-row:last-child { border-bottom: none; }
+  .deduct-row .dk {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .deduct-row .dv {
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .deduct-row .dv .dv-month {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+  .deduct-row.total {
+    margin-top: 4px;
+    padding-top: 11px;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+  .deduct-row.total .dk { font-weight: 700; }
+  .deduct-row.total .dv {
+    font-size: 17px;
+    font-weight: 900;
+    color: #ff9b8a;
+  }
+  .deduct-bar {
+    margin-bottom: 10px;
+  }
+  .deduct-bar-track {
+    display: flex;
+    height: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255,255,255,.07);
+  }
+  .deduct-bar-net {
+    height: 100%;
+    width: 0;
+    background: var(--grad-main);
+    transition: width 1.1s cubic-bezier(.22,1,.36,1);
+  }
+  .deduct-bar-cut {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, rgba(180,72,72,.85), rgba(150,58,58,.85));
+    transition: width 1.1s cubic-bezier(.22,1,.36,1);
+  }
+  .deduct-legend {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+  .deduct-legend .dl-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+  }
+  .deduct-legend .dl-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+  }
+  .deduct-legend .dl-dot.net { background: var(--accent-1); }
+  .deduct-legend .dl-dot.cut { background: rgba(180,72,72,.9); }
+  .deduct-quip {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+  .deduct-note {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  /* ---------- イーロン・マスク換算 ---------- */
+  .musk-card {
+    text-align: left;
+    margin-top: 18px;
+    padding: 16px 16px 14px;
+    border-radius: 16px;
+    background: linear-gradient(150deg, rgba(110,139,255,.10), rgba(155,110,255,.06));
+    border: 1px dashed rgba(110,139,255,.4);
+    opacity: 0;
+  }
+  .musk-card .musk-cap {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9fb2ff;
+    letter-spacing: .04em;
+    margin-bottom: 8px;
+  }
+  .musk-card .musk-lead {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .musk-card .musk-years {
+    font-size: 30px;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    background: var(--grad-sub);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .musk-card .musk-quip {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+  .musk-card .musk-note {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  /* ---------- 大谷翔平 年収換算 ---------- */
+  .ohtani-card {
+    text-align: left;
+    margin-top: 14px;
+    padding: 16px 16px 14px;
+    border-radius: 16px;
+    background: linear-gradient(150deg, rgba(255,209,102,.10), rgba(255,142,83,.06));
+    border: 1px dashed rgba(255,209,102,.4);
+    opacity: 0;
+  }
+  .ohtani-card .ohtani-cap {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffd98a;
+    letter-spacing: .04em;
+    margin-bottom: 10px;
+  }
+  .ohtani-row + .ohtani-row {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .ohtani-card .ohtani-lead {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
+  .ohtani-card .ohtani-big {
+    font-size: 30px;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    background: var(--grad-main, linear-gradient(135deg, #ffd166, #ff8e53));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .ohtani-card .ohtani-quip {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+  .ohtani-card .ohtani-note {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 14px;
+  }
+
+  /* ---------- サラリーマン生涯年収 ---------- */
+  .lifetime-card {
+    text-align: left;
+    margin-top: 14px;
+    padding: 16px 16px 14px;
+    border-radius: 16px;
+    background: linear-gradient(150deg, rgba(110,139,255,.10), rgba(155,110,255,.06));
+    border: 1px dashed rgba(110,139,255,.4);
+    opacity: 0;
+  }
+  .lifetime-card .lifetime-cap {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9fb2ff;
+    letter-spacing: .04em;
+    margin-bottom: 8px;
+  }
+  .lifetime-card .lifetime-lead {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
+  .lifetime-card .lifetime-big {
+    font-size: 30px;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    background: var(--grad-sub);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .lifetime-card .lifetime-compare {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+  .lifetime-card .lifetime-quip {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-top: 6px;
+  }
+  .lifetime-card .lifetime-note {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  /* ---------- 画像保存 ---------- */
+  .btn-save {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,209,102,.4);
+    color: var(--accent-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-save:hover { border-color: var(--accent-1); }
+  .btn-save svg { width: 17px; height: 17px; fill: currentColor; }
+  .save-hint {
+    display: none;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+    text-align: center;
+    margin-top: -2px;
+  }
+  .save-hint.show { display: block; }
+
+  .actions { margin-top: 16px; display: grid; gap: 10px; }
+  .btn-share {
+    background: linear-gradient(135deg, #1d9bf0, #0b6fd1);
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(29,155,240,.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .btn-share svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ---------- affiliate ---------- */
+  .ad-card {
+    margin-top: 22px;
+    background: linear-gradient(150deg, rgba(110,139,255,.12), rgba(155,110,255,.08));
+    border: 1px solid rgba(110,139,255,.28);
+    border-radius: 16px;
+    padding: 18px;
+    text-decoration: none;
+    display: block;
+    color: var(--text);
+    transition: border-color .2s ease, transform .15s ease;
+  }
+  .ad-card:hover { border-color: rgba(110,139,255,.55); }
+  .ad-card:active { transform: scale(.985); }
+  .ad-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: 8px;
+  }
+  .ad-title { font-size: 15px; font-weight: 900; line-height: 1.5; margin-bottom: 6px; }
+  .ad-desc { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .ad-cta {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #9fb2ff;
+  }
+  .ad-cta::after { content: " →"; }
+
+  footer {
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    color: rgba(138,147,173,.7);
+    padding: 0 18px 26px;
+    line-height: 1.8;
+  }
+
+  @media (min-width: 768px) {
+    .wrap { max-width: 520px; padding-top: 48px; }
+    h1 { font-size: 30px; }
+    .rank-number { font-size: 96px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="badge">SALARY RANK CHECK</div>
+    <h1>年収<span class="grad">全国ランク</span>診断</h1>
+    <p class="lead">年収を入れるだけ。全国での自分の位置が10秒で分かる。</p>
+  </header>
+
+  <!-- ===== 入力画面 ===== -->
+  <section id="screen-input" class="screen active">
+    <div class="card">
+      <div class="field-label"><span>あなたの年収</span><span>額面（税込）</span></div>
+      <div class="income-display">
+        <input id="income-num" class="income-input" type="number" inputmode="numeric" min="0" step="10" value="450">
+        <span class="unit">万円</span>
+      </div>
+      <input id="income-range" type="range" min="0" max="1000" step="1" value="450">
+      <div class="range-scale"><span>0</span><span>1000万</span><span>1億+</span></div>
+
+      <div class="field-label"><span>年齢層</span></div>
+      <div class="select-wrap">
+        <select id="age-select">
+          <option value="e20">20代前半</option>
+          <option value="l20">20代後半</option>
+          <option value="e30" selected>30代前半</option>
+          <option value="l30">30代後半</option>
+          <option value="40s">40代</option>
+          <option value="50s">50代</option>
+          <option value="60s">60代以上</option>
+        </select>
+      </div>
+
+      <div class="field-label"><span>性別</span><span>比較対象を選ぶ</span></div>
+      <div class="seg" id="gender-seg">
+        <button type="button" data-gender="all" class="active">混合</button>
+        <button type="button" data-gender="m">男性</button>
+        <button type="button" data-gender="f">女性</button>
+      </div>
+
+      <div class="field-label"><span>地域</span><span>任意</span></div>
+      <div class="select-wrap">
+        <select id="pref-select">
+          <option value="" selected>全国</option>
+        </select>
+      </div>
+
+      <button id="btn-check" class="btn btn-primary">診断する</button>
+    </div>
+  </section>
+
+  <!-- ===== 結果画面 ===== -->
+  <section id="screen-result" class="screen">
+    <div class="card result-card">
+      <div class="result-tag">#年収全国ランク診断</div>
+      <div class="result-income" id="r-income">年収 450万円・30代前半</div>
+
+      <div class="rank-label">全 国</div>
+      <div class="rank-main">
+        <span class="rank-prefix">上位</span>
+        <span class="rank-number" id="r-rank">--.-</span>
+        <span class="rank-pct">%</span>
+      </div>
+      <div class="rank-cond" id="r-cond">全体・全国</div>
+
+      <div class="title-badge" id="title-badge">
+        <span class="tb-cap">あなたの称号</span>
+        <span class="tb-name" id="tb-name">市民</span>
+        <span class="tb-sub" id="tb-sub"></span>
+      </div>
+
+      <p class="rank-comment" id="r-comment"></p>
+
+      <div class="stat-grid">
+        <div class="stat hl stat-wide" id="stat-pref" style="display:none">
+          <div class="k" id="r-pref-k">県内での位置</div>
+          <div class="v">上位 <span id="r-pref-rank">--</span><small>%</small></div>
+          <div class="sub" id="r-pref-med">中央値はおよそ--万円</div>
+        </div>
+        <div class="stat hl" id="stat-1">
+          <div class="k" id="r-age-k">同年代での位置</div>
+          <div class="v">上位 <span id="r-age-rank">--</span><small>%</small></div>
+        </div>
+        <div class="stat" id="stat-2">
+          <div class="k">手取り（年・概算）</div>
+          <div class="v"><span id="r-net">--</span><small>万円</small></div>
+        </div>
+        <div class="stat" id="stat-3">
+          <div class="k">月の手取り</div>
+          <div class="v"><span id="r-net-month">--</span><small>万円</small></div>
+        </div>
+        <div class="stat" id="stat-4">
+          <div class="k">時給換算（年2,000h）</div>
+          <div class="v"><span id="r-hourly">--</span><small>円</small></div>
+        </div>
+      </div>
+
+      <div class="chart" id="chart">
+        <div class="chart-title" id="chart-title">全国中央値との比較</div>
+        <div class="bar-row">
+          <div class="bar-meta"><span>あなた</span><span class="amt" id="bar-you-amt">--万円</span></div>
+          <div class="bar-track"><div class="bar-fill bar-you" id="bar-you"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-meta"><span style="color:var(--muted)" id="bar-med-label">全国中央値</span><span class="amt" style="color:var(--muted)" id="bar-med-amt">433万円</span></div>
+          <div class="bar-track"><div class="bar-fill bar-med" id="bar-med"></div></div>
+        </div>
+        <div class="bar-row" id="bar-row-pref" style="display:none">
+          <div class="bar-meta"><span style="color:#9fb2ff" id="bar-pref-label">地域中央値</span><span class="amt" style="color:#9fb2ff" id="bar-pref-amt">--万円</span></div>
+          <div class="bar-track"><div class="bar-fill bar-pref" id="bar-pref"></div></div>
+        </div>
+      </div>
+
+      <div class="result-footnote">※ 手取りは社会保険料・所得税・住民税を概算で差し引いた目安です</div>
+
+      <div class="deduct-card" id="deduct-card">
+        <div class="deduct-cap">1年で天引きされているもの</div>
+        <div class="deduct-rate">
+          <span class="dr-num" id="deduct-rate-num">--%</span>
+          <span class="dr-label">が額面から引かれている</span>
+        </div>
+        <div class="deduct-rows">
+          <div class="deduct-row">
+            <span class="dk">社会保険料</span>
+            <span class="dv">約<span id="deduct-shaho">--</span>万円<span class="dv-month" id="deduct-shaho-m">月 約--万円</span></span>
+          </div>
+          <div class="deduct-row">
+            <span class="dk">所得税</span>
+            <span class="dv">約<span id="deduct-it">--</span>万円<span class="dv-month" id="deduct-it-m">月 約--万円</span></span>
+          </div>
+          <div class="deduct-row">
+            <span class="dk">住民税</span>
+            <span class="dv">約<span id="deduct-ju">--</span>万円<span class="dv-month" id="deduct-ju-m">月 約--万円</span></span>
+          </div>
+          <div class="deduct-row total">
+            <span class="dk">天引き合計</span>
+            <span class="dv">約<span id="deduct-total">--</span>万円<span class="dv-month" id="deduct-total-m">月 約--万円</span></span>
+          </div>
+        </div>
+        <div class="deduct-bar">
+          <div class="deduct-bar-track">
+            <div class="deduct-bar-net" id="deduct-bar-net"></div>
+            <div class="deduct-bar-cut" id="deduct-bar-cut"></div>
+          </div>
+          <div class="deduct-legend">
+            <span class="dl-item"><span class="dl-dot net"></span>手取り <span id="deduct-net-pct">--%</span></span>
+            <span class="dl-item"><span class="dl-dot cut"></span>天引き <span id="deduct-cut-pct">--%</span></span>
+          </div>
+        </div>
+        <div class="deduct-quip" id="deduct-quip"></div>
+        <small class="deduct-note">給与所得者の概算。社会保険料は標準的な料率、税は基礎控除等を加味した概算です。</small>
+      </div>
+
+      <div class="musk-card" id="musk-card">
+        <div class="musk-cap">イーロン・マスク換算</div>
+        <div class="musk-lead">この年収を1円も使わず貯め続けたら、マスクの資産に追いつくまで…</div>
+        <div class="musk-years" id="musk-years">--</div>
+        <div class="musk-quip" id="musk-quip"></div>
+        <small class="musk-note">マスクの資産は2026年6月時点の概算（約1.1兆ドル、1ドル150円換算）</small>
+      </div>
+
+      <div class="ohtani-card" id="ohtani-card">
+        <div class="ohtani-cap">大谷翔平 年収換算</div>
+        <div class="ohtani-row">
+          <div class="ohtani-lead">大谷翔平があなたの年収を稼ぐのにかかる時間は…</div>
+          <div class="ohtani-big" id="ohtani-time">--</div>
+        </div>
+        <div class="ohtani-quip" id="ohtani-quip"></div>
+        <small class="ohtani-note">大谷翔平の年収は2026年の推定総収入 約202億円（Forbes報道ベース）</small>
+      </div>
+
+      <div class="lifetime-card" id="lifetime-card">
+        <div class="lifetime-cap">サラリーマン生涯年収</div>
+        <div class="lifetime-lead">このペースで約40年働くと、生涯で…</div>
+        <div class="lifetime-big" id="lifetime-amt">--</div>
+        <div class="lifetime-compare" id="lifetime-compare"></div>
+        <div class="lifetime-quip" id="lifetime-quip"></div>
+        <small class="lifetime-note">生涯賃金は大卒正社員の標準的な目安。実際は年功・転職で変動</small>
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <a id="btn-share" class="btn btn-share" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg>
+        結果をXでシェア
+      </a>
+      <button id="btn-save" class="btn btn-save">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>
+        画像を保存
+      </button>
+      <p class="save-hint" id="save-hint">画像が表示されない場合は、表示された画像をロングタップして保存してください。</p>
+      <button id="btn-retry" class="btn btn-ghost">もう一度診断する</button>
+    </div>
+
+    <!-- AFFILIATE: 転職サービスのアフィリンクに差し替え -->
+    <a class="ad-card" href="#" id="ad-card">
+      <div class="ad-label">PR</div>
+      <div class="ad-title" id="ad-title">同年代の上位20%は、こう動いてる</div>
+      <div class="ad-desc">年収を上げた人の多くは「今の会社の評価」より先に「市場の評価」を確かめています。登録だけなら無料。自分の市場価値、一度数字で見てみませんか。</div>
+      <span class="ad-cta">市場価値を無料でチェック</span>
+    </a>
+  </section>
+</div>
+
+<footer>
+  出典: 国税庁「民間給与実態統計調査」・厚生労働省「賃金構造基本統計調査」を基にした概算<br>
+  本診断は統計分布の近似に基づく推定値であり、実際の順位を保証するものではありません。
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     データ: 国税庁「民間給与実態統計調査」ベースの近似分布
+     ============================================================ */
+
+  // 分布: [年収(万円), 上位%] のアンカー点。点間は対数線形補間。
+  // 全体は中央値433万円前後、男性は平均約569万・中央値約545万、
+  // 女性は平均約316万・中央値約302万前後になるよう調整した概算値。
+  var GENDERS = {
+    all: {
+      label: '全体',
+      median: 433,
+      points: [
+        [1, 99.7],
+        [50, 96.5],
+        [100, 92.0],
+        [200, 80.0],
+        [300, 66.0],
+        [400, 53.5],
+        [433, 50.0],
+        [500, 36.5],
+        [600, 26.0],
+        [700, 18.5],
+        [800, 13.0],
+        [900, 9.3],
+        [1000, 6.8],
+        [1200, 4.3],
+        [1500, 2.4],
+        [2000, 1.2],
+        [3000, 0.6],
+        [5000, 0.2],
+        [7000, 0.1],
+        [10000, 0.05]
+      ]
+    },
+    m: {
+      label: '男性',
+      median: 545,
+      points: [
+        [1, 99.8],
+        [50, 98.0],
+        [100, 96.0],
+        [200, 89.0],
+        [300, 78.0],
+        [400, 66.0],
+        [500, 54.5],
+        [545, 50.0],
+        [600, 44.0],
+        [700, 33.0],
+        [800, 24.0],
+        [900, 16.5],
+        [1000, 11.5],
+        [1200, 6.5],
+        [1500, 3.4],
+        [2000, 1.7],
+        [3000, 0.8],
+        [5000, 0.28],
+        [7000, 0.13],
+        [10000, 0.06]
+      ]
+    },
+    f: {
+      label: '女性',
+      median: 302,
+      points: [
+        [1, 99.5],
+        [50, 94.0],
+        [100, 87.0],
+        [150, 78.0],
+        [200, 68.0],
+        [250, 58.5],
+        [302, 50.0],
+        [350, 42.0],
+        [400, 33.5],
+        [500, 19.5],
+        [600, 11.5],
+        [700, 7.0],
+        [800, 4.5],
+        [900, 3.0],
+        [1000, 2.1],
+        [1200, 1.1],
+        [1500, 0.55],
+        [2000, 0.3],
+        [3000, 0.12],
+        [5000, 0.06],
+        [10000, 0.04]
+      ]
+    }
+  };
+
+  // 年代別: 中央値(万円・性別ごと)と分布の広がり(対数正規のσ)による近似
+  var AGE_GROUPS = {
+    e20: { label: '20代前半', median: { all: 270, m: 290, f: 270 }, sigma: 0.42 },
+    l20: { label: '20代後半', median: { all: 365, m: 420, f: 320 }, sigma: 0.46 },
+    e30: { label: '30代前半', median: { all: 410, m: 470, f: 315 }, sigma: 0.52 },
+    l30: { label: '30代後半', median: { all: 445, m: 510, f: 310 }, sigma: 0.56 },
+    '40s': { label: '40代',    median: { all: 480, m: 580, f: 305 }, sigma: 0.62 },
+    '50s': { label: '50代',    median: { all: 500, m: 680, f: 300 }, sigma: 0.68 },
+    '60s': { label: '60代以上', median: { all: 350, m: 420, f: 230 }, sigma: 0.76 }
+  };
+
+  // 都道府県別の賃金水準係数（全国=1.00）
+  // 厚生労働省「賃金構造基本統計調査」の地域別賃金を基にした概算。
+  var PREFS = [
+    ['北海道', 0.89], ['青森県', 0.82], ['岩手県', 0.84], ['宮城県', 0.92],
+    ['秋田県', 0.83], ['山形県', 0.85], ['福島県', 0.87], ['茨城県', 0.96],
+    ['栃木県', 0.95], ['群馬県', 0.93], ['埼玉県', 0.97], ['千葉県', 0.98],
+    ['東京都', 1.18], ['神奈川県', 1.07], ['新潟県', 0.87], ['富山県', 0.91],
+    ['石川県', 0.91], ['福井県', 0.90], ['山梨県', 0.93], ['長野県', 0.91],
+    ['岐阜県', 0.92], ['静岡県', 0.95], ['愛知県', 1.04], ['三重県', 0.97],
+    ['滋賀県', 0.98], ['京都府', 1.00], ['大阪府', 1.05], ['兵庫県', 1.00],
+    ['奈良県', 0.97], ['和歌山県', 0.90], ['鳥取県', 0.83], ['島根県', 0.84],
+    ['岡山県', 0.92], ['広島県', 0.95], ['山口県', 0.91], ['徳島県', 0.88],
+    ['香川県', 0.90], ['愛媛県', 0.86], ['高知県', 0.85], ['福岡県', 0.93],
+    ['佐賀県', 0.84], ['長崎県', 0.85], ['熊本県', 0.87], ['大分県', 0.87],
+    ['宮崎県', 0.82], ['鹿児島県', 0.84], ['沖縄県', 0.80]
+  ];
+  var PREF_COEF = {};
+  PREFS.forEach(function (p) { PREF_COEF[p[0]] = p[1]; });
+
+  // 上位%に応じたコメント（10段階）
+  var COMMENTS = [
+    { max: 1,   text: '上位1%。給与所得者およそ5,000万人の、ほぼ頂点。' },
+    { max: 3,   text: '100人の会社なら、あなたを含めて3人だけの領域。' },
+    { max: 5,   text: 'ここから上は、経営者と専門職の世界。' },
+    { max: 10,  text: '10人に1人。「高収入」と呼ばれる側にいる。' },
+    { max: 20,  text: '上位2割。平均という言葉は、もう関係ない。' },
+    { max: 30,  text: '全国の7割より上。次の壁は上位2割。' },
+    { max: 40,  text: '中央値の少し上。ここからの伸び方で差がつく。' },
+    { max: 55,  text: 'ほぼ全国の真ん中。動くなら、いちばん効く位置。' },
+    { max: 75,  text: '伸びしろしかない。数字は今日から変えられる。' },
+    { max: 99.5, text: 'これはスタート地点の記録。1年後に見返すための数字。' },
+    { max: 101, text: 'ここがスタート地点。あとは積み上げていくだけ。' }
+  ];
+
+  // 年収0円専用コメント
+  var ZERO_COMMENT = 'ここがスタート地点。すべての数字は、ここから始まる。';
+
+  // 称号: 全国上位%の閾値で割り当て（下位→上位、下限は必ず市民）
+  var TITLES = [
+    { max: 0.5,  name: '雲の上の人', sub: '統計の外側にいる人。' },
+    { max: 2,    name: '殿上人',     sub: '同じ国に、もうほとんどいない。' },
+    { max: 7,    name: '大名',       sub: '一国を構えるだけの財がある。' },
+    { max: 15,   name: '貴族',       sub: '生まれではなく、稼ぎで上がった位。' },
+    { max: 30,   name: '豪商',       sub: '街を動かす側のお金を持つ。' },
+    { max: 50,   name: '名士',       sub: '名前が、少しだけ知られている。' },
+    { max: 101,  name: '市民',       sub: 'すべての土台。ここから始まる。' }
+  ];
+  function pickTitle(pct) {
+    for (var i = 0; i < TITLES.length; i++) {
+      if (pct <= TITLES[i].max) return TITLES[i];
+    }
+    return TITLES[TITLES.length - 1];
+  }
+
+  // イーロン・マスクの資産（2026年6月時点の概算）: 約1.1兆ドル × 150円 = 165兆円
+  var MUSK_JPY = 165_0000_0000_0000; // 165兆円
+
+  // 大谷翔平の年収（2026年の推定総収入・Forbes報道ベース）: 約202億円
+  var OHTANI_JPY = 202_0000_0000; // 202億円
+
+  // 平均的な会社員の生涯賃金（大卒正社員の標準的な概算）: 2.5億円
+  var SALARYMAN_LIFETIME_JPY = 2_5000_0000; // 2.5億円
+  var WORKING_YEARS = 40; // 生涯年収の想定労働年数
+
+  /* ============================================================
+     計算ロジック
+     ============================================================ */
+
+  function clampPct(p) {
+    return Math.min(99.9, Math.max(0.1, p));
+  }
+
+  // 上位%: アンカー点を対数線形補間（性別ごとの分布を渡す）
+  function topPctFrom(pts, income) {
+    if (income <= pts[0][0]) return clampPct(pts[0][1]);
+    if (income >= pts[pts.length - 1][0]) return clampPct(pts[pts.length - 1][1]);
+    for (var i = 0; i < pts.length - 1; i++) {
+      var a = pts[i], b = pts[i + 1];
+      if (income >= a[0] && income <= b[0]) {
+        var t = (Math.log(income) - Math.log(a[0])) / (Math.log(b[0]) - Math.log(a[0]));
+        return clampPct(a[1] + (b[1] - a[1]) * t);
+      }
+    }
+    return 50;
+  }
+
+  function nationalTopPct(income, genderKey) {
+    return topPctFrom(GENDERS[genderKey].points, income);
+  }
+
+  // 地域内上位%: 全国分布を賃金水準係数でスケールして概算
+  function prefTopPct(income, genderKey, prefName) {
+    var coef = PREF_COEF[prefName];
+    return topPctFrom(GENDERS[genderKey].points, income / coef);
+  }
+
+  // 標準正規分布の累積分布関数（誤差関数近似）
+  function normCdf(z) {
+    var t = 1 / (1 + 0.2316419 * Math.abs(z));
+    var d = 0.3989423 * Math.exp(-z * z / 2);
+    var p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    return z > 0 ? 1 - p : p;
+  }
+
+  // 同年代上位%: 対数正規分布で近似（性別ごとの中央値を使用）
+  function ageTopPct(income, ageKey, genderKey) {
+    var g = AGE_GROUPS[ageKey];
+    var z = (Math.log(income) - Math.log(g.median[genderKey])) / g.sigma;
+    return clampPct((1 - normCdf(z)) * 100);
+  }
+
+  // 手取り概算（万円）の内訳を計算: 社会保険料 + 所得税 + 住民税
+  // { shaho, it, ju, deduct(天引き合計), net(手取り) } を返す。
+  // net は従来の calcNet と完全に同じ値になる。
+  function calcNetBreakdown(income) {
+    // 社会保険料: 健康保険+厚生年金+雇用保険でおよそ14.5%（上限あり）
+    var shaho = Math.min(income * 0.145, 165);
+
+    // 給与所得控除
+    var kojo;
+    if (income <= 162.5)      kojo = 55;
+    else if (income <= 180)   kojo = income * 0.4 - 10;
+    else if (income <= 360)   kojo = income * 0.3 + 8;
+    else if (income <= 660)   kojo = income * 0.2 + 44;
+    else if (income <= 850)   kojo = income * 0.1 + 110;
+    else                      kojo = 195;
+
+    // 課税所得（基礎控除48万）
+    var taxable = Math.max(0, income - kojo - shaho - 48);
+
+    // 所得税（累進・復興特別所得税2.1%込み）
+    var it;
+    if (taxable <= 195)       it = taxable * 0.05;
+    else if (taxable <= 330)  it = taxable * 0.10 - 9.75;
+    else if (taxable <= 695)  it = taxable * 0.20 - 42.75;
+    else if (taxable <= 900)  it = taxable * 0.23 - 63.6;
+    else if (taxable <= 1800) it = taxable * 0.33 - 153.6;
+    else if (taxable <= 4000) it = taxable * 0.40 - 279.6;
+    else                      it = taxable * 0.45 - 479.6;
+    it = Math.max(0, it) * 1.021;
+
+    // 住民税（基礎控除43万・税率10% + 均等割）
+    var taxableJu = Math.max(0, income - kojo - shaho - 43);
+    var ju = taxableJu * 0.10 + 0.5;
+
+    var net = Math.max(0, income - shaho - it - ju);
+    return { shaho: shaho, it: it, ju: ju, deduct: shaho + it + ju, net: net };
+  }
+
+  // 手取り概算（万円）: 従来通り合計のみ返す薄いラッパー
+  function calcNet(income) {
+    return calcNetBreakdown(income).net;
+  }
+
+  // 天引き内訳の一言（中立トーン・短い断定形）
+  function deductQuip(income, rate) {
+    if (income <= 0) return '天引きもまだ0。すべてはここから。';
+    if (rate >= 30) return '稼ぐほど、引かれる額も大きくなる。';
+    if (rate >= 22) return '額面と手取りの差は、こういう内訳。';
+    return '社会保険の負担は、額面が低くても意外と効く。';
+  }
+
+  // 万円を「約◯◯」に丸めた文字列（小数1桁、整数なら整数）
+  function fmtMan(v) {
+    if (v >= 100) return Math.round(v).toLocaleString();
+    return (Math.round(v * 10) / 10).toLocaleString();
+  }
+  // 月額（万円）: 小数1桁
+  function fmtMonth(v) {
+    return (Math.round(v / 12 * 10) / 10).toLocaleString();
+  }
+
+  // 天引き内訳カードを更新（income: 万円, net: 既存ロジックの手取り）
+  // net とカード内の手取り率は runDiagnosis 側の net と一致させる
+  function updateDeductCard(income, net) {
+    var b = calcNetBreakdown(income);
+    var rate, netPct;
+    if (income <= 0) {
+      // 年収0ガード: 全て0で表示
+      $('deduct-shaho').textContent = '0';
+      $('deduct-it').textContent = '0';
+      $('deduct-ju').textContent = '0';
+      $('deduct-total').textContent = '0';
+      $('deduct-shaho-m').textContent = '月 約0万円';
+      $('deduct-it-m').textContent = '月 約0万円';
+      $('deduct-ju-m').textContent = '月 約0万円';
+      $('deduct-total-m').textContent = '月 約0万円';
+      $('deduct-rate-num').textContent = '0%';
+      $('deduct-net-pct').textContent = '0%';
+      $('deduct-cut-pct').textContent = '0%';
+      $('deduct-quip').textContent = deductQuip(0, 0);
+      return { netW: '0%', cutW: '0%' };
+    }
+    var deduct = income - net; // 表示上の手取りと完全に整合させる
+    rate = deduct / income * 100;
+    netPct = 100 - rate;
+
+    $('deduct-shaho').textContent = fmtMan(b.shaho);
+    $('deduct-it').textContent = fmtMan(b.it);
+    $('deduct-ju').textContent = fmtMan(b.ju);
+    $('deduct-total').textContent = fmtMan(deduct);
+    $('deduct-shaho-m').textContent = '月 約' + fmtMonth(b.shaho) + '万円';
+    $('deduct-it-m').textContent = '月 約' + fmtMonth(b.it) + '万円';
+    $('deduct-ju-m').textContent = '月 約' + fmtMonth(b.ju) + '万円';
+    $('deduct-total-m').textContent = '月 約' + fmtMonth(deduct) + '万円';
+
+    $('deduct-rate-num').textContent = Math.round(rate) + '%';
+    $('deduct-net-pct').textContent = Math.round(netPct) + '%';
+    $('deduct-cut-pct').textContent = Math.round(rate) + '%';
+    $('deduct-quip').textContent = deductQuip(income, rate);
+
+    return { netW: netPct + '%', cutW: rate + '%' };
+  }
+
+  function pickComment(pct) {
+    for (var i = 0; i < COMMENTS.length; i++) {
+      if (pct <= COMMENTS[i].max) return COMMENTS[i].text;
+    }
+    return COMMENTS[COMMENTS.length - 1].text;
+  }
+
+  /* ============================================================
+     イーロン・マスク換算
+     ============================================================ */
+
+  // 年数を桁に応じて読みやすい単位へ整形
+  function formatMuskYears(years) {
+    if (years >= 1e8) {
+      return '約' + (years / 1e8).toFixed(1).replace(/\.0$/, '') + '億年';
+    }
+    if (years >= 1e4) {
+      return '約' + Math.round(years / 1e4).toLocaleString() + '万年';
+    }
+    if (years >= 1) {
+      return '約' + Math.round(years).toLocaleString() + '年';
+    }
+    return '1年未満';
+  }
+
+  // 桁に応じた人類史スケールの一言
+  function muskQuip(years) {
+    if (years >= 1e7) return '人類が生まれる前から貯めても、まだ足りない。';
+    if (years >= 1e6) return '恐竜の時代から貯金しても、間に合わない。';
+    if (years >= 1e4) return '文明が始まる前から貯め続けるレベル。';
+    if (years >= 1000) return '江戸時代どころか、奈良時代から貯めても遠い。';
+    if (years >= 100) return '生まれ変わりを何回もはさんで、やっと届く。';
+    return 'あなた自身がマスク級。もう貯める必要はなさそう。';
+  }
+
+  // マスク換算カードを更新（income: 万円）
+  function updateMuskCard(income) {
+    var card = $('musk-card');
+    var yearsEl = $('musk-years');
+    var quipEl = $('musk-quip');
+    // 年収0や極小はガード
+    if (income <= 0) {
+      yearsEl.textContent = '∞（永遠に届かない）';
+      quipEl.textContent = 'まず1円稼ぐところから。話はそれからだ。';
+      return;
+    }
+    var years = MUSK_JPY / (income * 10000); // 年収を円に換算して割る
+    yearsEl.textContent = formatMuskYears(years);
+    quipEl.textContent = muskQuip(years);
+  }
+
+  /* ============================================================
+     大谷翔平 年収換算
+     ============================================================ */
+
+  // 大谷があなたの年収を稼ぐのにかかる実時間（秒）→ 桁に応じた単位で整形
+  function formatOhtaniTime(incomeYen) {
+    var perSec = OHTANI_JPY / (365 * 24 * 60 * 60); // 1秒あたりの稼ぎ（円）
+    var sec = incomeYen / perSec;
+    if (sec >= 86400) return '約' + (sec / 86400).toFixed(1).replace(/\.0$/, '') + '日';
+    if (sec >= 3600) return '約' + (sec / 3600).toFixed(1).replace(/\.0$/, '') + '時間';
+    if (sec >= 60) return '約' + (sec / 60).toFixed(1).replace(/\.0$/, '') + '分';
+    return '約' + Math.max(1, Math.round(sec)) + '秒';
+  }
+
+  // 大谷視点（◯◯で稼ぐ）の桁に応じた一言ジョーク
+  function ohtaniQuip(income, ratio) {
+    if (income <= 0) return '大谷が一瞬で稼ぐ額にも、まだ届いていない。';
+    if (ratio >= 1) return '大谷を超えてる。診断やってる場合じゃない、球場に行け。';
+    if (ratio >= 0.5) return '大谷とタメを張る人が、この診断やってる場合じゃない。';
+    if (ratio >= 0.05) return 'その差、努力でどうにかなる範囲を超えてる。';
+    if (ratio >= 0.005) return '同じ1年で、これだけの差がついている。';
+    return 'コーヒー1杯ぶんの時間で、もう並ばれてる。';
+  }
+
+  // 大谷換算カードを更新（income: 万円）。シェア用に大谷視点の時間文字列を返す
+  function updateOhtaniCard(income) {
+    var timeEl = $('ohtani-time');
+    var quipEl = $('ohtani-quip');
+    if (income <= 0) {
+      timeEl.textContent = '一瞬';
+      quipEl.textContent = ohtaniQuip(0, 0);
+      return '一瞬';
+    }
+    var incomeYen = income * 10000;
+    var timeStr = formatOhtaniTime(incomeYen);
+    var ratio = incomeYen / OHTANI_JPY;       // あなた / 大谷
+
+    timeEl.textContent = timeStr;
+    quipEl.textContent = ohtaniQuip(income, ratio);
+    return timeStr;
+  }
+
+  /* ============================================================
+     サラリーマン生涯年収換算
+     ============================================================ */
+
+  // 円（生涯年収）→「約◯億◯◯◯◯万円」に整形
+  function formatLifetimeJpy(yen) {
+    var oku = Math.floor(yen / 1_0000_0000);
+    var manRemain = Math.round((yen - oku * 1_0000_0000) / 1_0000); // 残りを万円に
+    if (oku > 0 && manRemain > 0) return '約' + oku + '億' + manRemain.toLocaleString() + '万円';
+    if (oku > 0) return '約' + oku + '億円';
+    return '約' + manRemain.toLocaleString() + '万円';
+  }
+
+  // 桁に応じた一言（短い断定形）
+  function lifetimeQuip(lifetimeYen) {
+    if (lifetimeYen <= 0) return '生涯年収もまだ0。すべてはこれから。';
+    if (lifetimeYen >= 10_0000_0000) return '家を現金で買って、まだ余る。';
+    if (lifetimeYen >= 5_0000_0000) return '一生お金に追われない側の数字。';
+    if (lifetimeYen >= 2_0000_0000) return '数字の上では、ど真ん中の人生。';
+    return 'これからの伸びしろが、この数字を変える。';
+  }
+
+  // 生涯年収カードを更新（income: 万円）
+  function updateLifetimeCard(income) {
+    var amtEl = $('lifetime-amt');
+    var compareEl = $('lifetime-compare');
+    var quipEl = $('lifetime-quip');
+    if (income <= 0) {
+      amtEl.textContent = '約0円';
+      compareEl.textContent = '';
+      quipEl.textContent = lifetimeQuip(0);
+      return;
+    }
+    var lifetimeYen = income * 10000 * WORKING_YEARS;
+    amtEl.textContent = formatLifetimeJpy(lifetimeYen);
+    var ratio = lifetimeYen / SALARYMAN_LIFETIME_JPY;
+    if (ratio >= 1) {
+      compareEl.textContent = '平均的な会社員の生涯賃金（約2.5億円）の 約' +
+        ratio.toFixed(1).replace(/\.0$/, '') + '倍';
+    } else {
+      compareEl.textContent = '平均的な会社員の生涯賃金（約2.5億円）の 約' +
+        Math.round(ratio * 100) + '%';
+    }
+    quipEl.textContent = lifetimeQuip(lifetimeYen);
+  }
+
+  /* ============================================================
+     非線形スライダー（対数的）: インデックス 0〜1000 ↔ 金額 0〜10000万
+     普通の年収帯（0〜1000万）に目盛りの大半（0〜750）を割り当て、
+     高年収帯（1000〜10000万）は緩やかに（750〜1000）動かす。
+     ============================================================ */
+
+  var SLIDER_MAX_IDX = 1000;   // スライダー内部の最大インデックス
+  var INCOME_CAP = 10000;      // 1億（万円）
+  var SPLIT_IDX = 750;         // 普通帯と高年収帯の境界インデックス
+  var SPLIT_INCOME = 1000;     // 境界となる年収（万円）
+
+  // インデックス → 年収（万円）
+  function idxToIncome(idx) {
+    idx = Math.max(0, Math.min(SLIDER_MAX_IDX, idx));
+    var income;
+    if (idx <= SPLIT_IDX) {
+      // 0〜1000万を 0〜750 に線形割り当て（普通帯を細かく）
+      income = idx / SPLIT_IDX * SPLIT_INCOME;
+    } else {
+      // 1000〜10000万を 750〜1000 に対数割り当て（高年収帯はざっくり）
+      var t = (idx - SPLIT_IDX) / (SLIDER_MAX_IDX - SPLIT_IDX); // 0〜1
+      income = SPLIT_INCOME * Math.pow(INCOME_CAP / SPLIT_INCOME, t);
+    }
+    return Math.round(income / 10) * 10; // 10万円刻みに丸め
+  }
+
+  // 年収（万円） → インデックス
+  function incomeToIdx(income) {
+    income = Math.max(0, Math.min(INCOME_CAP, income));
+    var idx;
+    if (income <= SPLIT_INCOME) {
+      idx = income / SPLIT_INCOME * SPLIT_IDX;
+    } else {
+      var t = Math.log(income / SPLIT_INCOME) / Math.log(INCOME_CAP / SPLIT_INCOME);
+      idx = SPLIT_IDX + t * (SLIDER_MAX_IDX - SPLIT_IDX);
+    }
+    return Math.round(Math.max(0, Math.min(SLIDER_MAX_IDX, idx)));
+  }
+
+  /* ============================================================
+     UI
+     ============================================================ */
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  var rangeEl = $('income-range');
+  var numEl = $('income-num');
+  var ageEl = $('age-select');
+  var prefEl = $('pref-select');
+  var screenInput = $('screen-input');
+  var screenResult = $('screen-result');
+  var rafId = null;
+  var gender = 'all';
+  var isOverCap = false; // 1億円以上フラグ
+  var lastResult = null; // 画像保存用に直近の診断結果を保持
+
+  // 都道府県セレクトを生成
+  PREFS.forEach(function (p) {
+    var opt = document.createElement('option');
+    opt.value = p[0];
+    opt.textContent = p[0];
+    prefEl.appendChild(opt);
+  });
+
+  // 性別セグメント
+  var segButtons = $('gender-seg').querySelectorAll('button');
+  segButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      gender = btn.getAttribute('data-gender');
+      segButtons.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+  });
+
+  function updateRangeFill() {
+    var min = +rangeEl.min, max = +rangeEl.max, v = +rangeEl.value;
+    rangeEl.style.setProperty('--fill', ((v - min) / (max - min) * 100) + '%');
+  }
+
+  // 数値入力欄の表示を更新（1億以上なら専用表示）
+  function refreshNumDisplay(income) {
+    if (income >= INCOME_CAP) {
+      isOverCap = true;
+      numEl.value = INCOME_CAP; // 内部値は10000で保持
+    } else {
+      isOverCap = false;
+      numEl.value = income;
+    }
+  }
+
+  // スライダー操作 → 金額に変換して数値欄へ反映
+  rangeEl.addEventListener('input', function () {
+    var income = idxToIncome(parseInt(rangeEl.value, 10) || 0);
+    refreshNumDisplay(income);
+    updateRangeFill();
+  });
+
+  // 数値入力 → スライダーインデックスへ反映
+  numEl.addEventListener('input', function () {
+    var v = parseInt(numEl.value, 10);
+    if (!isNaN(v)) {
+      v = Math.max(0, v);
+      isOverCap = v >= INCOME_CAP;
+      rangeEl.value = incomeToIdx(v);
+      updateRangeFill();
+    }
+  });
+
+  numEl.addEventListener('blur', function () {
+    var v = parseInt(numEl.value, 10);
+    if (isNaN(v)) v = 450;
+    v = Math.max(0, Math.min(99999, v));
+    isOverCap = v >= INCOME_CAP;
+    numEl.value = v >= INCOME_CAP ? INCOME_CAP : v;
+    rangeEl.value = incomeToIdx(v);
+    updateRangeFill();
+  });
+
+  // 初期値（450万）をインデックスへ
+  rangeEl.value = incomeToIdx(parseInt(numEl.value, 10) || 450);
+  updateRangeFill();
+
+  function formatPct(p) {
+    return p < 10 ? p.toFixed(1) : p.toFixed(1);
+  }
+
+  function countUp(el, target, duration) {
+    if (rafId) cancelAnimationFrame(rafId);
+    var start = 99.9;
+    var t0 = null;
+    function frame(ts) {
+      if (!t0) t0 = ts;
+      var t = Math.min(1, (ts - t0) / duration);
+      var eased = 1 - Math.pow(1 - t, 4); // ease-out quart
+      var val = start + (target - start) * eased;
+      el.textContent = formatPct(val);
+      if (t < 1) rafId = requestAnimationFrame(frame);
+    }
+    rafId = requestAnimationFrame(frame);
+  }
+
+  function staggerIn(ids, baseDelay, step) {
+    ids.forEach(function (id, i) {
+      var el = $(id);
+      el.classList.remove('fade-in');
+      el.style.opacity = '0';
+      setTimeout(function () {
+        el.style.animationDelay = '0ms';
+        el.classList.add('fade-in');
+      }, baseDelay + step * i);
+    });
+  }
+
+  // 金額表示用ヘルパー（1億以上は「1億円以上」）
+  function incomeLabel(income, over) {
+    if (over || income >= INCOME_CAP) return '1億円以上';
+    return income.toLocaleString() + '万円';
+  }
+
+  function runDiagnosis() {
+    var raw = parseInt(numEl.value, 10);
+    if (isNaN(raw)) raw = 450;
+    var income = Math.max(0, Math.min(INCOME_CAP, raw));
+    var over = isOverCap || raw >= INCOME_CAP;
+    var ageKey = ageEl.value;
+    var ageLabel = AGE_GROUPS[ageKey].label;
+    var g = GENDERS[gender];
+    var prefName = prefEl.value; // '' = 全国
+    var hasPref = prefName !== '';
+
+    var natPct = nationalTopPct(income, gender);
+    var agePct = ageTopPct(income, ageKey, gender);
+    // 1億円以上は上位%をごく小さい値でクランプ
+    if (over) {
+      natPct = Math.min(natPct, 0.05);
+      agePct = Math.min(agePct, 0.05);
+    }
+    var net = Math.max(0, calcNet(income));
+    var deductWidths = updateDeductCard(income, net);
+    var netMonth = net / 12;
+    var hourly = income <= 0 ? 0 : Math.round(income * 10000 / 2000);
+
+    var prefPct = null;
+    var prefMedian = null;
+    if (hasPref) {
+      prefPct = prefTopPct(income, gender, prefName);
+      prefMedian = Math.round(g.median * PREF_COEF[prefName]);
+    }
+
+    // 表示
+    var condParts = [];
+    if (gender !== 'all') condParts.push(g.label);
+    var profile = '年収 ' + incomeLabel(income, over) + '・' + ageLabel;
+    if (condParts.length) profile += '・' + condParts.join('・');
+    if (hasPref) profile += '・' + prefName;
+    $('r-income').textContent = profile;
+    $('r-cond').textContent = g.label + '・' + (hasPref ? prefName : '全国');
+    $('r-age-k').textContent = gender === 'all' ? '同年代での位置' : '同年代の' + g.label + 'の中で';
+    $('r-age-rank').textContent = formatPct(agePct);
+    $('r-net').textContent = Math.round(net).toLocaleString();
+    $('r-net-month').textContent = netMonth.toFixed(1);
+    $('r-hourly').textContent = hourly.toLocaleString();
+    $('r-comment').textContent = income <= 0 ? ZERO_COMMENT : pickComment(natPct);
+
+    // 称号（年収0でも市民。全国上位%で割り当て）
+    var title = income <= 0 ? TITLES[TITLES.length - 1] : pickTitle(natPct);
+    $('tb-name').textContent = title.name;
+    $('tb-sub').textContent = title.sub;
+
+    // イーロン・マスク換算
+    updateMuskCard(income);
+
+    // 大谷翔平 年収換算
+    var ohtaniTimeStr = updateOhtaniCard(income);
+
+    // サラリーマン生涯年収換算
+    updateLifetimeCard(income);
+
+    // 都道府県カード
+    if (hasPref) {
+      var inScope = prefName + '内'; // 例: 東京都内・北海道内・大阪府内
+      $('stat-pref').style.display = '';
+      $('r-pref-k').textContent = inScope + 'での位置' + (gender === 'all' ? '' : '（' + g.label + '）');
+      $('r-pref-rank').textContent = formatPct(prefPct);
+      $('r-pref-med').textContent = inScope + 'の中央値はおよそ' + prefMedian.toLocaleString() + '万円';
+    } else {
+      $('stat-pref').style.display = 'none';
+    }
+
+    // 棒グラフ
+    var medLabel = gender === 'all' ? '全国中央値' : '全国中央値（' + g.label + '）';
+    $('chart-title').textContent = '中央値との比較';
+    $('bar-med-label').textContent = medLabel;
+    $('bar-med-amt').textContent = g.median.toLocaleString() + '万円';
+    var maxVal = Math.max(income, g.median, prefMedian || 0) * 1.08;
+    $('bar-you-amt').textContent = incomeLabel(income, over);
+    var youW = (income / maxVal * 100) + '%';
+    var medW = (g.median / maxVal * 100) + '%';
+    var prefW = '0';
+    $('bar-you').style.width = '0';
+    $('bar-med').style.width = '0';
+    $('bar-pref').style.width = '0';
+    $('deduct-bar-net').style.width = '0';
+    $('deduct-bar-cut').style.width = '0';
+    if (hasPref) {
+      $('bar-row-pref').style.display = '';
+      $('bar-pref-label').textContent = prefName + 'の中央値';
+      $('bar-pref-amt').textContent = prefMedian.toLocaleString() + '万円';
+      prefW = (prefMedian / maxVal * 100) + '%';
+    } else {
+      $('bar-row-pref').style.display = 'none';
+    }
+
+    // アフィリエイト見出し
+    var adPct = agePct <= 10 ? 10 : agePct <= 20 ? 20 : 30;
+    $('ad-title').textContent = '同年代の上位' + adPct + '%は、こう動いてる';
+
+    // シェアリンク
+    var shareText;
+    var natPart = gender === 'all'
+      ? '全国上位' + formatPct(natPct) + '%'
+      : g.label + 'の中で上位' + formatPct(natPct) + '%';
+    if (hasPref) {
+      var inScopeShare = prefName + '内';
+      shareText = '年収診断やったら『' + title.name + '』だった ' + natPart + '、' +
+        inScopeShare + 'だと上位' + formatPct(prefPct) + '% #年収全国ランク診断';
+    } else {
+      shareText = '年収診断やったら『' + title.name + '』だった ' + natPart +
+        ' #年収全国ランク診断';
+    }
+    $('btn-share').href = 'https://twitter.com/intent/tweet?text=' +
+      encodeURIComponent(shareText) + '&url=' + encodeURIComponent(location.href);
+
+    // 画面切替
+    screenInput.classList.remove('active');
+    screenResult.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 画像保存用に結果を保持
+    lastResult = {
+      incomeLabel: incomeLabel(income, over),
+      condLabel: g.label + '・' + (hasPref ? prefName : '全国'),
+      profileSub: ageLabel + (gender === 'all' ? '' : '・' + g.label),
+      natPct: natPct,
+      title: title.name,
+      titleSub: title.sub,
+      agePct: agePct,
+      ageK: gender === 'all' ? '同年代での位置' : '同年代の' + g.label + 'の中で',
+      net: Math.round(net),
+      ohtaniTime: ohtaniTimeStr
+    };
+
+    // アニメーション
+    countUp($('r-rank'), natPct, 1700);
+    staggerIn(['title-badge'], 950, 0);
+    staggerIn(['r-comment'], 1400, 0);
+    var statIds = ['stat-1', 'stat-2', 'stat-3', 'stat-4'];
+    if (hasPref) statIds.unshift('stat-pref');
+    staggerIn(statIds, 600, 130);
+    staggerIn(['chart'], 1100, 0);
+    staggerIn(['deduct-card'], 1300, 0);
+    staggerIn(['musk-card'], 1650, 0);
+    staggerIn(['ohtani-card'], 1800, 0);
+    staggerIn(['lifetime-card'], 1950, 0);
+    setTimeout(function () {
+      $('bar-you').style.width = youW;
+      $('bar-med').style.width = medW;
+      if (hasPref) $('bar-pref').style.width = prefW;
+    }, 1250);
+    setTimeout(function () {
+      $('deduct-bar-net').style.width = deductWidths.netW;
+      $('deduct-bar-cut').style.width = deductWidths.cutW;
+    }, 1500);
+  }
+
+  $('btn-check').addEventListener('click', runDiagnosis);
+  numEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { numEl.blur(); runDiagnosis(); }
+  });
+
+  /* ============================================================
+     結果カードの画像保存（Canvasに直接描画 → PNG）
+     ============================================================ */
+
+  function drawResultCard(r) {
+    var W = 1080, H = 1350;
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var ctx = cv.getContext('2d');
+    var FONT = "'Noto Sans JP', sans-serif";
+    var cx = W / 2;
+
+    // 背景グラデ（本体のダーク基調）
+    var bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#11162a');
+    bg.addColorStop(0.4, '#0d1120');
+    bg.addColorStop(1, '#0b0e17');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // 上部のゴールドの光
+    var glow = ctx.createRadialGradient(cx, -60, 0, cx, -60, 620);
+    glow.addColorStop(0, 'rgba(255,209,102,0.16)');
+    glow.addColorStop(1, 'rgba(255,209,102,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, 700);
+
+    // カード枠（内側に角丸の縁）
+    function roundRect(x, y, w, h, rad) {
+      ctx.beginPath();
+      ctx.moveTo(x + rad, y);
+      ctx.arcTo(x + w, y, x + w, y + h, rad);
+      ctx.arcTo(x + w, y + h, x, y + h, rad);
+      ctx.arcTo(x, y + h, x, y, rad);
+      ctx.arcTo(x, y, x + w, y, rad);
+      ctx.closePath();
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.lineWidth = 2;
+    roundRect(56, 56, W - 112, H - 112, 36);
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+
+    // タイトル
+    ctx.fillStyle = '#ffd166';
+    ctx.font = '700 30px ' + FONT;
+    ctx.fillText('# 年 収 全 国 ラ ン ク 診 断', cx, 168);
+
+    // 条件（年収・年代・性別）
+    ctx.fillStyle = '#eef1f8';
+    ctx.font = '700 40px ' + FONT;
+    ctx.fillText('年収 ' + r.incomeLabel, cx, 240);
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '500 28px ' + FONT;
+    ctx.fillText(r.profileSub + '・' + r.condLabel, cx, 290);
+
+    // 「全国」ラベル
+    ctx.fillStyle = '#ffd166';
+    ctx.font = '700 30px ' + FONT;
+    ctx.fillText('全 国', cx, 392);
+
+    // 大型の上位%（ゴールドグラデ）
+    var pctText = r.natPct.toFixed(1);
+    ctx.font = '900 210px ' + FONT;
+    var numW = ctx.measureText(pctText).width;
+    ctx.font = '900 70px ' + FONT;
+    var preW = ctx.measureText('上位').width;
+    ctx.font = '900 90px ' + FONT;
+    var pctW = ctx.measureText('%').width;
+    var totalW = preW + 24 + numW + 12 + pctW;
+    var startX = cx - totalW / 2;
+    var baseY = 560;
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#eef1f8';
+    ctx.font = '900 70px ' + FONT;
+    ctx.fillText('上位', startX, baseY - 18);
+
+    var grad = ctx.createLinearGradient(startX + preW + 24, 0, startX + preW + 24 + numW, 0);
+    grad.addColorStop(0, '#ffd166');
+    grad.addColorStop(0.55, '#ff8e53');
+    grad.addColorStop(1, '#ff5e7d');
+    ctx.fillStyle = grad;
+    ctx.font = '900 210px ' + FONT;
+    ctx.fillText(pctText, startX + preW + 24, baseY);
+
+    ctx.fillStyle = '#eef1f8';
+    ctx.font = '900 90px ' + FONT;
+    ctx.fillText('%', startX + preW + 24 + numW + 12, baseY - 6);
+    ctx.textAlign = 'center';
+
+    // 称号バッジ
+    var by = 660, bw = 520, bh = 168, bx = cx - bw / 2;
+    var bgrad = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
+    bgrad.addColorStop(0, 'rgba(255,209,102,0.16)');
+    bgrad.addColorStop(1, 'rgba(255,142,83,0.08)');
+    ctx.fillStyle = bgrad;
+    roundRect(bx, by, bw, bh, 28);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,209,102,0.45)';
+    ctx.lineWidth = 2;
+    roundRect(bx, by, bw, bh, 28);
+    ctx.stroke();
+
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '700 24px ' + FONT;
+    ctx.fillText('あ な た の 称 号', cx, by + 48);
+    var tgrad = ctx.createLinearGradient(cx - 160, 0, cx + 160, 0);
+    tgrad.addColorStop(0, '#ffd166');
+    tgrad.addColorStop(1, '#ff8e53');
+    ctx.fillStyle = tgrad;
+    ctx.font = '900 72px ' + FONT;
+    ctx.fillText(r.title, cx, by + 122);
+
+    ctx.fillStyle = '#eef1f8';
+    ctx.font = '500 26px ' + FONT;
+    ctx.fillText(r.titleSub, cx, by + 156 + 32);
+
+    // 主要指標2つ（同年代上位%・手取り）
+    function statBox(x, label, value, unit) {
+      var sw = 440, sh = 150, sy = 920;
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
+      roundRect(x, sy, sw, sh, 24);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 2;
+      roundRect(x, sy, sw, sh, 24);
+      ctx.stroke();
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#8a93ad';
+      ctx.font = '500 26px ' + FONT;
+      ctx.fillText(label, x + 32, sy + 56);
+      ctx.fillStyle = '#eef1f8';
+      ctx.font = '900 54px ' + FONT;
+      ctx.fillText(value, x + 32, sy + 116);
+      var vw = ctx.measureText(value).width;
+      ctx.fillStyle = '#8a93ad';
+      ctx.font = '700 28px ' + FONT;
+      ctx.fillText(unit, x + 32 + vw + 10, sy + 116);
+      ctx.textAlign = 'center';
+    }
+    statBox(80, r.ageK, '上位 ' + r.agePct.toFixed(1), '%');
+    statBox(560, '手取り（年・概算）', r.net.toLocaleString(), '万円');
+
+    // 大谷換算の一行（主要指標のすぐ下に小さく）
+    if (r.ohtaniTime) {
+      ctx.fillStyle = '#ffd98a';
+      ctx.font = '700 26px ' + FONT;
+      ctx.fillText('大谷翔平はこの年収を ' + r.ohtaniTime + ' で稼ぐ', cx, 1108);
+    }
+
+    // フッター出典
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '500 24px ' + FONT;
+    ctx.fillText('出典: 国税庁「民間給与実態統計調査」等を基にした概算', cx, 1152);
+    ctx.fillStyle = '#ffd166';
+    ctx.font = '700 30px ' + FONT;
+    ctx.fillText('年収全国ランク診断', cx, 1204);
+
+    return cv;
+  }
+
+  function saveResultImage() {
+    if (!lastResult) return;
+    var hint = $('save-hint');
+    var canvas;
+    try {
+      canvas = drawResultCard(lastResult);
+    } catch (e) {
+      return;
+    }
+    var dataUrl = canvas.toDataURL('image/png');
+    // まず <a download> を試す
+    var a = document.createElement('a');
+    var supportsDownload = 'download' in a;
+    if (supportsDownload) {
+      a.href = dataUrl;
+      a.download = 'nenshu-rank.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    // スマホで download が効かない場合のフォールバック: 画像を新規表示
+    if (!supportsDownload || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      var w = window.open();
+      if (w) {
+        w.document.write(
+          '<title>年収ランク診断</title>' +
+          '<body style="margin:0;background:#0b0e17;">' +
+          '<img src="' + dataUrl + '" style="width:100%;height:auto;display:block">' +
+          '</body>'
+        );
+      }
+      hint.classList.add('show');
+    }
+  }
+
+  $('btn-save').addEventListener('click', saveResultImage);
+
+  $('btn-retry').addEventListener('click', function () {
+    $('save-hint').classList.remove('show');
+    screenResult.classList.remove('active');
+    screenInput.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>

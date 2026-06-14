@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNS発信タイプ診断｜10問でわかるあなたの発信スタイル</title>
+<meta name="description" content="10問に答えるだけで、あなたのSNS発信タイプが8タイプの中から判明。強み・注意点・伸びる投稿スタイルまでわかる無料診断。">
+<meta property="og:title" content="SNS発信タイプ診断">
+<meta property="og:description" content="あなたはどのタイプ？ 全10問・1分で診断。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f3ef;
+    --ink: #1d1d22;
+    --sub: #6b6b74;
+    --card: #ffffff;
+    --line: #e4e2da;
+    --accent: #1d1d22;
+    --theme: #2e6bff;
+    --theme-soft: #eaf0ff;
+    --radius: 18px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    min-height: 100svh;
+  }
+  .wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 16px 60px;
+    position: relative;
+  }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* ---------- screens ---------- */
+  .screen { display: none; animation: fadeIn .35s ease both; }
+  .screen.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- start ---------- */
+  #screen-start { padding-top: 9svh; text-align: center; }
+  .start-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: var(--sub);
+    border: 1px solid var(--line);
+    background: var(--card);
+    border-radius: 999px;
+    padding: 5px 16px;
+    margin-bottom: 22px;
+  }
+  .start-title {
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: .02em;
+  }
+  .start-title .small { display: block; font-size: 16px; font-weight: 700; color: var(--sub); margin-bottom: 6px; letter-spacing: .2em; }
+  .type-strip {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin: 26px 0 8px;
+  }
+  .type-strip span {
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    display: grid; place-items: center;
+    font-size: 15px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    animation: bob 2.6s ease-in-out infinite;
+  }
+  .type-strip span:nth-child(2n) { animation-delay: .4s; }
+  .type-strip span:nth-child(3n) { animation-delay: .9s; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  .start-lead {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 10px 0 34px;
+  }
+  .btn-primary {
+    display: inline-block;
+    width: 100%;
+    max-width: 320px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    border: none;
+    border-radius: 999px;
+    padding: 17px 20px;
+    letter-spacing: .06em;
+    transition: transform .12s ease, opacity .12s ease;
+  }
+  .btn-primary:active { transform: scale(.97); opacity: .85; }
+  .start-note { font-size: 12px; color: var(--sub); margin-top: 14px; }
+
+  /* ---------- quiz ---------- */
+  #screen-quiz { padding-top: 18px; }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--line);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--ink);
+    border-radius: 99px;
+    transition: width .35s ease;
+  }
+  .progress-num { font-size: 13px; font-weight: 700; color: var(--sub); min-width: 48px; text-align: right; font-variant-numeric: tabular-nums; }
+
+  #q-slider { position: relative; overflow: hidden; }
+  .q-card {
+    animation: slideIn .32s ease both;
+  }
+  .q-card.leaving {
+    animation: slideOut .26s ease both;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(48px); } to { opacity: 1; transform: none; } }
+  @keyframes slideOut { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateX(-48px); } }
+
+  .q-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    color: var(--sub);
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1.5;
+    margin-bottom: 22px;
+    min-height: 3.2em;
+  }
+  .opt {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 15px 18px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 11px;
+    transition: border-color .12s ease, transform .12s ease, background .12s ease;
+  }
+  .opt:active { transform: scale(.985); }
+  .opt.picked {
+    border-color: var(--ink);
+    background: #fffdf5;
+  }
+
+  /* ---------- result ---------- */
+  #screen-result { padding-top: 22px; }
+  .result-eyebrow {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    color: var(--sub);
+    margin-bottom: 14px;
+  }
+  .result-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    box-shadow: 0 14px 40px rgba(20,20,30,.10);
+  }
+  .result-hero {
+    background: linear-gradient(150deg, var(--theme) 0%, var(--theme-deep, var(--theme)) 100%);
+    color: #fff;
+    text-align: center;
+    padding: 34px 20px 30px;
+    position: relative;
+  }
+  .result-hero .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    background: rgba(255,255,255,.18);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 14px;
+  }
+  .result-icon { font-size: 52px; line-height: 1; margin-bottom: 8px; }
+  .result-name {
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: .04em;
+    text-shadow: 0 2px 14px rgba(0,0,0,.16);
+  }
+  .result-name-en {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .3em;
+    opacity: .85;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .result-catch {
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 16px;
+    padding: 0 6px;
+    line-height: 1.7;
+  }
+  .result-body { padding: 24px 20px 26px; }
+
+  .axis-block { margin-bottom: 4px; }
+  .axis-row { margin-bottom: 16px; }
+  .axis-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sub);
+    margin-bottom: 5px;
+  }
+  .axis-labels .dom { color: var(--theme); }
+  .axis-track {
+    height: 10px;
+    background: #efeee9;
+    border-radius: 99px;
+    overflow: hidden;
+    position: relative;
+  }
+  .axis-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--theme);
+    border-radius: 99px;
+    transition: width .9s cubic-bezier(.2,.8,.2,1);
+  }
+  .axis-fill.from-right { margin-left: auto; }
+  .axis-pct {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+
+  .sec-title {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: .14em;
+    color: var(--theme);
+    margin: 24px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  ul.flat { list-style: none; }
+  ul.flat li {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 9px 0 9px 26px;
+    border-bottom: 1px dashed var(--line);
+    position: relative;
+  }
+  ul.flat li:last-child { border-bottom: none; }
+  ul.flat li::before {
+    content: "";
+    position: absolute;
+    left: 4px; top: 17px;
+    width: 9px; height: 9px;
+    border-radius: 3px;
+    background: var(--theme);
+  }
+  ul.flat.caution li::before { background: #c9c6bb; }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .info-cell {
+    background: var(--theme-soft);
+    border-radius: 12px;
+    padding: 12px 13px;
+  }
+  .info-cell .k { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: .06em; }
+  .info-cell .v { font-size: 14px; font-weight: 700; margin-top: 3px; line-height: 1.5; }
+  .info-cell .v small { display: block; font-weight: 500; font-size: 11px; color: var(--sub); margin-top: 2px; }
+
+  .result-actions { margin-top: 26px; display: grid; gap: 11px; }
+  .btn-share {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    background: var(--ink);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 999px;
+    padding: 16px;
+    text-decoration: none;
+    letter-spacing: .04em;
+    transition: transform .12s ease, opacity .12s ease;
+  }
+  .btn-share:active { transform: scale(.97); opacity: .85; }
+  .btn-share svg { width: 17px; height: 17px; fill: #fff; }
+  .btn-ghost {
+    width: 100%;
+    background: transparent;
+    border: 1.5px solid var(--line);
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 13px;
+    transition: background .12s ease;
+  }
+  .btn-ghost:active { background: #ecebe5; }
+
+  /* ---------- monetize ---------- */
+  .mz {
+    margin-top: 30px;
+    display: grid;
+    gap: 14px;
+  }
+  #ad-slot {
+    border: 1.5px dashed var(--line);
+    border-radius: 14px;
+    min-height: 100px;
+    display: grid;
+    place-items: center;
+    color: #b9b6ac;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    background: #faf9f5;
+  }
+  .cta-card {
+    background: linear-gradient(150deg, var(--theme) 0%, var(--theme-deep, var(--theme)) 100%);
+    border-radius: 14px;
+    padding: 20px 18px;
+    color: #fff;
+    text-align: center;
+  }
+  .cta-card p { font-size: 13px; font-weight: 700; line-height: 1.6; margin-bottom: 12px; }
+  .cta-btn {
+    display: inline-block;
+    background: #fff;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 900;
+    border-radius: 999px;
+    padding: 12px 26px;
+    text-decoration: none;
+    letter-spacing: .04em;
+  }
+  .cta-btn:active { opacity: .8; }
+
+  /* ---------- modal ---------- */
+  #modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(20,20,26,.55);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 50;
+    padding: 0;
+  }
+  #modal.open { display: flex; animation: fadeIn .2s ease; }
+  .modal-sheet {
+    background: var(--bg);
+    width: 100%;
+    max-width: 480px;
+    max-height: 84svh;
+    border-radius: 22px 22px 0 0;
+    padding: 20px 18px 30px;
+    overflow-y: auto;
+    animation: sheetUp .3s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .modal-head h2 { font-size: 17px; font-weight: 900; letter-spacing: .06em; }
+  .modal-close {
+    border: none;
+    background: var(--line);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sub);
+  }
+  .type-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 13px 14px;
+    margin-bottom: 9px;
+  }
+  .type-row.mine { border: 2px solid var(--ink); }
+  .type-chip {
+    width: 46px; height: 46px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    flex-shrink: 0;
+    color: #fff;
+  }
+  .type-row .t-name { font-size: 15px; font-weight: 900; }
+  .type-row .t-name .you {
+    font-size: 10px; font-weight: 700; color: #fff; background: var(--ink);
+    border-radius: 99px; padding: 2px 8px; margin-left: 7px; vertical-align: 2px;
+  }
+  .type-row .t-desc { font-size: 12px; color: var(--sub); line-height: 1.5; }
+
+  .footer-note {
+    text-align: center;
+    font-size: 11px;
+    color: #b3b0a6;
+    margin-top: 34px;
+  }
+
+  @media (min-width: 700px) {
+    .wrap { max-width: 520px; }
+    #screen-start { padding-top: 12svh; }
+    .start-title { font-size: 44px; }
+    .q-text { font-size: 23px; min-height: 0; }
+    #modal { align-items: center; padding: 20px; }
+    .modal-sheet { border-radius: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ START ============ -->
+  <section id="screen-start" class="screen active">
+    <div class="start-badge">無料・登録なし</div>
+    <h1 class="start-title">
+      <span class="small">あなたはどのタイプ？</span>
+      SNS発信タイプ診断
+    </h1>
+    <div class="type-strip">
+      <span>🔥</span><span>🎤</span><span>🔧</span><span>📖</span><span>🔭</span><span>💬</span><span>📚</span><span>🕯</span>
+    </div>
+    <p class="start-lead">10の質問で、あなたの発信スタイルを8タイプから判定。<br>全10問・1分で終わる。</p>
+    <button class="btn-primary" onclick="startQuiz()">診断をはじめる</button>
+    <p class="start-note">直感で答えるほど当たる。</p>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section id="screen-quiz" class="screen">
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-num" id="progress-num">1 / 10</div>
+    </div>
+    <div id="q-slider"></div>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section id="screen-result" class="screen">
+    <p class="result-eyebrow">SNS発信タイプ診断｜あなたは</p>
+    <div class="result-card" id="result-card">
+      <div class="result-hero">
+        <span class="hero-tag" id="r-tag"></span>
+        <div class="result-icon" id="r-icon"></div>
+        <div class="result-name" id="r-name"></div>
+        <div class="result-name-en" id="r-en"></div>
+        <p class="result-catch" id="r-catch"></p>
+      </div>
+      <div class="result-body">
+
+        <div class="axis-block" id="axis-block"></div>
+
+        <h3 class="sec-title">強み</h3>
+        <ul class="flat" id="r-strengths"></ul>
+
+        <h3 class="sec-title">注意点</h3>
+        <ul class="flat caution" id="r-cautions"></ul>
+
+        <h3 class="sec-title">攻略データ</h3>
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="k">伸びる投稿スタイル</div>
+            <div class="v" id="r-style"></div>
+          </div>
+          <div class="info-cell">
+            <div class="k">おすすめ投稿時間帯</div>
+            <div class="v" id="r-time"></div>
+          </div>
+          <div class="info-cell">
+            <div class="k">相性のいいタイプ</div>
+            <div class="v" id="r-friend"></div>
+          </div>
+          <div class="info-cell">
+            <div class="k">真逆のタイプ</div>
+            <div class="v" id="r-opposite"></div>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <a class="btn-share" id="btn-share" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            結果をXでシェアする
+          </a>
+          <button class="btn-ghost" onclick="openModal()">全8タイプを見る</button>
+          <button class="btn-ghost" onclick="restart()">もう一度診断する</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MONETIZE ============ -->
+    <div class="mz">
+      <!-- AD: AdSenseコードに差し替え -->
+      <div id="ad-slot">AD</div>
+
+      <!-- CTA: メルマガ/note/有料コンテンツに差し替え -->
+      <div class="cta-card">
+        <p id="cta-text">「あなた」のタイプ専用の発信戦略、もっと深く知りたくないか。</p>
+        <a class="cta-btn" href="#">専用の発信戦略を受け取る</a>
+      </div>
+    </div>
+
+    <p class="footer-note">SNS発信タイプ診断｜結果はスクショ保存推奨</p>
+  </section>
+</div>
+
+<!-- ============ MODAL ============ -->
+<div id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h2>全8タイプ一覧</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="type-list"></div>
+  </div>
+</div>
+
+<script>
+/* ====================================================
+   3軸スコアリング
+   a: 攻め(+) / 守り(-)
+   l: 論理(+) / 感情(-)
+   s: 瞬発(+) / 蓄積(-)
+==================================================== */
+
+const QUESTIONS = [
+  {
+    q: "バズったツイートを見たとき、まず思うのは？",
+    opts: [
+      { t: "なんで伸びたのか、構造を分析してしまう", v: { l: 2, a: -1 } },
+      { t: "自分ならもっと面白く書けると思う", v: { a: 2 } },
+      { t: "素直にすごい。いいねを押して眺める", v: { a: -2, l: -1 } },
+      { t: "この波、乗れるなと考え始める", v: { s: 2, a: 1 } },
+    ],
+  },
+  {
+    q: "下書きフォルダの状態は？",
+    opts: [
+      { t: "ほぼ使わない。思いついたら即投稿", v: { s: 2, a: 1 } },
+      { t: "温めた下書きが何本も眠っている", v: { s: -2 } },
+      { t: "下書きの前に、頭の中で完成させる派", v: { l: 2 } },
+      { t: "書いたのに、結局出さないことが多い", v: { a: -2 } },
+    ],
+  },
+  {
+    q: "フォロワーが増える一番の理由は何だと思う？",
+    opts: [
+      { t: "役に立つから。情報の価値がすべて", v: { l: 2 } },
+      { t: "「わかる」と思わせたら勝ち", v: { l: -2 } },
+      { t: "速さ。誰より早く触れた人が伸びる", v: { s: 2 } },
+      { t: "積み重ね。信頼は一日では作れない", v: { s: -2 } },
+    ],
+  },
+  {
+    q: "燃えかけている話題がTLに流れてきた。どうする？",
+    opts: [
+      { t: "持論を投下する。逃げたら負け", v: { a: 2, s: 1 } },
+      { t: "静かに観察して、流れをメモる", v: { a: -2, l: 1 } },
+      { t: "触れずに、いつも通りの投稿をする", v: { a: -1, s: -1 } },
+      { t: "スクショして仲間内だけで盛り上がる", v: { a: -1, l: -2 } },
+    ],
+  },
+  {
+    q: "投稿が思ったより伸びなかった。そのとき？",
+    opts: [
+      { t: "数字を見て原因を分析する", v: { l: 2 } },
+      { t: "凹む。けど勢いで次を書く", v: { l: -1, s: 1 } },
+      { t: "正直、消したくなる", v: { a: -2 } },
+      { t: "消さない。あとで誰かに届くと知っている", v: { s: -2 } },
+    ],
+  },
+  {
+    q: "投稿のネタは、主にどこから来る？",
+    opts: [
+      { t: "今まさに流れているタイムライン", v: { s: 2 } },
+      { t: "自分の経験・失敗談", v: { l: -2, s: -1 } },
+      { t: "本や資料からのインプット", v: { l: 2, s: -1 } },
+      { t: "リプ欄や人との会話の中", v: { a: -1, l: -1 } },
+    ],
+  },
+  {
+    q: "リプライ欄との付き合い方は？",
+    opts: [
+      { t: "全部返す。会話してなんぼ", v: { a: 1, l: -2 } },
+      { t: "議論になったら受けて立つ", v: { a: 2, l: 1 } },
+      { t: "いいねだけ静かに押す", v: { a: -2 } },
+      { t: "正直、本垢の投稿よりリプの方が得意", v: { a: -1, l: -1, s: 1 } },
+    ],
+  },
+  {
+    q: "「とりあえず出す」vs「完成度を上げる」、どっち派？",
+    opts: [
+      { t: "出してから直せばいい", v: { s: 2, a: 1 } },
+      { t: "6割でも鮮度優先。今出すことに意味がある", v: { s: 2 } },
+      { t: "納得するまで出さない", v: { s: -2 } },
+      { t: "完成させた上で、一番読まれる時間まで寝かせる", v: { s: -1, l: 2 } },
+    ],
+  },
+  {
+    q: "あなたの投稿、どっち寄りでありたい？",
+    opts: [
+      { t: "「知らないと損する」系の情報", v: { l: 2 } },
+      { t: "思わず「わかる」と言われる系", v: { l: -2 } },
+      { t: "「今これが熱い」系の速報・実況", v: { s: 2, a: 1 } },
+      { t: "じっくり読まれる読み物系", v: { s: -2 } },
+    ],
+  },
+  {
+    q: "結局、SNSをやっている一番の理由は？",
+    opts: [
+      { t: "影響力がほしい。届く範囲を広げたい", v: { a: 2 } },
+      { t: "知識や記録を残したい", v: { l: 1, s: -2 } },
+      { t: "つながりや居場所がほしい", v: { a: -1, l: -2 } },
+      { t: "流れの中にいたい。祭りが好きだ", v: { s: 2 } },
+    ],
+  },
+];
+
+/* タイプ定義: key = [攻A/守D][論L/感E][瞬I/蓄S] */
+const TYPES = {
+  AEI: {
+    name: "火付け役", en: "IGNITER", icon: "🔥",
+    color: "#ff5a36", deep: "#d9230f", soft: "#fff0ec",
+    tag: "攻め × 感情 × 瞬発",
+    catch: "タイムラインの温度を上げるのは、いつもあなた。",
+    short: "トレンドに飛び込んで燃やす、TLの着火剤。",
+    strengths: ["初速とノリが異常に速い", "感情を乗せた一言で人を動かす", "祭りの中心が一番似合う"],
+    cautions: ["燃やすつもりが自分が燃えることがある", "熱が冷めると飽きるのも早い"],
+    style: "トレンド最速の引用・大喜利<small>考えるより先に投稿でいい</small>",
+    time: "平日21〜23時<small>TLが一番燃える時間</small>",
+    friend: "共鳴者", opposite: "編集者",
+  },
+  ALI: {
+    name: "演説家", en: "ORATOR", icon: "🎤",
+    color: "#2e6bff", deep: "#1741c9", soft: "#eaf0ff",
+    tag: "攻め × 論理 × 瞬発",
+    catch: "あなたの持論は、ニュースより早く核心を突く。",
+    short: "時事に持論をぶつける、TLの論客。",
+    strengths: ["時事を自分の言葉に変換できる", "賛否が割れても折れない軸がある", "「一理ある」と言わせる説得力"],
+    cautions: ["正論が、時に強すぎる", "反論に付き合いすぎて消耗しがち"],
+    style: "ニュース引用＋持論140字<small>結論から書くと伸びる</small>",
+    time: "朝7〜8時<small>通勤TLにニュースと一緒に届く</small>",
+    friend: "観測者", opposite: "灯台守",
+  },
+  ALS: {
+    name: "職人", en: "CRAFTSMAN", icon: "🔧",
+    color: "#00a88b", deep: "#007a64", soft: "#e7f7f3",
+    tag: "攻め × 論理 × 蓄積",
+    catch: "バズらなくても、あなたの投稿は資産になっていく。",
+    short: "役立つ知識を黙々と積み上げる実力派。",
+    strengths: ["役立つ情報を出し惜しみしない", "積み上げがそのまま信頼に変わる", "検索とまとめで後から効いてくる"],
+    cautions: ["完成度を求めすぎて投稿頻度が落ちる", "数字が出ない時期に折れそうになる"],
+    style: "ノウハウのスレッド・図解<small>週1の渾身は毎日の雑投稿に勝つ</small>",
+    time: "土日朝9〜10時<small>じっくり読まれる時間</small>",
+    friend: "編集者", opposite: "共鳴者",
+  },
+  AES: {
+    name: "物語師", en: "STORYTELLER", icon: "📖",
+    color: "#b14bf4", deep: "#7c1fc4", soft: "#f6ecfe",
+    tag: "攻め × 感情 × 蓄積",
+    catch: "あなたの失敗談は、誰かの教科書になる。",
+    short: "自分の経験を物語に変える語り部。",
+    strengths: ["経験を物語に変える力がある", "弱さを見せられる強さを持っている", "読んだ人が「自分の話だ」と思う"],
+    cautions: ["1本出すまでに時間がかかる", "反応が薄いと自分まで否定された気になる"],
+    style: "体験談の長文・連投<small>オチより「途中の感情」が刺さる</small>",
+    time: "夜22〜24時<small>感情が一番読まれる時間</small>",
+    friend: "灯台守", opposite: "観測者",
+  },
+  DLI: {
+    name: "観測者", en: "OBSERVER", icon: "🔭",
+    color: "#0e9cc9", deep: "#066d96", soft: "#e8f6fb",
+    tag: "守り × 論理 × 瞬発",
+    catch: "全員が騒いでいるとき、あなただけが全体を見ている。",
+    short: "流れを読み、的確な一言を置いていく分析眼。",
+    strengths: ["流れを読む精度が高い", "短い一言が的確で、外さない", "騒ぎに巻き込まれない冷静さ"],
+    cautions: ["見ているだけで投稿しない日が続く", "的確すぎて冷たく見られることがある"],
+    style: "トレンドへの短い注釈<small>「みんなが見落としてる点」を一言</small>",
+    time: "昼12〜13時<small>ニュースが出揃った頃</small>",
+    friend: "演説家", opposite: "物語師",
+  },
+  DEI: {
+    name: "共鳴者", en: "RESONATOR", icon: "💬",
+    color: "#ff7bac", deep: "#e6447f", soft: "#ffeef5",
+    tag: "守り × 感情 × 瞬発",
+    catch: "あなたの「わかる」が、誰かの今日を救っている。",
+    short: "共感のリプと引用で輪を広げる、TLの潤滑油。",
+    strengths: ["リプ欄での好感度が異常に高い", "人の良いところを見つける天才", "敵を作らずに輪を広げられる"],
+    cautions: ["自分の投稿がいつも後回しになる", "気を使いすぎて静かに疲れる"],
+    style: "共感リプ・人を立てる引用<small>リプ欄こそあなたのホーム</small>",
+    time: "夜20〜22時<small>みんなが本音を吐く時間</small>",
+    friend: "火付け役", opposite: "職人",
+  },
+  DLS: {
+    name: "編集者", en: "EDITOR", icon: "📚",
+    color: "#2f9e44", deep: "#1d7030", soft: "#ebf7ee",
+    tag: "守り × 論理 × 蓄積",
+    catch: "情報の渋滞を、あなたが交通整理する。",
+    short: "まとめとキュレーションで保存される人。",
+    strengths: ["まとめる力が群を抜いている", "「保存」される投稿が作れる", "信頼度がじわじわ積み上がる"],
+    cautions: ["自分の意見を出すのが後回しになる", "手間の割に初速が出にくい"],
+    style: "まとめスレッド・比較・リスト化<small>「ブックマーク推奨」と書いていい</small>",
+    time: "日曜夜21時<small>翌週に備えて保存される</small>",
+    friend: "職人", opposite: "火付け役",
+  },
+  DES: {
+    name: "灯台守", en: "LIGHTKEEPER", icon: "🕯",
+    color: "#e09f1f", deep: "#b07208", soft: "#fdf4e3",
+    tag: "守り × 感情 × 蓄積",
+    catch: "フォロワーの数より、届く深さで勝負する人。",
+    short: "静かに同じ場所で灯し続け、濃いファンがつく。",
+    strengths: ["同じ場所で発信し続けられる", "濃いファンが静かに増えていく", "言葉に体温がある"],
+    cautions: ["拡散とは無縁になりがち", "評価されるまで時間がかかる"],
+    style: "定点観測の日記・想いの言語化<small>毎日同じ時間に灯すと強い</small>",
+    time: "朝6〜7時か深夜0時<small>静かな時間帯ほど深く届く</small>",
+    friend: "物語師", opposite: "演説家",
+  },
+};
+
+const TYPE_ORDER = ["AEI", "ALI", "ALS", "AES", "DLI", "DEI", "DLS", "DES"];
+
+/* 各軸の理論最大値（選択肢の絶対値最大を質問ごとに合算） */
+const MAX = { a: 0, l: 0, s: 0 };
+QUESTIONS.forEach(q => {
+  ["a", "l", "s"].forEach(k => {
+    MAX[k] += Math.max(...q.opts.map(o => Math.abs(o.v[k] || 0)));
+  });
+});
+
+let current = 0;
+let score = { a: 0, l: 0, s: 0 };
+let locked = false;
+let resultKey = null;
+
+const $ = id => document.getElementById(id);
+
+function show(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+  current = 0;
+  score = { a: 0, l: 0, s: 0 };
+  show("screen-quiz");
+  renderQuestion(false);
+}
+
+function renderQuestion(slide) {
+  const q = QUESTIONS[current];
+  $("progress-fill").style.width = ((current) / QUESTIONS.length * 100) + "%";
+  $("progress-num").textContent = (current + 1) + " / " + QUESTIONS.length;
+
+  const slider = $("q-slider");
+  const old = slider.querySelector(".q-card:not(.leaving)");
+  if (slide && old) {
+    old.classList.add("leaving");
+    setTimeout(() => old.remove(), 300);
+  } else if (old) {
+    old.remove();
+  }
+
+  const card = document.createElement("div");
+  card.className = "q-card";
+  card.innerHTML =
+    '<div class="q-label">Q' + (current + 1) + "</div>" +
+    '<p class="q-text">' + q.q + "</p>" +
+    q.opts.map((o, i) =>
+      '<button class="opt" onclick="pick(' + i + ', this)">' + o.t + "</button>"
+    ).join("");
+  slider.appendChild(card);
+  locked = false;
+}
+
+function pick(i, el) {
+  if (locked) return;
+  locked = true;
+  el.classList.add("picked");
+  const v = QUESTIONS[current].opts[i].v;
+  score.a += v.a || 0;
+  score.l += v.l || 0;
+  score.s += v.s || 0;
+
+  setTimeout(() => {
+    current++;
+    if (current < QUESTIONS.length) {
+      renderQuestion(true);
+    } else {
+      $("progress-fill").style.width = "100%";
+      finish();
+    }
+  }, 280);
+}
+
+function pct(sum, max) {
+  const p = Math.round(50 + (sum / max) * 50);
+  return Math.min(97, Math.max(3, p));
+}
+
+function finish() {
+  const key =
+    (score.a >= 0 ? "A" : "D") +
+    (score.l >= 0 ? "L" : "E") +
+    (score.s >= 0 ? "I" : "S");
+  resultKey = key;
+  const t = TYPES[key];
+
+  document.documentElement.style.setProperty("--theme", t.color);
+  document.documentElement.style.setProperty("--theme-deep", t.deep);
+  document.documentElement.style.setProperty("--theme-soft", t.soft);
+
+  $("r-tag").textContent = t.tag;
+  $("r-icon").textContent = t.icon;
+  $("r-name").textContent = t.name;
+  $("r-en").textContent = t.en;
+  $("r-catch").textContent = t.catch;
+  $("r-strengths").innerHTML = t.strengths.map(s => "<li>" + s + "</li>").join("");
+  $("r-cautions").innerHTML = t.cautions.map(s => "<li>" + s + "</li>").join("");
+  $("r-style").innerHTML = t.style;
+  $("r-time").innerHTML = t.time;
+  $("r-friend").innerHTML = TYPES[keyOf(t.friend)].icon + " " + t.friend + "<small>" + TYPES[keyOf(t.friend)].short + "</small>";
+  $("r-opposite").innerHTML = TYPES[keyOf(t.opposite)].icon + " " + t.opposite + "<small>" + TYPES[keyOf(t.opposite)].short + "</small>";
+
+  /* 軸バー */
+  const axes = [
+    { L: "攻め", R: "守り", p: pct(score.a, MAX.a) },
+    { L: "論理", R: "感情", p: pct(score.l, MAX.l) },
+    { L: "瞬発", R: "蓄積", p: pct(score.s, MAX.s) },
+  ];
+  $("axis-block").innerHTML = axes.map(ax => {
+    const leftDominant = ax.p >= 50;
+    const fillPct = leftDominant ? ax.p : 100 - ax.p;
+    const domName = leftDominant ? ax.L : ax.R;
+    return (
+      '<div class="axis-row">' +
+        '<div class="axis-labels">' +
+          '<span class="' + (leftDominant ? "dom" : "") + '">' + ax.L + "</span>" +
+          '<span class="' + (!leftDominant ? "dom" : "") + '">' + ax.R + "</span>" +
+        "</div>" +
+        '<div class="axis-track"><div class="axis-fill' + (leftDominant ? "" : " from-right") + '" data-w="' + fillPct + '"></div></div>' +
+        '<div class="axis-pct">あなたは ' + domName + " " + fillPct + "%</div>" +
+      "</div>"
+    );
+  }).join("");
+
+  /* シェアリンク */
+  const text = "SNS発信タイプ診断やったら「" + t.name + "」だった #SNS発信タイプ診断";
+  $("btn-share").href =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(text) + "&url=" + encodeURIComponent(location.href);
+
+  /* CTA文言 */
+  $("cta-text").textContent = "「" + t.name + "」のあなた専用の発信戦略、もっと深く知りたくないか。";
+
+  show("screen-result");
+
+  /* バーのアニメーション */
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll(".axis-fill").forEach(f => {
+        f.style.width = f.dataset.w + "%";
+      });
+    }, 150);
+  });
+}
+
+function keyOf(name) {
+  return TYPE_ORDER.find(k => TYPES[k].name === name);
+}
+
+function restart() {
+  document.documentElement.style.setProperty("--theme", "#2e6bff");
+  document.documentElement.style.setProperty("--theme-deep", "#1741c9");
+  document.documentElement.style.setProperty("--theme-soft", "#eaf0ff");
+  show("screen-start");
+}
+
+/* ---------- modal ---------- */
+function openModal() {
+  $("type-list").innerHTML = TYPE_ORDER.map(k => {
+    const t = TYPES[k];
+    const mine = k === resultKey;
+    return (
+      '<div class="type-row' + (mine ? " mine" : "") + '">' +
+        '<div class="type-chip" style="background:' + t.color + '">' + t.icon + "</div>" +
+        "<div>" +
+          '<div class="t-name">' + t.name + (mine ? '<span class="you">あなた</span>' : "") + "</div>" +
+          '<div class="t-desc">' + t.tag + "｜" + t.short + "</div>" +
+        "</div>" +
+      "</div>"
+    );
+  }).join("");
+  $("modal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeModal() {
+  $("modal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+</script>
+</body>
+</html>
