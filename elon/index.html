@@ -656,7 +656,7 @@
 
   // 連続非重複で候補から1つ選び、repeat / fraction に応じた文を作る
   var lastMuskEvent = null;
-  function pickMuskQuip(years) {
+  function pickMuskQuip(years, neededStr) {
     var needed = years;
     var cands = muskEventCandidates(needed);
 
@@ -680,8 +680,8 @@
       var M = Math.round(e.dur / needed); // 必ず3以上
       var mStr = jpFraction(M);
       var fracTemplates = [
-        'あなたが追いつくまでの年月は、' + e.event + 'の、わずか' + mStr + '。それでも、人類の想像を超える長さだ。',
-        e.event + '、' + durStr + '。あなたが追いつくのは、その' + mStr + 'の時間。それでも気が遠くなる。'
+        e.event + '、' + durStr + '。そのわずか' + mStr + 'でいい。希望が見えてきた——が、それでも' + neededStr + 'だ。',
+        '悪くない。' + e.event + 'の、たった' + mStr + 'で、あなたはイーロンに並ぶ。'
       ];
       return fracTemplates[Math.floor(Math.random() * fracTemplates.length)];
     }
@@ -904,7 +904,7 @@
       unitEl.textContent = p.unit;
       muskNumForCount = p.num;
       muskYears = '約' + p.num.toLocaleString() + p.unit;
-      quipEl.textContent = pickMuskQuip(years);
+      quipEl.textContent = pickMuskQuip(years, muskYears);
     }
 
     /* ---- サブ: 大谷翔平 ---- */
@@ -956,7 +956,9 @@
   // 「別のたとえを見る」: 同じ年収のまま、同バケットの別ジョークに差し替え（連続非重複）
   $('btn-reroll').addEventListener('click', function () {
     if (currentMuskYears == null) return; // 年収0（∞）のときは何もしない
-    var q = pickMuskQuip(currentMuskYears);
+    var rp = muskYearsParts(currentMuskYears);
+    var neededStr = '約' + rp.num.toLocaleString() + rp.unit; // 大見出しと同一整形
+    var q = pickMuskQuip(currentMuskYears, neededStr);
     var quipEl = $('r-quip');
     quipEl.textContent = q;
     if (lastResult) lastResult.muskQuip = q; // 画像保存と食い違わないよう更新
