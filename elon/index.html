@@ -709,40 +709,54 @@
      大谷翔平 年収換算（サブ）
      ============================================================ */
 
-  // 大谷があなたの1年分の年収を稼ぐのにかかる実時間 → 桁で 日/時間/分/秒 出し分け
-  function formatOhtaniTime(incomeYen) {
+  // 大谷があなたの1年分の年収を稼ぐのにかかる実時間（秒）
+  function ohtaniSeconds(incomeYen) {
     var perSec = OHTANI_JPY / (365 * 24 * 60 * 60); // 1秒あたりの稼ぎ（円）
-    var sec = incomeYen / perSec;
+    return incomeYen / perSec;
+  }
+
+  // 大谷の所要時間（秒）→ 桁で 日/時間/分/秒 出し分け
+  function formatOhtaniTime(incomeYen) {
+    var sec = ohtaniSeconds(incomeYen);
     if (sec >= 86400) return '約' + (Math.round(sec / 86400 * 10) / 10).toLocaleString() + '日';
     if (sec >= 3600) return '約' + (Math.round(sec / 3600 * 10) / 10).toLocaleString() + '時間';
     if (sec >= 60) return '約' + (Math.round(sec / 60 * 10) / 10).toLocaleString() + '分';
     return '約' + Math.max(1, Math.round(sec)) + '秒';
   }
 
-  // 大谷側「瞬間の格差」ジョーク。
-  // メインの所要時間と矛盾しない、年収に依存しても破綻しない定性的な文だけ（常に真）。
-  // 固有の金額・月収・トイレ◯分など、メインの数字と衝突する主張は使わない。
-  var OHTANI_QUIPS = [
-    'あなたがこの画面を見ている今も、その差は開き続けている。',
-    'まばたきをする間に、また少し引き離された。',
-    'この一文を読み終えるころには、もう追加で稼いでいる。',
-    'あなたが追いつこうと考えている間も、相手は止まらない。',
-    'スクロールするその指の動きより速く、差は広がっている。',
-    'あなたが息を一つ吸う間にも、口座の数字は動いている。',
-    '同じ24時間のはずなのに、流れる桁がまるで違う。',
-    'あなたが「あとで」と思った瞬間、差はもう一段ひらいた。',
-    '追いつこうと走り出す前に、スタート地点が遠ざかっていく。',
-    'あなたがこの結果に驚いている間も、数字は更新され続けている。',
-    '時計の針が一周する前に、見える景色が変わっているだろう。',
-    'あなたが目をそらしたすきに、また少し前へ行かれている。'
+  // 大谷側ジョーク：所要時間 T（秒）と同じくらいの長さの「日常行動」に当てはめる。
+  // 文面は「あなたが{行動}間に、大谷はあなたの1年分を稼ぎ終える。」で固定。
+  // メインの時間表示と必ず整合させるため、判定は同じ秒数 T から行う。
+  var OHTANI_SCENE_BUCKETS = [
+    { max: 60,        scenes: ['この一文を読んでいる', 'あくびをひとつしている'] },
+    { max: 300,       scenes: ['歯をみがいている', 'カップ麺ができるのを待っている', 'コンビニで会計している'] },
+    { max: 900,       scenes: ['トイレにこもっている', 'シャワーを浴びている', 'コーヒーを一杯飲んでいる'] },
+    { max: 2700,      scenes: ['通勤電車にゆられている', 'ニュース番組を見ている', '行列に並んでいる'] },
+    { max: 5400,      scenes: ['ドラマを1話見ている', 'ジムで汗を流している'] },
+    { max: 10800,     scenes: ['映画を1本見ている', '昼寝をしている', 'カフェでだらだらしている'] },
+    { max: 21600,     scenes: ['半日デートしている', '映画を2本続けて見ている'] },
+    { max: 36000,     scenes: ['ぐっすり寝ている', '一日ぶん働いている'] },
+    { max: 72000,     scenes: ['一日中ダラダラしている', '休日を寝て過ごしている'] },
+    { max: 129600,    scenes: ['まる1日、なにもしていない', '丸1日眠り続けている'] },
+    { max: Infinity,  scenes: ['週末をまるごと寝て過ごしている', '2日間ぐうたらしている'] }
   ];
-  var lastOhtaniIndex = -1;
+  function ohtaniBucketForSeconds(sec) {
+    for (var b = 0; b < OHTANI_SCENE_BUCKETS.length; b++) {
+      if (sec < OHTANI_SCENE_BUCKETS[b].max) return OHTANI_SCENE_BUCKETS[b];
+    }
+    return OHTANI_SCENE_BUCKETS[OHTANI_SCENE_BUCKETS.length - 1];
+  }
+  var lastOhtaniScene = '';
   function pickOhtaniQuip(income) {
     if (income <= 0) return '大谷が一瞬で稼ぐ額にも、まだ届いていない。';
-    var i = Math.floor(Math.random() * OHTANI_QUIPS.length);
-    while (i === lastOhtaniIndex) i = Math.floor(Math.random() * OHTANI_QUIPS.length);
-    lastOhtaniIndex = i;
-    return OHTANI_QUIPS[i];
+    var sec = ohtaniSeconds(income * 10000); // income は万円単位
+    var scenes = ohtaniBucketForSeconds(sec).scenes;
+    var scene = scenes[Math.floor(Math.random() * scenes.length)];
+    if (scenes.length > 1) {
+      while (scene === lastOhtaniScene) scene = scenes[Math.floor(Math.random() * scenes.length)];
+    }
+    lastOhtaniScene = scene;
+    return 'あなたが' + scene + '間に、大谷はあなたの1年分を稼ぎ終える。';
   }
 
   /* ============================================================
