@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本の年収、平均と中央値はなぜ違う？全国の分布をわかりやすく解説｜診断ラボ</title>
+<meta name="description" content="平均年収と中央値がズレるのはなぜか。分布の形、男女差、年代別カーブ、上位何%か、地域差まで。国税庁の調査などをもとに、日本の年収のリアルをやさしく解説します。">
+<meta property="og:title" content="日本の年収、平均と中央値はなぜ違う？全国の分布をわかりやすく解説">
+<meta property="og:description" content="平均年収と中央値がズレる理由を、分布の形から読み解く。男女差・年代別カーブ・地域差まで。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f14; --bg2:#141821; --card:#1a1f2b; --line:#262d3b;
+    --text:#f2f4f8; --sub:#9aa3b2; --gold:#ffd76e; --gold2:#f4a93a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:32px 20px 64px;line-height:1.85;
+    background-image:radial-gradient(1200px 600px at 50% -10%, #1c2433 0%, var(--bg) 60%);
+  }
+  .wrap{max-width:680px;margin:0 auto}
+  .topnav{display:flex;gap:18px;margin-bottom:30px;font-size:13px;flex-wrap:wrap}
+  .topnav a{color:var(--sub);text-decoration:none;font-weight:700}
+  .topnav a:hover{color:var(--gold)}
+  .kicker{font-size:12px;letter-spacing:.14em;color:var(--gold);font-weight:700;margin-bottom:14px}
+  h1{font-size:27px;font-weight:900;line-height:1.45;margin-bottom:20px;letter-spacing:.01em}
+  .lead{font-size:15px;color:var(--sub);line-height:1.9;margin-bottom:8px;
+    padding:18px 20px;background:var(--bg2);border:1px solid var(--line);border-radius:14px}
+  article{margin-top:36px}
+  article h2{font-size:20px;font-weight:900;line-height:1.5;margin:42px 0 16px;
+    padding-left:14px;border-left:4px solid var(--gold)}
+  article h3{font-size:16px;font-weight:700;margin:28px 0 10px;color:var(--gold)}
+  article p{font-size:15px;margin-bottom:16px;color:#e3e7ee}
+  article ul,article ol{margin:0 0 18px 0;padding-left:0;list-style:none}
+  article li{font-size:15px;margin-bottom:10px;padding-left:24px;position:relative;color:#e3e7ee}
+  article li::before{content:"";position:absolute;left:6px;top:11px;width:7px;height:7px;
+    border-radius:50%;background:var(--gold2)}
+  .tablewrap{overflow-x:auto;margin:18px 0 22px;border:1px solid var(--line);border-radius:14px}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:340px}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  th{background:var(--bg2);color:var(--gold);font-weight:700;white-space:nowrap}
+  td{color:#e3e7ee}
+  tr:last-child td{border-bottom:none}
+  .note{font-size:13px;color:var(--sub);background:var(--bg2);border:1px dashed var(--line);
+    border-radius:12px;padding:14px 16px;margin:20px 0;line-height:1.8}
+  .cta{display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;padding:24px 22px;margin:40px 0 8px;
+    transition:transform .18s ease,border-color .18s ease}
+  .cta:hover{transform:translateY(-3px);border-color:#3a4252}
+  .cta .ctag{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--gold);margin-bottom:10px;display:inline-block}
+  .cta .ctitle{font-size:20px;font-weight:900;margin-bottom:8px;line-height:1.4}
+  .cta .cdesc{font-size:13.5px;color:var(--sub);line-height:1.7}
+  .cta .go{margin-top:16px;font-size:13px;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px}
+  .related{margin-top:34px;padding-top:24px;border-top:1px solid var(--line)}
+  .related h2{font-size:16px;border:none;padding:0;margin:0 0 14px}
+  .related a{color:var(--gold);text-decoration:none;font-size:14px;font-weight:700}
+  .related a:hover{text-decoration:underline}
+  footer{text-align:center;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);
+    font-size:12px;color:#5a6273;line-height:1.9}
+  footer a{color:#5a6273;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav">
+    <a href="../articles/">← 記事一覧へ</a>
+    <a href="../">診断ラボ トップ</a>
+  </div>
+
+  <div class="kicker">年収・データ</div>
+  <h1>日本の年収、平均と中央値はなぜ違う？全国の分布をわかりやすく解説</h1>
+
+  <p class="lead">「平均年収」という言葉をニュースで見て、自分の年収と比べてへこんだ経験はないでしょうか。じつは、平均という数字には少しクセがあります。この記事では、平均と中央値の違い、年収分布がどんな形をしているのか、そして男女・年代・地域でどう変わるのかを、できるだけやさしく整理します。</p>
+
+  <article>
+    <h2>「平均年収」と「真ん中の人」はちがう</h2>
+    <p>まず押さえておきたいのが、平均年収と中央値という2つの数字の違いです。よく似ているようで、意味するものがまったく異なります。</p>
+    <ul>
+      <li><strong>平均年収</strong>……全員の年収を足して人数で割った数字。一部の高所得者の影響を強く受ける。</li>
+      <li><strong>中央値</strong>……全員を年収順に並べたとき、ちょうど真ん中に来る人の年収。「ふつうの人」の感覚に近い。</li>
+    </ul>
+    <p>給与所得者の平均年収は、近年おおむね460万円前後とされています（国税庁「民間給与実態統計調査」より、年によって変動。あくまで概算です）。一方、中央値はそれより低く、400万円前後と見られることが多いです。なぜ、こうしたズレが生まれるのでしょうか。</p>
+
+    <h2>なぜ平均のほうが高く出るのか</h2>
+    <p>理由はシンプルで、ごく一部の高所得者が平均を引き上げているからです。年収の分布は、左右対称の「きれいな山」にはなりません。多くの人が300万〜500万円あたりに集まり、そこから高所得側に向かって細く長く裾を引く、いわゆる「右に裾の長い」形をしています。</p>
+    <p>たとえば10人の集まりを考えてみます。9人が年収400万円で、1人だけ年収4,000万円だとすると、平均は760万円。けれど「真ん中の人」は400万円のままです。たった1人の存在で、平均だけが大きく跳ね上がる。これが、平均年収が実感より高く感じられる正体です。</p>
+    <div class="note">数字はあくまでイメージのための例です。実際の分布はもっとなだらかですが、「少数の高所得者が平均を押し上げる」という構造は共通しています。</div>
+
+    <h2>男女でカーブはどう違うか</h2>
+    <p>年収分布は、男女で平均値に差が見られます。一般に男性の平均年収のほうが女性より高く出る傾向があり、これは役職や勤続年数、フルタイム・パートタイムといった働き方の構成の違いなど、複数の要因が絡んだ結果とされています（諸説あり、単純に性別だけで決まるわけではありません）。</p>
+    <p>大切なのは、平均値の差そのものよりも「その背景に何があるか」です。雇用形態や労働時間の構成が変われば、見える数字も変わります。平均年収を見るときは、誰のどんな働き方を含んだ数字なのかを意識すると、誤解が減ります。</p>
+
+    <h2>年代別の「年収カーブ」</h2>
+    <p>年収は年齢とともに変化します。ざっくりとした傾向は次のようになります。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>年代</th><th>おおまかな傾向</th></tr></thead>
+        <tbody>
+          <tr><td>20代</td><td>キャリアの入口。全体としては低めからスタート</td></tr>
+          <tr><td>30代</td><td>役割が増え、上昇していく時期</td></tr>
+          <tr><td>40〜50代</td><td>多くの人でピークに近づく</td></tr>
+          <tr><td>60代以降</td><td>退職・再雇用などで再び下がる傾向</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>この「山なりのカーブ」も、あくまで平均的な像です。職種や業界によってピークの時期も高さも大きく異なります。自分の年収を平均と比べるときは、同年代という条件をそろえて見ると、より実態に近い比較ができます。</p>
+
+    <h2>上位何%だと、年収はいくら？</h2>
+    <p>「自分は上位何%なのか」は、多くの人が気になるところです。分布が右に裾を引いている以上、上位に行くほど年収は急に高くなります。おおまかな感覚として、次のように考えられます（概算・諸説あり）。</p>
+    <ul>
+      <li>上位に近づくほど、必要な年収は加速度的に上がる</li>
+      <li>いわゆる「年収1,000万円」は、給与所得者全体の中ではかなり上位の層にあたる</li>
+      <li>逆に言えば、中央値前後にいる人がもっとも多い「ボリュームゾーン」</li>
+    </ul>
+    <p>正確な順位は、性別・年代・地域などの条件で変わります。自分の立ち位置を数字で知りたい場合は、条件を絞って計算できる診断ツールを使うのが手軽です。</p>
+
+    <h2>地域による差</h2>
+    <p>年収には地域差もあります。一般に、大企業の本社や高収入の職種が集まる都市部では平均が高めに、そうでない地域では低めに出る傾向があります。ただし、年収が高い地域は家賃や物価も高いことが多く、「手元に残る金額」や生活の余裕は単純な年収だけでは測れません。</p>
+    <p>地域差を見るときも、平均という一つの数字に振り回されず、生活コストとセットで考えるのが現実的です。</p>
+
+    <h2>まとめ：数字は「形」で見る</h2>
+    <p>平均年収はわかりやすい指標ですが、少数の高所得者に引っ張られて高く出やすいという性質があります。自分の現在地を知りたいなら、平均だけでなく中央値、そして年代や地域といった条件をそろえて見ること。年収は一つの数字ではなく「分布という形」で捉えると、ニュースの数字に一喜一憂しすぎずに済みます。</p>
+    <div class="note">本記事の数値は、国税庁「民間給与実態統計調査」などの公的統計をもとにした概算・傾向です。年次や集計対象によって変動するため、正確な最新値は各調査の原典をご確認ください。</div>
+
+    <a class="cta" href="../nenshu-rank/">
+      <span class="ctag">関連ツール</span>
+      <div class="ctitle">年収全国ランク診断</div>
+      <div class="cdesc">年収を入れると、全国で上位何%かが出る。性別・都道府県別、手取りの内訳、称号まで。自分の「分布上の位置」を1分で。</div>
+      <div class="go">診断してみる →</div>
+    </a>
+
+    <div class="related">
+      <h2>あわせて読む</h2>
+      <a href="fukuri.html">毎日のコーヒー代、投資に回すといくらになる？複利のしくみを解説 →</a>
+    </div>
+  </article>
+
+  <footer>
+    診断ラボ｜お金と数字の解説記事<br>
+    <a href="../articles/">記事一覧</a> ・ <a href="../">トップページ</a>
+  </footer>
+</div>
+</body>
+</html>

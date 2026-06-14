@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>毎日のコーヒー代、投資に回すといくらになる？複利のしくみを解説｜診断ラボ</title>
+<meta name="description" content="複利とは何か、単利との違い、毎日のコーヒー代を年利5%で積み立てた場合の長期シミュレーション例を表で解説。ラテマネーの考え方と、時間がもたらす効果をやさしく整理します。">
+<meta property="og:title" content="毎日のコーヒー代、投資に回すといくらになる？複利のしくみを解説">
+<meta property="og:description" content="単利と複利の違い、ラテマネーという考え方、時間がもたらす効果を、具体的な試算の表とともに。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f14; --bg2:#141821; --card:#1a1f2b; --line:#262d3b;
+    --text:#f2f4f8; --sub:#9aa3b2; --gold:#ffd76e; --gold2:#f4a93a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:32px 20px 64px;line-height:1.85;
+    background-image:radial-gradient(1200px 600px at 50% -10%, #1c2433 0%, var(--bg) 60%);
+  }
+  .wrap{max-width:680px;margin:0 auto}
+  .topnav{display:flex;gap:18px;margin-bottom:30px;font-size:13px;flex-wrap:wrap}
+  .topnav a{color:var(--sub);text-decoration:none;font-weight:700}
+  .topnav a:hover{color:var(--gold)}
+  .kicker{font-size:12px;letter-spacing:.14em;color:var(--gold);font-weight:700;margin-bottom:14px}
+  h1{font-size:27px;font-weight:900;line-height:1.45;margin-bottom:20px;letter-spacing:.01em}
+  .lead{font-size:15px;color:var(--sub);line-height:1.9;margin-bottom:8px;
+    padding:18px 20px;background:var(--bg2);border:1px solid var(--line);border-radius:14px}
+  article{margin-top:36px}
+  article h2{font-size:20px;font-weight:900;line-height:1.5;margin:42px 0 16px;
+    padding-left:14px;border-left:4px solid var(--gold)}
+  article h3{font-size:16px;font-weight:700;margin:28px 0 10px;color:var(--gold)}
+  article p{font-size:15px;margin-bottom:16px;color:#e3e7ee}
+  article ul,article ol{margin:0 0 18px 0;padding-left:0;list-style:none}
+  article li{font-size:15px;margin-bottom:10px;padding-left:24px;position:relative;color:#e3e7ee}
+  article li::before{content:"";position:absolute;left:6px;top:11px;width:7px;height:7px;
+    border-radius:50%;background:var(--gold2)}
+  .tablewrap{overflow-x:auto;margin:18px 0 22px;border:1px solid var(--line);border-radius:14px}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:340px}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  th{background:var(--bg2);color:var(--gold);font-weight:700;white-space:nowrap}
+  td{color:#e3e7ee}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  .note{font-size:13px;color:var(--sub);background:var(--bg2);border:1px dashed var(--line);
+    border-radius:12px;padding:14px 16px;margin:20px 0;line-height:1.8}
+  .cta{display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;padding:24px 22px;margin:24px 0 8px;
+    transition:transform .18s ease,border-color .18s ease}
+  .cta:hover{transform:translateY(-3px);border-color:#3a4252}
+  .cta .ctag{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--gold);margin-bottom:10px;display:inline-block}
+  .cta .ctitle{font-size:20px;font-weight:900;margin-bottom:8px;line-height:1.4}
+  .cta .cdesc{font-size:13.5px;color:var(--sub);line-height:1.7}
+  .cta .go{margin-top:16px;font-size:13px;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px}
+  .related{margin-top:34px;padding-top:24px;border-top:1px solid var(--line)}
+  .related h2{font-size:16px;border:none;padding:0;margin:0 0 14px}
+  .related a{color:var(--gold);text-decoration:none;font-size:14px;font-weight:700;display:block;margin-bottom:10px}
+  .related a:hover{text-decoration:underline}
+  footer{text-align:center;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);
+    font-size:12px;color:#5a6273;line-height:1.9}
+  footer a{color:#5a6273;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav">
+    <a href="../articles/">← 記事一覧へ</a>
+    <a href="../">診断ラボ トップ</a>
+  </div>
+
+  <div class="kicker">お金・投資の基礎</div>
+  <h1>毎日のコーヒー代、投資に回すといくらになる？複利のしくみを解説</h1>
+
+  <p class="lead">毎朝のカフェの一杯。一回ずつは小さな出費でも、何年も積み重なると意外な金額になります。さらに、もしそのお金を運用に回したら——という「もしも」を考えると、複利という言葉の意味が見えてきます。この記事は投資をすすめるものではなく、お金が時間とともにどう変わるのかを理解するための解説です。</p>
+
+  <article>
+    <h2>複利とは何か</h2>
+    <p>複利とは、利息にもさらに利息がつくしくみのことです。最初に置いたお金（元本）だけでなく、増えた分も含めて次の利息が計算されるため、時間が経つほど増え方が大きくなっていきます。雪だるまが転がるうちに大きくなるイメージに近いです。</p>
+    <p>対して単利は、最初の元本にだけ利息がつくしくみです。増えた利息は計算の対象に含まれません。短い期間ではどちらも大差ありませんが、年数が長くなるほど両者の差は開いていきます。</p>
+
+    <h2>単利と複利の違いを数字で見る</h2>
+    <p>たとえば100万円を年利5%で運用したと仮定します（あくまで計算上の前提で、実際にこの利回りが保証されるわけではありません）。単利と複利で、結果がどう変わるかを並べてみます。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>経過年数</th><th>単利の場合</th><th>複利の場合</th></tr></thead>
+        <tbody>
+          <tr><td>10年</td><td class="num">約150万円</td><td class="num">約163万円</td></tr>
+          <tr><td>20年</td><td class="num">約200万円</td><td class="num">約265万円</td></tr>
+          <tr><td>30年</td><td class="num">約250万円</td><td class="num">約432万円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>同じ元本・同じ利回りでも、30年後には大きな差が生まれます。利息が利息を生む——この積み重なりが、複利の核心です。</p>
+    <div class="note">上記は年1回の複利を前提にした概算で、税金や手数料は考慮していません。利回りは説明のための仮定であり、将来の運用成果を保証するものではありません。</div>
+
+    <h2>「ラテマネー」という考え方</h2>
+    <p>ラテマネーとは、カフェのラテのような「毎日のちょっとした出費」を指す言葉です。一杯400円のコーヒーを毎日買うと、ひと月で約1万2,000円、1年で約14万円。金額として並べると、思っていたより大きいと感じる人が多いはずです。</p>
+    <p>ここで大事なのは「コーヒーをやめろ」という話ではありません。自分が何にお金を使っているかを把握したうえで、その一部を別の使い方に回したらどうなるかを知っておく、という視点です。楽しみとしての一杯は、無理に削る必要はありません。</p>
+
+    <h2>毎日◯円を積み立てたら、長期でいくら？</h2>
+    <p>では、毎日のコーヒー代に相当する金額を積み立て投資に回したと仮定すると、長期でどうなるか。ここでは「毎月1万円を年利5%で積み立てる」という前提で、ざっくりした試算を見てみます。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>積立年数</th><th>積み立てた元本</th><th>運用後の概算額</th></tr></thead>
+        <tbody>
+          <tr><td>10年</td><td class="num">120万円</td><td class="num">約155万円</td></tr>
+          <tr><td>20年</td><td class="num">240万円</td><td class="num">約411万円</td></tr>
+          <tr><td>30年</td><td class="num">360万円</td><td class="num">約832万円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>元本360万円に対して、30年後の概算は800万円台。差額の多くは、長い時間をかけて利息が利息を生んだ結果です。ここでも、増え方は後半になるほど加速します。</p>
+    <div class="note">月次の積立・年利5%という前提を置いた概算で、税金・手数料・物価上昇は考慮していません。実際の投資には価格変動のリスクがあり、元本割れの可能性もあります。本記事は特定の金融商品を推奨するものではなく、将来の成果を保証するものではありません。</div>
+
+    <h2>結局いちばん効くのは「時間」</h2>
+    <p>複利の試算を見て気づくのは、金額の大きさよりも「どれだけ長く続けたか」が効いているという点です。同じ積立額でも、10年と30年では結果がまったく違います。これは、時間そのものが複利の燃料になっているからです。</p>
+    <ul>
+      <li>始める金額の大小よりも、続けた年数のほうが効きやすい</li>
+      <li>増え方は一定ではなく、後半ほど大きくなる</li>
+      <li>ただし、利回りは保証されず、途中で下がる年も当然ある</li>
+    </ul>
+
+    <h2>まとめ：仕組みを知ってから選ぶ</h2>
+    <p>毎日の小さな出費も、複利のレンズを通すと違って見えてきます。とはいえ、これは「投資をすべき」という結論ではありません。お金の増え方の仕組みを理解したうえで、自分の生活と価値観に合った使い方を選ぶ——その判断材料として、複利という考え方を持っておくと役に立ちます。具体的に自分のケースで計算してみたい人は、下のツールを試してみてください。</p>
+
+    <a class="cta" href="../lifetime-cost/">
+      <span class="ctag">関連ツール</span>
+      <div class="ctitle">その習慣、生涯でいくら？</div>
+      <div class="cdesc">毎日のコーヒーやサブスクが、65歳までにいくらになるか。投資に回していたら、の金額も一緒に試算できます。</div>
+      <div class="go">計算してみる →</div>
+    </a>
+
+    <div class="related">
+      <h2>あわせて読む</h2>
+      <a href="nisa.html">新NISAって結局なに？非課税のしくみと長期積立の基本 →</a>
+      <a href="nenshu-bunpu.html">日本の年収、平均と中央値はなぜ違う？全国の分布をわかりやすく解説 →</a>
+    </div>
+  </article>
+
+  <footer>
+    診断ラボ｜お金と数字の解説記事<br>
+    本記事は情報提供を目的としたもので、特定の投資行動を推奨するものではありません。<br>
+    <a href="../articles/">記事一覧</a> ・ <a href="../">トップページ</a>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新NISAとは？初心者向けにやさしく解説｜診断ラボ</title>
+<meta name="description" content="2024年に始まった新NISAの基本を、初心者向けにやさしく整理。つみたて投資枠と成長投資枠の違い、年間最大360万円・生涯1,800万円の非課税枠、非課税のメリットと注意点を中立的に解説します。">
+<meta property="og:title" content="新NISAとは？初心者向けにやさしく解説">
+<meta property="og:description" content="非課税のしくみ、2つの枠、生涯1,800万円。新NISAの全体像をやさしく整理。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f14; --bg2:#141821; --card:#1a1f2b; --line:#262d3b;
+    --text:#f2f4f8; --sub:#9aa3b2; --gold:#ffd76e; --gold2:#f4a93a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:36px 20px 64px;line-height:1.9;
+    background-image:radial-gradient(1200px 600px at 50% -10%, #1c2433 0%, var(--bg) 60%);
+  }
+  .wrap{max-width:640px;margin:0 auto}
+  .topnav{margin-bottom:28px;font-size:13px;display:flex;gap:18px;flex-wrap:wrap}
+  .topnav a{color:var(--sub);text-decoration:none;font-weight:700}
+  .topnav a:hover{color:var(--gold)}
+  .kicker{font-size:12px;letter-spacing:.16em;color:var(--gold);font-weight:700;margin-bottom:14px}
+  h1{font-size:26px;font-weight:900;line-height:1.45;margin-bottom:18px}
+  .lead{font-size:15px;color:var(--sub);line-height:1.95;margin-bottom:36px}
+  h2{font-size:20px;font-weight:900;line-height:1.45;margin:40px 0 16px;padding-top:8px}
+  h2 .em{color:var(--gold)}
+  p{font-size:15px;color:var(--text);margin-bottom:18px}
+  .muted{color:var(--sub)}
+  ul{margin:0 0 20px 0;padding-left:0;list-style:none}
+  ul li{position:relative;padding-left:20px;margin-bottom:12px;font-size:14.5px;line-height:1.85}
+  ul li::before{content:"";position:absolute;left:2px;top:11px;width:7px;height:7px;border-radius:50%;background:linear-gradient(120deg,var(--gold),var(--gold2))}
+  ul li b{color:var(--text)}
+  .tablewrap{overflow-x:auto;margin:0 0 22px;border:1px solid var(--line);border-radius:14px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:460px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--bg2);color:var(--gold);font-weight:700;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--text)}
+  .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold2);border-radius:12px;padding:16px 18px;margin:0 0 22px;font-size:14px;color:var(--sub);line-height:1.85}
+  .note b{color:var(--gold)}
+  .cta{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 22px;margin:16px 0 0;transition:transform .18s ease,border-color .18s ease}
+  .cta:hover{transform:translateY(-3px);border-color:#3a4252}
+  .cta .ctag{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--gold);margin-bottom:8px;display:inline-block}
+  .cta .ctitle{font-size:19px;font-weight:900;margin-bottom:8px;line-height:1.4}
+  .cta .cdesc{font-size:13.5px;color:var(--sub);line-height:1.7;margin:0}
+  .cta .go{margin-top:14px;font-size:13px;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px}
+  .ctas{margin:36px 0 12px}
+  .ctas .ctaslabel{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:8px}
+  .disclaimer{font-size:12.5px;color:#6b7385;line-height:1.8;border-top:1px solid var(--line);padding-top:20px;margin-top:36px}
+  footer{text-align:center;margin-top:36px;font-size:12px;color:#5a6273;line-height:1.9}
+  footer a{color:#5a6273;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./">← 記事一覧へ</a>
+    <a href="../">診断ラボ トップ</a>
+  </div>
+
+  <div class="kicker">制度・新NISA</div>
+  <h1>新NISAとは？<br>初心者向けにやさしく解説</h1>
+  <p class="lead">「新NISA、始めたほうがいいの？」とよく耳にするようになりました。とはいえ、つみたて枠・成長枠・非課税といった言葉が並ぶと、最初の一歩で立ち止まってしまう人も多いはずです。この記事では、2024年に始まった新NISAの基本を、なるべく専門用語を使わずに整理します。特定の商品や行動を勧めるものではなく、制度の全体像を知るための解説です。</p>
+
+  <h2>新NISAは「<span class="em">税金がかからない箱</span>」</h2>
+  <p>NISAは「少額投資非課税制度」の愛称で、2024年から内容が大きく新しくなりました。ふつう、投資で出た利益（値上がり益や配当）には約20%の税金がかかります。たとえば10万円の利益が出ても、手元に残るのは約8万円ほど。NISAという「箱」の中で投資をすると、この税金がかからなくなる――というのが、いちばんの特徴です。</p>
+  <p class="muted">あくまで「税金の優遇制度」であって、特別な金融商品ではありません。同じ投資信託や株でも、NISAの箱の中で買えば利益が非課税になる、という仕組みです。</p>
+
+  <h2>2つの投資枠</h2>
+  <p>新NISAには、性格の違う2つの枠があり、両方を同時に使えます。</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>枠の種類</th><th>年間の上限</th><th>主な対象</th></tr></thead>
+    <tbody>
+      <tr><td><b>つみたて投資枠</b></td><td>年120万円</td><td>長期・積立向きと国が定めた一定の投資信託など</td></tr>
+      <tr><td><b>成長投資枠</b></td><td>年240万円</td><td>上場株式や幅広い投資信託など</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>2つを合わせると、<b>年間で最大360万円</b>まで投資できます。さらに、一生のあいだに非課税で持てる金額の合計（生涯投資枠）は<b>1,800万円</b>と決められています（うち成長投資枠は最大1,200万円まで）。多くの人にとっては十分に大きい枠だと言えるでしょう。</p>
+  <div class="note"><b>ポイント：</b>新NISAは非課税で持てる期間に期限がありません（無期限）。また、保有していた商品を売れば、その分の枠（簿価ベース）は翌年以降にまた使えるようになります。</div>
+
+  <h2>非課税のメリットは、どれくらい？</h2>
+  <p>「20%の税金がかからない」がどれほど効くのか、ざっくりした例で見てみます。仮に投資で50万円の利益が出たとすると――</p>
+  <ul>
+    <li>通常の口座：約10万円が税金で引かれ、手元に残るのは約40万円</li>
+    <li>NISAの箱の中：税金が引かれず、50万円がそのまま手元に</li>
+  </ul>
+  <p>差額の約10万円が、非課税のメリットにあたります。利益が大きいほど、また長く運用するほど、この差は積み重なっていきます。もっとも、これは利益が出た場合の話で、投資である以上、利益が出ない可能性もある点は後で触れます。</p>
+
+  <h2>「長期・積立・分散」という考え方</h2>
+  <p>新NISA、とくにつみたて投資枠でよく語られるのが、「長期・積立・分散」という3つのキーワードです。投資の値動きをゼロにする魔法ではありませんが、リスクとの付き合い方の基本としてよく紹介されます。</p>
+  <ul>
+    <li><b>長期</b>：短期の上下に一喜一憂せず、時間をかけて育てる考え方。</li>
+    <li><b>積立</b>：毎月など一定額を買い続けることで、買うタイミングを分散させる。</li>
+    <li><b>分散</b>：1つの銘柄や国に集中させず、幅広く持つことで偏りを減らす。</li>
+  </ul>
+  <p class="muted">複利（利益が利益を生む効果）と組み合わせると、時間が大きな味方になりやすい、とよく言われます。複利の考え方については、関連記事でもう少しくわしく整理しています。</p>
+
+  <h2>知っておきたい注意点</h2>
+  <p>メリットばかりが語られがちですが、制度の性質上、押さえておきたい点もあります。</p>
+  <ul>
+    <li><b>元本は保証されません。</b>投資である以上、買ったときより値下がりして損をする可能性があります。預金とは性質が異なります。</li>
+    <li><b>損が出ても税制上のメリットは限定的。</b>NISA口座の損失は、ほかの口座の利益と相殺する「損益通算」ができません。</li>
+    <li><b>無理のない金額で。</b>当面使う予定のあるお金や、生活防衛のための資金まで投資に回すのは一般に勧められません。</li>
+    <li><b>「枠が大きい＝満額使うべき」ではありません。</b>枠はあくまで上限。自分のペースで使えば十分です。</li>
+  </ul>
+
+  <h2>まとめ</h2>
+  <p>新NISAは、「投資の利益にかかる税金を、一定の枠内で非課税にできる制度」です。年間最大360万円・生涯1,800万円という枠があり、つみたて投資枠と成長投資枠を使い分けられます。非課税は確かに大きな魅力ですが、値動きのあるものを扱う以上、リスクとセットで理解することが大切です。まずは仕組みを知り、自分にとって無理のない範囲かどうかを考えるところから始めてみてください。</p>
+
+  <div class="ctas">
+    <div class="ctaslabel">あわせて読む・使う</div>
+    <a class="cta" href="./fukuri.html">
+      <span class="ctag">関連記事</span>
+      <div class="ctitle">複利のしくみをやさしく解説</div>
+      <div class="cdesc">毎日のコーヒー代を投資に回すといくらになる？「時間が味方になる」とはどういうことかを、試算とともに整理します。</div>
+      <div class="go">読む →</div>
+    </a>
+    <a class="cta" href="../lifetime-cost/" style="margin-top:16px">
+      <span class="ctag">関連ツール</span>
+      <div class="ctitle">その習慣、生涯でいくら？</div>
+      <div class="cdesc">毎日の出費が65歳までにいくらになるかを計算。もし投資に回していたら、の金額も一緒に出ます。</div>
+      <div class="go">計算してみる →</div>
+    </a>
+  </div>
+
+  <p class="disclaimer">※本記事は新NISA制度の概要を解説する一般的な情報提供を目的としたもので、2024年開始時点の制度内容に基づく概説です。制度の詳細は改正される場合があり、また個別の金融商品や投資を推奨するものではありません。投資判断はご自身の責任で、必要に応じて金融機関や専門家にご相談のうえ行ってください。最新の正確な情報は金融庁など公的機関の発表をご確認ください。</p>
+
+  <footer>
+    診断ラボ｜お金と数字の解説記事<br>
+    <a href="./">記事一覧へ戻る</a> ・ <a href="../">トップへ</a>
+  </footer>
+</div>
+</body>
+</html>

@@ -462,6 +462,29 @@
     color: #b3b0a6;
     margin-top: 34px;
   }
+  .site-footer {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 8px 16px 40px;
+    text-align: center;
+  }
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 12px;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .site-nav a {
+    color: var(--sub);
+    text-decoration: none;
+  }
+  .site-nav a:hover { color: var(--ink); }
+  .site-nav span { color: #c9c6bb; }
+  @media (min-width: 700px) {
+    .site-footer { max-width: 520px; }
+  }
 
   @media (min-width: 700px) {
     .wrap { max-width: 520px; }
@@ -572,6 +595,15 @@
     <p class="footer-note">SNS発信タイプ診断｜結果はスクショ保存推奨</p>
   </section>
 </div>
+
+<footer class="site-footer">
+  <nav class="site-nav">
+    <a href="../">診断ラボ トップ</a><span>｜</span>
+    <a href="../articles/">記事一覧</a><span>｜</span>
+    <a href="../privacy/">プライバシーポリシー</a><span>｜</span>
+    <a href="../about/">運営者情報</a>
+  </nav>
+</footer>
 
 <!-- ============ MODAL ============ -->
 <div id="modal" onclick="if(event.target===this)closeModal()">

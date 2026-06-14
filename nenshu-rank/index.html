@@ -858,6 +858,21 @@
     padding: 0 18px 26px;
     line-height: 1.8;
   }
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 12px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .site-nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .site-nav a:hover { color: var(--text); }
+  .site-nav span { color: rgba(138,147,173,.4); }
 
   @media (min-width: 768px) {
     .wrap { max-width: 520px; padding-top: 48px; }
@@ -1086,6 +1101,12 @@
 </div>
 
 <footer>
+  <nav class="site-nav">
+    <a href="../">診断ラボ トップ</a><span>｜</span>
+    <a href="../articles/">記事一覧</a><span>｜</span>
+    <a href="../privacy/">プライバシーポリシー</a><span>｜</span>
+    <a href="../about/">運営者情報</a>
+  </nav>
   出典: 国税庁「民間給与実態統計調査」・厚生労働省「賃金構造基本統計調査」を基にした概算<br>
   本診断は統計分布の近似に基づく推定値であり、実際の順位を保証するものではありません。
 </footer>

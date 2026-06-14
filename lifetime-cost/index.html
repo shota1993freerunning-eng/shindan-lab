@@ -489,6 +489,21 @@ footer {
   color: #5a5f70;
   line-height: 1.7;
 }
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 12px;
+  margin-bottom: 14px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.site-nav a {
+  color: var(--txt-dim);
+  text-decoration: none;
+}
+.site-nav a:hover { color: var(--txt); }
+.site-nav span { color: #3a3f4d; }
 
 @media (min-width: 480px) {
   .habit-grid { grid-template-columns: 1fr 1fr 1fr; }
@@ -589,6 +604,12 @@ footer {
   </section>
 
   <footer>
+    <nav class="site-nav">
+      <a href="../">診断ラボ トップ</a><span>｜</span>
+      <a href="../articles/">記事一覧</a><span>｜</span>
+      <a href="../privacy/">プライバシーポリシー</a><span>｜</span>
+      <a href="../about/">運営者情報</a>
+    </nav>
     年利5%は米国株インデックスの長期平均を参考にした概算です。<br>将来の運用成果を保証するものではありません。
   </footer>
 </div>
