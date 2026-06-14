@@ -750,6 +750,51 @@
   .save-hint.show { display: block; }
 
   .actions { margin-top: 16px; display: grid; gap: 10px; }
+
+  /* ---------- 数字を隠すトグル ---------- */
+  .hide-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 2px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,209,102,.28);
+    border-radius: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .hide-toggle-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent-1);
+    letter-spacing: .02em;
+  }
+  .hide-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .hide-toggle-track {
+    position: relative;
+    width: 46px;
+    height: 26px;
+    flex: none;
+    background: rgba(255,255,255,.14);
+    border-radius: 999px;
+    transition: background .2s ease;
+  }
+  .hide-toggle-thumb {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 20px; height: 20px;
+    background: #eef1f8;
+    border-radius: 50%;
+    transition: transform .2s ease;
+  }
+  .hide-toggle input:checked + .hide-toggle-track {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  }
+  .hide-toggle input:checked + .hide-toggle-track .hide-toggle-thumb {
+    transform: translateX(20px);
+  }
   .btn-share {
     background: linear-gradient(135deg, #1d9bf0, #0b6fd1);
     color: #fff;
@@ -992,6 +1037,11 @@
     </div>
 
     <div class="actions">
+      <label class="hide-toggle" for="hide-numbers">
+        <span class="hide-toggle-text">年収の数字を隠してシェア</span>
+        <input type="checkbox" id="hide-numbers" checked>
+        <span class="hide-toggle-track"><span class="hide-toggle-thumb"></span></span>
+      </label>
       <a id="btn-share" class="btn btn-share" href="#" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg>
         結果をXでシェア
@@ -1372,7 +1422,7 @@
     return 'あなた自身がマスク級。もう貯める必要はなさそう。';
   }
 
-  // マスク換算カードを更新（income: 万円）
+  // マスク換算カードを更新（income: 万円）。シェア用にマスク換算の年数文字列を返す
   function updateMuskCard(income) {
     var card = $('musk-card');
     var yearsEl = $('musk-years');
@@ -1381,11 +1431,13 @@
     if (income <= 0) {
       yearsEl.textContent = '∞（永遠に届かない）';
       quipEl.textContent = 'まず1円稼ぐところから。話はそれからだ。';
-      return;
+      return '∞';
     }
     var years = MUSK_JPY / (income * 10000); // 年収を円に換算して割る
-    yearsEl.textContent = formatMuskYears(years);
+    var yearsStr = formatMuskYears(years);
+    yearsEl.textContent = yearsStr;
     quipEl.textContent = muskQuip(years);
+    return yearsStr;
   }
 
   /* ============================================================
@@ -1531,6 +1583,7 @@
   var gender = 'all';
   var isOverCap = false; // 1億円以上フラグ
   var lastResult = null; // 画像保存用に直近の診断結果を保持
+  var hideNumbers = true; // 年収の生数字を隠してシェアするか（デフォルトON）
 
   // 都道府県セレクトを生成
   PREFS.forEach(function (p) {
@@ -1686,7 +1739,7 @@
     $('tb-sub').textContent = title.sub;
 
     // イーロン・マスク換算
-    updateMuskCard(income);
+    var muskYearsStr = updateMuskCard(income);
 
     // 大谷翔平 年収換算
     var ohtaniTimeStr = updateOhtaniCard(income);
@@ -1733,21 +1786,19 @@
     var adPct = agePct <= 10 ? 10 : agePct <= 20 ? 20 : 30;
     $('ad-title').textContent = '同年代の上位' + adPct + '%は、こう動いてる';
 
-    // シェアリンク
-    var shareText;
+    // シェア文（数字を出す版）を組み立てて保持
     var natPart = gender === 'all'
       ? '全国上位' + formatPct(natPct) + '%'
       : g.label + 'の中で上位' + formatPct(natPct) + '%';
+    var shareTextOpen;
     if (hasPref) {
       var inScopeShare = prefName + '内';
-      shareText = '年収診断やったら『' + title.name + '』だった ' + natPart + '、' +
+      shareTextOpen = '年収診断やったら『' + title.name + '』だった ' + natPart + '、' +
         inScopeShare + 'だと上位' + formatPct(prefPct) + '% #年収全国ランク診断';
     } else {
-      shareText = '年収診断やったら『' + title.name + '』だった ' + natPart +
+      shareTextOpen = '年収診断やったら『' + title.name + '』だった ' + natPart +
         ' #年収全国ランク診断';
     }
-    $('btn-share').href = 'https://twitter.com/intent/tweet?text=' +
-      encodeURIComponent(shareText) + '&url=' + encodeURIComponent(location.href);
 
     // 画面切替
     screenInput.classList.remove('active');
@@ -1765,8 +1816,15 @@
       agePct: agePct,
       ageK: gender === 'all' ? '同年代での位置' : '同年代の' + g.label + 'の中で',
       net: Math.round(net),
-      ohtaniTime: ohtaniTimeStr
+      ohtaniTime: ohtaniTimeStr,
+      muskYears: muskYearsStr,
+      muskQuip: $('musk-quip').textContent,
+      ohtaniQuip: $('ohtani-quip').textContent,
+      shareTextOpen: shareTextOpen
     };
+
+    // シェアリンク（トグル状態に応じて反映）
+    updateShareLink();
 
     // アニメーション
     countUp($('r-rank'), natPct, 1700);
@@ -1800,15 +1858,8 @@
      結果カードの画像保存（Canvasに直接描画 → PNG）
      ============================================================ */
 
-  function drawResultCard(r) {
-    var W = 1080, H = 1350;
-    var cv = document.createElement('canvas');
-    cv.width = W; cv.height = H;
-    var ctx = cv.getContext('2d');
-    var FONT = "'Noto Sans JP', sans-serif";
-    var cx = W / 2;
-
-    // 背景グラデ（本体のダーク基調）
+  // 共通の背景・枠を描く。roundRect ヘルパを返す
+  function drawCardBase(ctx, W, H, cx) {
     var bg = ctx.createLinearGradient(0, 0, 0, H);
     bg.addColorStop(0, '#11162a');
     bg.addColorStop(0.4, '#0d1120');
@@ -1816,14 +1867,12 @@
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
 
-    // 上部のゴールドの光
     var glow = ctx.createRadialGradient(cx, -60, 0, cx, -60, 620);
     glow.addColorStop(0, 'rgba(255,209,102,0.16)');
     glow.addColorStop(1, 'rgba(255,209,102,0)');
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, W, 700);
 
-    // カード枠（内側に角丸の縁）
     function roundRect(x, y, w, h, rad) {
       ctx.beginPath();
       ctx.moveTo(x + rad, y);
@@ -1837,6 +1886,112 @@
     ctx.lineWidth = 2;
     roundRect(56, 56, W - 112, H - 112, 36);
     ctx.stroke();
+    return roundRect;
+  }
+
+  // 数字を隠す版: 称号＋イーロン換算＋大谷換算を主役にした画像
+  function drawHiddenCard(r) {
+    var W = 1080, H = 1350;
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var ctx = cv.getContext('2d');
+    var FONT = "'Noto Sans JP', sans-serif";
+    var cx = W / 2;
+    var roundRect = drawCardBase(ctx, W, H, cx);
+
+    ctx.textAlign = 'center';
+
+    // タイトル（上部）
+    ctx.fillStyle = '#ffd166';
+    ctx.font = '700 30px ' + FONT;
+    ctx.fillText('# 年 収 全 国 ラ ン ク 診 断', cx, 170);
+
+    // 称号バッジ（主役・大きく）
+    var by = 230, bw = 720, bh = 320, bx = cx - bw / 2;
+    var bgrad = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
+    bgrad.addColorStop(0, 'rgba(255,209,102,0.18)');
+    bgrad.addColorStop(1, 'rgba(255,142,83,0.09)');
+    ctx.fillStyle = bgrad;
+    roundRect(bx, by, bw, bh, 32);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,209,102,0.45)';
+    ctx.lineWidth = 2;
+    roundRect(bx, by, bw, bh, 32);
+    ctx.stroke();
+
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '700 28px ' + FONT;
+    ctx.fillText('あ な た の 称 号', cx, by + 70);
+    var tgrad = ctx.createLinearGradient(cx - 220, 0, cx + 220, 0);
+    tgrad.addColorStop(0, '#ffd166');
+    tgrad.addColorStop(1, '#ff8e53');
+    ctx.fillStyle = tgrad;
+    ctx.font = '900 132px ' + FONT;
+    ctx.fillText(r.title, cx, by + 210);
+    ctx.fillStyle = '#eef1f8';
+    ctx.font = '500 30px ' + FONT;
+    ctx.fillText(r.titleSub, cx, by + 270);
+
+    // イーロン換算（大きく・ゴールド）
+    var ey = 660;
+    ctx.fillStyle = '#ffd98a';
+    ctx.font = '700 30px ' + FONT;
+    ctx.fillText('イーロン・マスクに追いつくまで', cx, ey);
+    var egrad = ctx.createLinearGradient(cx - 240, 0, cx + 240, 0);
+    egrad.addColorStop(0, '#ffd166');
+    egrad.addColorStop(0.55, '#ff8e53');
+    egrad.addColorStop(1, '#ff5e7d');
+    ctx.fillStyle = egrad;
+    ctx.font = '900 120px ' + FONT;
+    ctx.fillText(r.muskYears && r.muskYears !== '∞' ? r.muskYears : '永遠に届かない', cx, ey + 118);
+    if (r.muskQuip) {
+      ctx.fillStyle = '#8a93ad';
+      ctx.font = '500 28px ' + FONT;
+      ctx.fillText(r.muskQuip, cx, ey + 172);
+    }
+
+    // 大谷換算（中サイズ）
+    var oy = 940;
+    var obx = cx - 360, obw = 720, obh = 200;
+    ctx.fillStyle = 'rgba(255,255,255,0.04)';
+    roundRect(obx, oy, obw, obh, 24);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.lineWidth = 2;
+    roundRect(obx, oy, obw, obh, 24);
+    ctx.stroke();
+    ctx.fillStyle = '#ffd98a';
+    ctx.font = '700 28px ' + FONT;
+    ctx.fillText('大谷翔平 年収換算', cx, oy + 56);
+    ctx.fillStyle = '#eef1f8';
+    ctx.font = '900 56px ' + FONT;
+    ctx.fillText('この年収を ' + (r.ohtaniTime || '一瞬') + ' で稼ぐ', cx, oy + 120);
+    if (r.ohtaniQuip) {
+      ctx.fillStyle = '#8a93ad';
+      ctx.font = '500 26px ' + FONT;
+      ctx.fillText(r.ohtaniQuip, cx, oy + 168);
+    }
+
+    // フッター
+    ctx.fillStyle = '#ffd166';
+    ctx.font = '700 32px ' + FONT;
+    ctx.fillText('年収全国ランク診断', cx, 1230);
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '500 24px ' + FONT;
+    ctx.fillText('あなたの順位も診断してみよう', cx, 1272);
+
+    return cv;
+  }
+
+  function drawResultCard(r) {
+    if (hideNumbers) return drawHiddenCard(r);
+    var W = 1080, H = 1350;
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var ctx = cv.getContext('2d');
+    var FONT = "'Noto Sans JP', sans-serif";
+    var cx = W / 2;
+    var roundRect = drawCardBase(ctx, W, H, cx);
 
     ctx.textAlign = 'center';
 
@@ -1993,6 +2148,31 @@
       hint.classList.add('show');
     }
   }
+
+  // 称号＋換算ベースの「数字を隠した」シェア文（生年収・上位%は含めない）
+  function buildHiddenShareText(r) {
+    var parts = ['年収診断やったら称号『' + r.title + '』'];
+    if (r.muskYears && r.muskYears !== '∞') {
+      parts.push('イーロン・マスクに追いつくのに' + r.muskYears);
+    }
+    if (r.ohtaniTime) {
+      parts.push('大谷翔平はこの年収を' + r.ohtaniTime + 'で稼ぐらしい');
+    }
+    return parts.join('、') + ' #年収全国ランク診断';
+  }
+
+  // トグル状態に応じてXシェアリンクを張り替える
+  function updateShareLink() {
+    if (!lastResult) return;
+    var text = hideNumbers ? buildHiddenShareText(lastResult) : lastResult.shareTextOpen;
+    $('btn-share').href = 'https://twitter.com/intent/tweet?text=' +
+      encodeURIComponent(text) + '&url=' + encodeURIComponent(location.href);
+  }
+
+  $('hide-numbers').addEventListener('change', function () {
+    hideNumbers = this.checked;
+    updateShareLink();
+  });
 
   $('btn-save').addEventListener('click', saveResultImage);
 

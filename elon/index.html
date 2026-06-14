@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>イーロン・マスクに追いつくには？ | 年収を入れると出る絶望の数字</title>
+<meta name="description" content="年収を入れるだけ。イーロン・マスクに追いつくまで何万年かかるか、一発で分かる。笑うしかない。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-0: #0b0e17;
+    --bg-1: #11162a;
+    --card: #161c33;
+    --card-2: #1b2240;
+    --line: rgba(255,255,255,.08);
+    --text: #eef1f8;
+    --muted: #8a93ad;
+    --accent-1: #ffd166;
+    --accent-2: #ff8e53;
+    --accent-3: #6e8bff;
+    --grad-main: linear-gradient(135deg, #ffd166 0%, #ff8e53 55%, #ff5e7d 100%);
+    --grad-sub: linear-gradient(135deg, #6e8bff, #9b6eff);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(110,139,255,.18), transparent 60%),
+      radial-gradient(700px 420px at -10% 25%, rgba(255,142,83,.12), transparent 60%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-0) 40%);
+    color: var(--text);
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+    padding: 28px 18px 40px;
+    flex: 1;
+  }
+
+  /* ---------- header ---------- */
+  header { text-align: center; margin-bottom: 26px; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: var(--accent-1);
+    border: 1px solid rgba(255,209,102,.35);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 1.32;
+    letter-spacing: .01em;
+  }
+  h1 .grad {
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .lead { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+
+  /* ---------- screens ---------- */
+  .screen { display: none; }
+  .screen.active { display: block; animation: screenIn .5s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes screenIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- card ---------- */
+  .card {
+    background: linear-gradient(160deg, var(--card-2), var(--card));
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 24px 20px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.45);
+  }
+
+  /* ---------- input screen ---------- */
+  .field-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .income-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    margin: 6px 0 16px;
+  }
+  .income-input {
+    width: 150px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255,209,102,.4);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 44px;
+    font-weight: 900;
+    text-align: right;
+    outline: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    caret-color: var(--accent-1);
+  }
+  .income-input::-webkit-outer-spin-button,
+  .income-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .income-input:focus { border-bottom-color: var(--accent-1); }
+  .unit { font-size: 18px; font-weight: 700; color: var(--muted); }
+  .over-cap-tag {
+    display: none;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-1);
+    margin: -8px 0 14px;
+  }
+  .over-cap-tag.show { display: block; }
+
+  input[type="range"] {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent-2) var(--fill, 15%), rgba(255,255,255,.12) var(--fill, 15%));
+    outline: none;
+    margin: 4px 0 2px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--grad-main);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 12px rgba(255,142,83,.55);
+    cursor: pointer;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--grad-main);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 12px rgba(255,142,83,.55);
+    cursor: pointer;
+  }
+  .range-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: .06em;
+    padding: 17px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary {
+    background: var(--grad-main);
+    color: #1a1206;
+    box-shadow: 0 10px 28px rgba(255,142,83,.35);
+  }
+  .btn-primary:hover { filter: brightness(1.06); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 13px;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
+
+  /* ---------- result screen ---------- */
+  .result-card {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 30px 20px 26px;
+  }
+  .result-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(420px 220px at 50% -8%, rgba(255,209,102,.14), transparent 70%),
+      radial-gradient(300px 200px at 100% 110%, rgba(110,139,255,.12), transparent 70%);
+    pointer-events: none;
+  }
+  .result-tag {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .result-income {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .result-income b { color: var(--text); font-weight: 700; }
+
+  .verdict-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent-1);
+    letter-spacing: .12em;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .verdict-main {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    line-height: 1;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .verdict-prefix { font-size: 26px; font-weight: 900; color: var(--text); }
+  .verdict-number {
+    font-size: 76px;
+    font-weight: 900;
+    letter-spacing: -.02em;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+  .verdict-unit { font-size: 30px; font-weight: 900; color: var(--text); }
+  .verdict-quip {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 14px auto 4px;
+    opacity: 0;
+  }
+  .fade-in { animation: fadeUp .6s ease both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- 大谷翔平 換算 ---------- */
+  .ohtani-card {
+    text-align: left;
+    margin-top: 24px;
+    padding: 16px 16px 14px;
+    border-radius: 16px;
+    background: linear-gradient(150deg, rgba(255,209,102,.10), rgba(255,142,83,.06));
+    border: 1px dashed rgba(255,209,102,.4);
+    opacity: 0;
+  }
+  .ohtani-card .ohtani-cap {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffd98a;
+    letter-spacing: .04em;
+    margin-bottom: 8px;
+  }
+  .ohtani-card .ohtani-lead {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
+  .ohtani-card .ohtani-big {
+    font-size: 30px;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .ohtani-card .ohtani-quip {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+
+  /* ---------- 前澤友作 小ネタ ---------- */
+  .maezawa-card {
+    text-align: left;
+    margin-top: 14px;
+    padding: 16px 16px 14px;
+    border-radius: 16px;
+    background: linear-gradient(150deg, rgba(110,139,255,.10), rgba(155,110,255,.06));
+    border: 1px dashed rgba(110,139,255,.4);
+    opacity: 0;
+  }
+  .maezawa-card .mz-cap {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9fb2ff;
+    letter-spacing: .04em;
+    margin-bottom: 8px;
+  }
+  .maezawa-card .mz-lead {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
+  .maezawa-card .mz-big {
+    font-size: 30px;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    background: var(--grad-sub);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .maezawa-card .mz-quip {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+
+  .result-footnote {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 18px;
+    line-height: 1.7;
+    text-align: left;
+  }
+
+  /* ---------- 画像保存 ---------- */
+  .btn-save {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,209,102,.4);
+    color: var(--accent-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-save:hover { border-color: var(--accent-1); }
+  .btn-save svg { width: 17px; height: 17px; fill: currentColor; }
+  .save-hint {
+    display: none;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+    text-align: center;
+    margin-top: -2px;
+  }
+  .save-hint.show { display: block; }
+
+  .actions { margin-top: 16px; display: grid; gap: 10px; }
+  .btn-share {
+    background: linear-gradient(135deg, #1d9bf0, #0b6fd1);
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(29,155,240,.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .btn-share svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ---------- affiliate ---------- */
+  .ad-card {
+    margin-top: 22px;
+    background: linear-gradient(150deg, rgba(110,139,255,.12), rgba(155,110,255,.08));
+    border: 1px solid rgba(110,139,255,.28);
+    border-radius: 16px;
+    padding: 18px;
+    text-decoration: none;
+    display: block;
+    color: var(--text);
+    transition: border-color .2s ease, transform .15s ease;
+  }
+  .ad-card:hover { border-color: rgba(110,139,255,.55); }
+  .ad-card:active { transform: scale(.985); }
+  .ad-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .12em;
+    margin-bottom: 8px;
+  }
+  .ad-title { font-size: 15px; font-weight: 900; line-height: 1.5; margin-bottom: 6px; }
+  .ad-desc { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .ad-cta {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #9fb2ff;
+  }
+  .ad-cta::after { content: " →"; }
+
+  footer {
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    color: rgba(138,147,173,.7);
+    padding: 0 18px 26px;
+    line-height: 1.8;
+  }
+
+  @media (min-width: 768px) {
+    .wrap { max-width: 520px; padding-top: 48px; }
+    h1 { font-size: 29px; }
+    .verdict-number { font-size: 92px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="badge">CATCH ELON MUSK</div>
+    <h1>イーロン・マスクに<br><span class="grad">追いつくには？</span></h1>
+    <p class="lead">年収を入れるだけ。追いつくまで何年かかるか、笑える数字が出る。</p>
+  </header>
+
+  <!-- ===== 入力画面 ===== -->
+  <section id="screen-input" class="screen active">
+    <div class="card">
+      <div class="field-label"><span>あなたの年収</span><span>額面（税込）</span></div>
+      <div class="income-display">
+        <input id="income-num" class="income-input" type="number" inputmode="numeric" min="0" step="10" value="450">
+        <span class="unit">万円</span>
+      </div>
+      <div class="over-cap-tag" id="over-cap-tag">1億円以上</div>
+      <input id="income-range" type="range" min="0" max="1000" step="1" value="450">
+      <div class="range-scale"><span>0</span><span>1000万</span><span>1億+</span></div>
+
+      <button id="btn-check" class="btn btn-primary">いつ追いつく？</button>
+    </div>
+  </section>
+
+  <!-- ===== 結果画面 ===== -->
+  <section id="screen-result" class="screen">
+    <div class="card result-card">
+      <div class="result-tag">#イーロンに追いつくには</div>
+      <div class="result-income">あなたの年収 <b id="r-income">450万円</b></div>
+
+      <div class="verdict-label">イーロン・マスクに追いつくには</div>
+      <div class="verdict-main">
+        <span class="verdict-prefix">約</span>
+        <span class="verdict-number" id="r-years">--</span>
+        <span class="verdict-unit" id="r-unit">万年</span>
+      </div>
+      <p class="verdict-quip" id="r-quip"></p>
+
+      <div class="ohtani-card" id="ohtani-card">
+        <div class="ohtani-cap">ちなみに大谷翔平は</div>
+        <div class="ohtani-lead">あなたの1年分の年収を、これだけの時間で稼ぐ</div>
+        <div class="ohtani-big" id="ohtani-time">--</div>
+        <div class="ohtani-quip" id="ohtani-quip"></div>
+      </div>
+
+      <div class="maezawa-card" id="maezawa-card">
+        <div class="mz-cap">前澤友作 換算</div>
+        <div class="mz-lead">月に行った前澤さんに追いつくだけでも…</div>
+        <div class="mz-big" id="mz-years">--</div>
+        <div class="mz-quip" id="mz-quip"></div>
+      </div>
+
+      <div class="result-footnote">
+        ※ マスクの資産は約1.1兆ドル・1ドル150円換算（2026年6月時点の概算）。大谷翔平の年収は約202億円（Forbes報道ベースの推定総収入）。前澤友作の資産は約1,500億円の概算。いずれも公表値・報道を基にしたざっくり試算で、年収を1円も使わず貯め続けた場合の単純計算。
+      </div>
+    </div>
+
+    <div class="actions">
+      <a id="btn-share" class="btn btn-share" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg>
+        結果をXでシェア
+      </a>
+      <button id="btn-save" class="btn btn-save">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>
+        画像を保存
+      </button>
+      <p class="save-hint" id="save-hint">画像が表示されない場合は、表示された画像をロングタップして保存してください。</p>
+      <button id="btn-retry" class="btn btn-ghost">年収を変えてもう一度</button>
+    </div>
+
+    <!-- AFFILIATE: 証券口座アフィリンクに差し替え -->
+    <a class="ad-card" href="#" id="ad-card">
+      <div class="ad-label">PR</div>
+      <div class="ad-title">桁が違いすぎて笑うしかない。<br>でも、現実の一歩はここから。</div>
+      <div class="ad-desc">マスクには一生かかっても追いつけない。それはそう。ただ、お金がお金を生む側に回るかどうかは、今日から変えられる。新NISAなら少額から、口座開設は無料。</div>
+      <span class="ad-cta">無料で証券口座をひらく</span>
+    </a>
+  </section>
+</div>
+
+<footer>
+  数字はすべて概算です。笑うためのツールであり、資産額・年収を正確に保証するものではありません。
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     定数（nenshu-rank と同じ値）
+     ============================================================ */
+
+  // イーロン・マスクの資産（2026年6月時点の概算）: 約1.1兆ドル × 150円 = 165兆円
+  var MUSK_JPY = 165_0000_0000_0000; // 165兆円
+
+  // 大谷翔平の年収（2026年の推定総収入・Forbes報道ベース）: 約202億円
+  var OHTANI_JPY = 202_0000_0000; // 202億円
+
+  // 前澤友作の資産（概算）: 約1,500億円
+  var MAEZAWA_JPY = 1500_0000_0000; // 1,500億円
+
+  /* ============================================================
+     イーロン・マスク換算（主役）
+     ============================================================ */
+
+  // 年数を桁に応じて読みやすい単位へ。{ num, unit } を返す（カウントアップ用に数値を分離）
+  function muskYearsParts(years) {
+    if (years >= 1e8) {
+      return { num: Math.round(years / 1e8 * 10) / 10, unit: '億年' };
+    }
+    if (years >= 1e4) {
+      return { num: Math.round(years / 1e4), unit: '万年' };
+    }
+    if (years >= 1) {
+      return { num: Math.round(years), unit: '年' };
+    }
+    return { num: 0, unit: '年未満' }; // ほぼ到達済み
+  }
+
+  // 桁別の人類史スケールの一言（短い断定形・笑える比喩）
+  function muskQuip(years) {
+    if (years >= 1e8) return '宇宙が生まれて約138億年。それでもまだ届かない桁。';
+    if (years >= 1e7) return '人類が生まれる前から貯めても、足りない。';
+    if (years >= 1e6) return '恐竜の時代から貯金しても、無理。';
+    if (years >= 1e5) return 'マンモスを狩ってた頃から貯めても遠い。';
+    if (years >= 1e4) return '文明が始まる前から貯め続けるレベル。';
+    if (years >= 1000) return '奈良時代から休まず貯めても、まだ途中。';
+    if (years >= 100) return '生まれ変わりを何回かはさんで、やっと。';
+    if (years >= 1) return 'あと数十年、無心で貯めれば理論上は届く。';
+    return 'あなた自身がマスク級。もう貯めなくていい。';
+  }
+
+  /* ============================================================
+     大谷翔平 年収換算（サブ）
+     ============================================================ */
+
+  // 大谷があなたの1年分の年収を稼ぐのにかかる実時間 → 桁で 日/時間/分/秒 出し分け
+  function formatOhtaniTime(incomeYen) {
+    var perSec = OHTANI_JPY / (365 * 24 * 60 * 60); // 1秒あたりの稼ぎ（円）
+    var sec = incomeYen / perSec;
+    if (sec >= 86400) return '約' + (Math.round(sec / 86400 * 10) / 10).toLocaleString() + '日';
+    if (sec >= 3600) return '約' + (Math.round(sec / 3600 * 10) / 10).toLocaleString() + '時間';
+    if (sec >= 60) return '約' + (Math.round(sec / 60 * 10) / 10).toLocaleString() + '分';
+    return '約' + Math.max(1, Math.round(sec)) + '秒';
+  }
+
+  function ohtaniQuip(income, ratio) {
+    if (income <= 0) return '大谷が一瞬で稼ぐ額にも、まだ届いていない。';
+    if (ratio >= 1) return '大谷を超えてる。ツールやってる場合じゃない、球場へ。';
+    if (ratio >= 0.5) return '大谷とタメを張る人が、なぜこのツールを…？';
+    if (ratio >= 0.05) return 'その差、努力でどうにかなる範囲を超えてる。';
+    if (ratio >= 0.005) return '同じ1年で、これだけの差がついている。';
+    return 'コーヒー1杯ぶんの時間で、もう並ばれてる。';
+  }
+
+  /* ============================================================
+     前澤友作 換算（小ネタ）
+     ============================================================ */
+
+  function maezawaYearsParts(years) {
+    if (years >= 1e4) return { num: Math.round(years / 1e4), unit: '万年' };
+    if (years >= 1) return { num: Math.round(years), unit: '年' };
+    return { num: 0, unit: '年未満' };
+  }
+  function maezawaQuip(years) {
+    if (years >= 1e4) return 'マスクより100倍マシ、でも結局ムリ。';
+    if (years >= 1000) return 'お年玉を配る側には、何十世代たっても回れない。';
+    if (years >= 100) return '月旅行どころか、空港に着くのも何代先。';
+    if (years >= 1) return '貯め続ければ、いつか会えるかもしれない距離。';
+    return '前澤さんはもう射程圏内。次はマスクだ。';
+  }
+
+  /* ============================================================
+     非線形スライダー（nenshu-rank と同じ）: idx 0〜1000 ↔ 0〜10000万
+     ============================================================ */
+
+  var SLIDER_MAX_IDX = 1000;
+  var INCOME_CAP = 10000;   // 1億（万円）
+  var SPLIT_IDX = 750;
+  var SPLIT_INCOME = 1000;
+
+  function idxToIncome(idx) {
+    idx = Math.max(0, Math.min(SLIDER_MAX_IDX, idx));
+    var income;
+    if (idx <= SPLIT_IDX) {
+      income = idx / SPLIT_IDX * SPLIT_INCOME;
+    } else {
+      var t = (idx - SPLIT_IDX) / (SLIDER_MAX_IDX - SPLIT_IDX);
+      income = SPLIT_INCOME * Math.pow(INCOME_CAP / SPLIT_INCOME, t);
+    }
+    return Math.round(income / 10) * 10;
+  }
+  function incomeToIdx(income) {
+    income = Math.max(0, Math.min(INCOME_CAP, income));
+    var idx;
+    if (income <= SPLIT_INCOME) {
+      idx = income / SPLIT_INCOME * SPLIT_IDX;
+    } else {
+      var t = Math.log(income / SPLIT_INCOME) / Math.log(INCOME_CAP / SPLIT_INCOME);
+      idx = SPLIT_IDX + t * (SLIDER_MAX_IDX - SPLIT_IDX);
+    }
+    return Math.round(Math.max(0, Math.min(SLIDER_MAX_IDX, idx)));
+  }
+
+  /* ============================================================
+     UI
+     ============================================================ */
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  var rangeEl = $('income-range');
+  var numEl = $('income-num');
+  var overTag = $('over-cap-tag');
+  var screenInput = $('screen-input');
+  var screenResult = $('screen-result');
+  var rafId = null;
+  var isOverCap = false;
+  var lastResult = null;
+
+  function updateRangeFill() {
+    var min = +rangeEl.min, max = +rangeEl.max, v = +rangeEl.value;
+    rangeEl.style.setProperty('--fill', ((v - min) / (max - min) * 100) + '%');
+  }
+
+  function refreshOverTag() {
+    overTag.classList.toggle('show', isOverCap);
+  }
+
+  // スライダー操作 → 金額に変換して数値欄へ反映
+  rangeEl.addEventListener('input', function () {
+    var income = idxToIncome(parseInt(rangeEl.value, 10) || 0);
+    isOverCap = income >= INCOME_CAP;
+    numEl.value = isOverCap ? INCOME_CAP : income;
+    refreshOverTag();
+    updateRangeFill();
+  });
+
+  // 数値入力 → スライダーインデックスへ反映
+  numEl.addEventListener('input', function () {
+    var v = parseInt(numEl.value, 10);
+    if (!isNaN(v)) {
+      v = Math.max(0, v);
+      isOverCap = v >= INCOME_CAP;
+      rangeEl.value = incomeToIdx(v);
+      refreshOverTag();
+      updateRangeFill();
+    }
+  });
+
+  numEl.addEventListener('blur', function () {
+    var v = parseInt(numEl.value, 10);
+    if (isNaN(v)) v = 450;
+    v = Math.max(0, Math.min(99999, v));
+    isOverCap = v >= INCOME_CAP;
+    numEl.value = v >= INCOME_CAP ? INCOME_CAP : v;
+    rangeEl.value = incomeToIdx(v);
+    refreshOverTag();
+    updateRangeFill();
+  });
+
+  // 初期化
+  rangeEl.value = incomeToIdx(parseInt(numEl.value, 10) || 450);
+  refreshOverTag();
+  updateRangeFill();
+
+  /* ---------- 表示ヘルパー ---------- */
+
+  function incomeLabel(income, over) {
+    if (over || income >= INCOME_CAP) return '1億円以上';
+    return income.toLocaleString() + '万円';
+  }
+
+  // メインの「約◯◯万年」をカウントアップ
+  function countUpInt(el, target, duration) {
+    if (rafId) cancelAnimationFrame(rafId);
+    if (target <= 0) { el.textContent = '0'; return; }
+    var t0 = null;
+    function frame(ts) {
+      if (!t0) t0 = ts;
+      var t = Math.min(1, (ts - t0) / duration);
+      var eased = 1 - Math.pow(1 - t, 4);
+      var val = target * eased;
+      // 小数1桁を残す桁（億年など）も自然に
+      el.textContent = (target >= 100)
+        ? Math.round(val).toLocaleString()
+        : (Math.round(val * 10) / 10).toLocaleString();
+      if (t < 1) rafId = requestAnimationFrame(frame);
+      else el.textContent = (target >= 100)
+        ? Math.round(target).toLocaleString()
+        : (Math.round(target * 10) / 10).toLocaleString();
+    }
+    rafId = requestAnimationFrame(frame);
+  }
+
+  function staggerIn(ids, baseDelay, step) {
+    ids.forEach(function (id, i) {
+      var el = $(id);
+      el.classList.remove('fade-in');
+      el.style.opacity = '0';
+      setTimeout(function () {
+        el.style.animationDelay = '0ms';
+        el.classList.add('fade-in');
+      }, baseDelay + step * i);
+    });
+  }
+
+  /* ============================================================
+     診断実行
+     ============================================================ */
+
+  function runDiagnosis() {
+    var raw = parseInt(numEl.value, 10);
+    if (isNaN(raw)) raw = 450;
+    var income = Math.max(0, Math.min(INCOME_CAP, raw));
+    var over = isOverCap || raw >= INCOME_CAP;
+    var incomeYen = income * 10000;
+
+    $('r-income').textContent = incomeLabel(income, over);
+
+    /* ---- 主役: イーロン・マスク ---- */
+    var yearsEl = $('r-years');
+    var unitEl = $('r-unit');
+    var quipEl = $('r-quip');
+    var muskYears = null;       // シェア用の「約◯◯万年」文字列
+    var muskNumForCount = 0;
+    if (income <= 0) {
+      yearsEl.textContent = '∞';
+      unitEl.textContent = '';
+      quipEl.textContent = '年収0では、永遠に届かない。まず1円から。';
+      muskYears = '永遠（∞）';
+    } else {
+      var years = MUSK_JPY / incomeYen;
+      var p = muskYearsParts(years);
+      unitEl.textContent = p.unit;
+      muskNumForCount = p.num;
+      muskYears = '約' + p.num.toLocaleString() + p.unit;
+      quipEl.textContent = muskQuip(years);
+    }
+
+    /* ---- サブ: 大谷翔平 ---- */
+    var ohtaniTimeStr;
+    if (income <= 0) {
+      ohtaniTimeStr = '一瞬';
+      $('ohtani-time').textContent = '一瞬';
+      $('ohtani-quip').textContent = ohtaniQuip(0, 0);
+    } else {
+      ohtaniTimeStr = formatOhtaniTime(incomeYen);
+      var ratio = incomeYen / OHTANI_JPY;
+      $('ohtani-time').textContent = ohtaniTimeStr;
+      $('ohtani-quip').textContent = ohtaniQuip(income, ratio);
+    }
+
+    /* ---- 小ネタ: 前澤友作 ---- */
+    if (income <= 0) {
+      $('mz-years').textContent = '∞';
+      $('mz-quip').textContent = '前澤さんにも、まず1円稼いでから。';
+    } else {
+      var mzYears = MAEZAWA_JPY / incomeYen;
+      var mp = maezawaYearsParts(mzYears);
+      $('mz-years').textContent = '約' + mp.num.toLocaleString() + mp.unit;
+      $('mz-quip').textContent = maezawaQuip(mzYears);
+    }
+
+    /* ---- シェアリンク（生年収は入れない） ---- */
+    var shareText = '俺がイーロン・マスクに追いつくには' + muskYears +
+      'かかるらしい #イーロンに追いつくには';
+    $('btn-share').href = 'https://twitter.com/intent/tweet?text=' +
+      encodeURIComponent(shareText) + '&url=' + encodeURIComponent(location.href);
+
+    /* ---- 画面切替 ---- */
+    screenInput.classList.remove('active');
+    screenResult.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    /* ---- 画像保存用に保持 ---- */
+    lastResult = {
+      incomeLabel: incomeLabel(income, over),
+      muskMain: (income <= 0) ? '∞' : ('約' + muskNumForCount.toLocaleString()),
+      muskUnit: (income <= 0) ? '永遠に届かない' : unitEl.textContent,
+      muskQuip: quipEl.textContent,
+      ohtaniTime: ohtaniTimeStr,
+      isInfinite: income <= 0
+    };
+
+    /* ---- アニメーション ---- */
+    if (income <= 0) {
+      yearsEl.textContent = '∞';
+    } else {
+      countUpInt(yearsEl, muskNumForCount, 1600);
+    }
+    staggerIn(['r-quip'], 1500, 0);
+    staggerIn(['ohtani-card'], 1750, 0);
+    staggerIn(['maezawa-card'], 1950, 0);
+  }
+
+  $('btn-check').addEventListener('click', runDiagnosis);
+  numEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { numEl.blur(); runDiagnosis(); }
+  });
+
+  /* ============================================================
+     結果カードの画像保存（Canvasに直接描画 → PNG）
+     ============================================================ */
+
+  function drawResultCard(r) {
+    var W = 1080, H = 1350;
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var ctx = cv.getContext('2d');
+    var FONT = "'Noto Sans JP', sans-serif";
+    var cx = W / 2;
+
+    function roundRect(x, y, w, h, rad) {
+      ctx.beginPath();
+      ctx.moveTo(x + rad, y);
+      ctx.arcTo(x + w, y, x + w, y + h, rad);
+      ctx.arcTo(x + w, y + h, x, y + h, rad);
+      ctx.arcTo(x, y + h, x, y, rad);
+      ctx.arcTo(x, y, x + w, y, rad);
+      ctx.closePath();
+    }
+
+    // 背景グラデ
+    var bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#11162a');
+    bg.addColorStop(0.4, '#0d1120');
+    bg.addColorStop(1, '#0b0e17');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // 上部のゴールドの光
+    var glow = ctx.createRadialGradient(cx, -60, 0, cx, -60, 640);
+    glow.addColorStop(0, 'rgba(255,209,102,0.18)');
+    glow.addColorStop(1, 'rgba(255,209,102,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, 740);
+
+    // カード枠
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.lineWidth = 2;
+    roundRect(56, 56, W - 112, H - 112, 36);
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+
+    // タグ
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '700 28px ' + FONT;
+    ctx.fillText('# イーロンに追いつくには', cx, 168);
+
+    // 年収（控えめ）
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '500 30px ' + FONT;
+    ctx.fillText('あなたの年収 ' + r.incomeLabel, cx, 232);
+
+    // メインラベル
+    ctx.fillStyle = '#ffd166';
+    ctx.font = '700 40px ' + FONT;
+    ctx.fillText('イーロン・マスクに追いつくには', cx, 360);
+
+    // 主役: 約◯◯万年（巨大タイポ・ゴールドグラデ）
+    var mainText = r.muskMain;       // 例: 約3,667 / ∞
+    var unitText = r.muskUnit;       // 例: 万年 / 永遠に届かない
+    var baseY = 590;
+
+    if (r.isInfinite) {
+      // ∞ を巨大表示
+      ctx.font = '900 300px ' + FONT;
+      var infGrad = ctx.createLinearGradient(cx - 200, 0, cx + 200, 0);
+      infGrad.addColorStop(0, '#ffd166');
+      infGrad.addColorStop(0.55, '#ff8e53');
+      infGrad.addColorStop(1, '#ff5e7d');
+      ctx.fillStyle = infGrad;
+      ctx.fillText('∞', cx, baseY + 40);
+      ctx.fillStyle = '#eef1f8';
+      ctx.font = '900 56px ' + FONT;
+      ctx.fillText('永遠に届かない', cx, baseY + 150);
+    } else {
+      // 数字を測ってグラデを当てる
+      ctx.font = '900 190px ' + FONT;
+      var numW = ctx.measureText(mainText).width;
+      ctx.font = '900 80px ' + FONT;
+      var unitW = ctx.measureText(unitText).width;
+      var gap = 18;
+      var totalW = numW + gap + unitW;
+      var startX = cx - totalW / 2;
+
+      var grad = ctx.createLinearGradient(startX, 0, startX + numW, 0);
+      grad.addColorStop(0, '#ffd166');
+      grad.addColorStop(0.55, '#ff8e53');
+      grad.addColorStop(1, '#ff5e7d');
+      ctx.textAlign = 'left';
+      ctx.fillStyle = grad;
+      ctx.font = '900 190px ' + FONT;
+      ctx.fillText(mainText, startX, baseY);
+
+      ctx.fillStyle = '#eef1f8';
+      ctx.font = '900 80px ' + FONT;
+      ctx.fillText(unitText, startX + numW + gap, baseY - 14);
+      ctx.textAlign = 'center';
+    }
+
+    // マスクの一言
+    ctx.fillStyle = '#eef1f8';
+    ctx.font = '700 34px ' + FONT;
+    wrapText(ctx, r.muskQuip, cx, 760, 880, 48);
+
+    // 大谷の一行（ゴールド枠の帯）
+    var by = 880, bw = 880, bh = 180, bx = cx - bw / 2;
+    var bgrad = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
+    bgrad.addColorStop(0, 'rgba(255,209,102,0.14)');
+    bgrad.addColorStop(1, 'rgba(255,142,83,0.07)');
+    ctx.fillStyle = bgrad;
+    roundRect(bx, by, bw, bh, 28);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,209,102,0.4)';
+    ctx.lineWidth = 2;
+    roundRect(bx, by, bw, bh, 28);
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffd98a';
+    ctx.font = '700 26px ' + FONT;
+    ctx.fillText('ちなみに大谷翔平は', cx, by + 56);
+    ctx.fillStyle = '#eef1f8';
+    ctx.font = '500 28px ' + FONT;
+    ctx.fillText('あなたの年収を ' + r.ohtaniTime + ' で稼ぐ', cx, by + 116);
+
+    // フッター出典
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '500 22px ' + FONT;
+    ctx.fillText('マスク約1.1兆ドル・1ドル150円換算 / 大谷202億円・Forbes報道ベース', cx, 1146);
+    ctx.fillStyle = '#ffd166';
+    ctx.font = '700 30px ' + FONT;
+    ctx.fillText('イーロン・マスクに追いつくには？', cx, 1200);
+
+    return cv;
+  }
+
+  // Canvas用の簡易テキスト折り返し（句点・読点で改行候補）
+  function wrapText(ctx, text, cx, y, maxWidth, lineHeight) {
+    var chars = text.split('');
+    var line = '';
+    var lines = [];
+    for (var i = 0; i < chars.length; i++) {
+      var test = line + chars[i];
+      if (ctx.measureText(test).width > maxWidth && line !== '') {
+        lines.push(line);
+        line = chars[i];
+      } else {
+        line = test;
+      }
+    }
+    if (line) lines.push(line);
+    var startY = y - (lines.length - 1) * lineHeight / 2;
+    for (var j = 0; j < lines.length; j++) {
+      ctx.fillText(lines[j], cx, startY + j * lineHeight);
+    }
+  }
+
+  function saveResultImage() {
+    if (!lastResult) return;
+    var hint = $('save-hint');
+    var canvas;
+    try {
+      canvas = drawResultCard(lastResult);
+    } catch (e) {
+      return;
+    }
+    var dataUrl = canvas.toDataURL('image/png');
+    var a = document.createElement('a');
+    var supportsDownload = 'download' in a;
+    if (supportsDownload) {
+      a.href = dataUrl;
+      a.download = 'catch-elon-musk.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    if (!supportsDownload || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      var w = window.open();
+      if (w) {
+        w.document.write(
+          '<title>イーロン・マスクに追いつくには？</title>' +
+          '<body style="margin:0;background:#0b0e17;">' +
+          '<img src="' + dataUrl + '" style="width:100%;height:auto;display:block">' +
+          '</body>'
+        );
+      }
+      hint.classList.add('show');
+    }
+  }
+
+  $('btn-save').addEventListener('click', saveResultImage);
+
+  $('btn-retry').addEventListener('click', function () {
+    $('save-hint').classList.remove('show');
+    screenResult.classList.remove('active');
+    screenInput.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>
