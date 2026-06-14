@@ -235,6 +235,13 @@
   }
   .result-income b { color: var(--text); font-weight: 700; }
 
+  .verdict-pretext {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
   .verdict-label {
     font-size: 15px;
     font-weight: 700;
@@ -462,6 +469,7 @@
       <div class="result-tag">#イーロンに追いつくには</div>
       <div class="result-income">あなたの年収 <b id="r-income">450万円</b></div>
 
+      <div class="verdict-pretext">年収を全額貯金した上で</div>
       <div class="verdict-label">イーロン・マスクに追いつくには</div>
       <div class="verdict-main">
         <span class="verdict-prefix">約</span>
@@ -1027,10 +1035,15 @@
     ctx.font = '500 30px ' + FONT;
     ctx.fillText('あなたの年収 ' + r.incomeLabel, cx, 232);
 
+    // 前提文（控えめ・muted相当）
+    ctx.fillStyle = '#8a93ad';
+    ctx.font = '500 28px ' + FONT;
+    ctx.fillText('年収を全額貯金した上で', cx, 322);
+
     // メインラベル
     ctx.fillStyle = '#ffd166';
     ctx.font = '700 40px ' + FONT;
-    ctx.fillText('イーロン・マスクに追いつくには', cx, 360);
+    ctx.fillText('イーロン・マスクに追いつくには', cx, 376);
 
     // 主役: 約◯◯万年（巨大タイポ・ゴールドグラデ）
     var mainText = r.muskMain;       // 例: 約3,667 / ∞
