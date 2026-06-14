@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<!-- Googleアドセンス: 審査通過後にこのコメントを解除し ca-pub-XXXXXXXXXXXXXXXX を自分のパブリッシャーIDに差し替える
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
 <style>
   :root {
     --bg-0: #0b0e17;
@@ -838,6 +841,15 @@
   }
   .ad-cta::after { content: " →"; }
 
+  /* ---------- 広告枠（Googleアドセンス）: 未審査時は空でつぶれる ---------- */
+  .ad-slot {
+    width: 100%;
+    margin: 18px auto 0;
+    text-align: center;
+    overflow: hidden;
+  }
+  .ad-slot .adsbygoogle { display: block; }
+
   footer {
     width: 100%;
     text-align: center;
@@ -1061,6 +1073,15 @@
       <div class="ad-desc">年収を上げた人の多くは「今の会社の評価」より先に「市場の評価」を確かめています。登録だけなら無料。自分の市場価値、一度数字で見てみませんか。</div>
       <span class="ad-cta">市場価値を無料でチェック</span>
     </a>
+
+    <!-- ===== 広告枠（Googleアドセンス）=====
+         審査通過後: 下のinsタグのコメントを解除し、data-ad-client(ca-pub-XXXX) と data-ad-slot(数字ID) を自分のものに差し替える -->
+    <div class="ad-slot" aria-hidden="true">
+      <!--
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+    </div>
   </section>
 </div>
 

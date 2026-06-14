@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<!-- Googleアドセンス: 審査通過後にこのコメントを解除し ca-pub-XXXXXXXXXXXXXXXX を自分のパブリッシャーIDに差し替える
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
 <style>
 :root {
   --bg: #0d0f14;
@@ -394,6 +397,16 @@ input[type="range"]::-moz-range-thumb {
   margin-top: 6px;
 }
 
+/* 広告枠（Googleアドセンス）: 未審査時は空で高さ最小。審査通過後にinsタグで埋まる */
+.ad-slot {
+  width: 100%;
+  margin: 20px auto;
+  text-align: center;
+  min-height: 0;
+  overflow: hidden;
+}
+.ad-slot:empty { margin: 0; }
+
 /* 内訳 */
 .breakdown {
   background: var(--card);
@@ -556,6 +569,15 @@ footer {
       <div class="breakdown">
         <div class="bd-head"><span>習慣ごとの内訳</span><span>使う合計 / 積立してた場合</span></div>
         <div id="r-breakdown"></div>
+      </div>
+
+      <!-- ===== 広告枠（Googleアドセンス）=====
+           審査通過後: 下のinsタグのコメントを解除し、data-ad-client(ca-pub-XXXX) と data-ad-slot(数字ID) を差し替える -->
+      <div class="ad-slot" aria-hidden="true">
+        <!--
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        -->
       </div>
 
       <a class="share-btn" id="share-btn" href="#" target="_blank" rel="noopener">

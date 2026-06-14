@@ -1,0 +1,4 @@
+# Googleアドセンスの審査に通過したら、下の行のコメント(#)を外して
+# pub-XXXXXXXXXXXXXXXX を自分のパブリッシャーID（ca-pub-の後ろの数字）に差し替える。
+# これでアドセンスが「このサイトの広告枠は正規」と認識できる。
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
