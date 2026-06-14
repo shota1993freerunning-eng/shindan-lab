@@ -270,6 +270,25 @@
     margin: 14px auto 4px;
     opacity: 0;
   }
+  .btn-reroll {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid rgba(255,209,102,.35);
+    color: var(--accent-1);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    border-radius: 999px;
+    padding: 7px 16px;
+    margin: 2px auto 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: border-color .15s ease, background .15s ease, transform .12s ease;
+  }
+  .btn-reroll::before { content: "↻ "; }
+  .btn-reroll:hover { border-color: var(--accent-1); background: rgba(255,209,102,.08); }
+  .btn-reroll:active { transform: scale(.95); }
   .fade-in { animation: fadeUp .6s ease both; }
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(10px); }
@@ -488,6 +507,7 @@
         <span class="verdict-unit" id="r-unit">万年</span>
       </div>
       <p class="verdict-quip" id="r-quip"></p>
+      <button id="btn-reroll" class="btn-reroll" type="button">別のたとえを見る</button>
 
       <div class="ohtani-card" id="ohtani-card">
         <div class="ohtani-cap">ちなみに大谷翔平は</div>
@@ -570,17 +590,72 @@
     return { num: 0, unit: '年未満' }; // ほぼ到達済み
   }
 
-  // 桁別の人類史スケールの一言（短い断定形・笑える比喩）
-  function muskQuip(years) {
-    if (years >= 1e8) return '宇宙が生まれて約138億年。それでもまだ届かない桁。';
-    if (years >= 1e7) return '人類が生まれる前から貯めても、足りない。';
-    if (years >= 1e6) return '恐竜の時代から貯金しても、無理。';
-    if (years >= 1e5) return 'マンモスを狩ってた頃から貯めても遠い。';
-    if (years >= 1e4) return '文明が始まる前から貯め続けるレベル。';
-    if (years >= 1000) return '奈良時代から休まず貯めても、まだ途中。';
-    if (years >= 100) return '生まれ変わりを何回かはさんで、やっと。';
-    if (years >= 1) return 'あと数十年、無心で貯めれば理論上は届く。';
-    return 'あなた自身がマスク級。もう貯めなくていい。';
+  /* ---- 桁別「絶望ジョーク」バケット（必要年数の実スケールに合わせる） ----
+     このツールの実態（MUSK_JPY=165兆円）:
+       年収1億→約165万年 / 1,000万→約1,650万年 / 300万→約5,500万年 /
+       100万→約1.65億年 / 50万→約3.3億年。
+     大多数のユーザー（年収50万〜1,000万）は約1,650万年〜3.3億年に着地する。
+     各バケットの比喩は、その年数レンジに事実として合うものだけを使う。
+     ランダム＆連続非重複で出す。 */
+  var MUSK_QUIPS = {
+    // 【100万〜1,000万年】高年収帯（年収1,650万円〜）: 人類史スケール
+    human: [
+      'ホモ・サピエンスが生まれて約30万年。その歴史を何回くり返しても、まだ届かない。',
+      '最後の氷期が終わって約1万年。その時間を何百回つないでも足りない桁だ。',
+      'ネアンデルタール人が消えて約4万年。その何十倍もの時間を、まるごと貯金にあてる必要がある。',
+      'ピラミッドが建って約4,500年。それを千回くり返して、ようやくこの桁になる。',
+      '人類が農業を始めた頃から休まず貯めても、まだ全然届いていない。',
+      '文字が生まれて約5,000年。その歴史を千回ぶん貯め続けても遠い。'
+    ],
+    // 【1,000万〜1億年】中年収帯（年収165万〜1,650万・大多数がここ）: 地球史スケール
+    geo: [
+      '恐竜が絶滅して、まだ6,600万年。あなたが追いつくには、それすら足りない時間だ。',
+      '恐竜が絶滅した6,600万年前から1円も使わず貯めても、まだ途中だ。',
+      'ヒマラヤ山脈が盛り上がり始めて約5,000万年。その歴史を丸ごと貯めても届かない。',
+      '哺乳類が地上の主役になって約6,600万年。その時間を使い切っても、まだ序盤。',
+      '今いる大陸の形が固まる前から貯め続けても、まだゴールは見えない。',
+      '人類の祖先がサルから分かれて約700万年。その何倍もの時間が必要だ。'
+    ],
+    // 【1億〜10億年】低年収帯（年収55万〜165万・約1.65億年〜）: 生命史スケール
+    life: [
+      '多細胞生物が現れて約6億年。その歴史をまるごと貯金にあてても、まだ序盤。',
+      '海から陸へ生き物が上がって約4億年。その時間でも、まだ全く足りない。',
+      '恐竜が地上を歩き始めて約2.3億年。その時代を丸ごと貯めても届かない桁だ。',
+      '超大陸パンゲアが分裂を始めて約2億年。それでも、まだ途中ですらない。',
+      '魚に背骨ができてから今日まで貯め続けても、まだ届かない。',
+      '陸に最初の植物が生えて約4.7億年。その歴史を使い切っても遠い。'
+    ],
+    // 【10億年以上】極低年収（年収55万未満・約3.3億年〜）: 惑星〜宇宙史スケール
+    cosmos: [
+      '地球が生まれて約46億年。その歴史に迫る時間を、まるごと貯金にあてる桁だ。',
+      '地球に最初の生命が芽生えて約38億年。それでも、まだ足りない。',
+      '生命が酸素を吐き始めて約24億年。その時間を使い切っても届かない。',
+      '太陽があと約50億年で燃え尽きる。その寿命に迫る時間が必要になる。',
+      '宇宙が生まれて約138億年。その何分の一かを、まるごと貯金にあてる桁だ。',
+      '地球の自転が今より速かった大昔から貯め続けても、まだ終わらない。'
+    ]
+  };
+
+  // 必要年数 → どのバケットを使うか（このツールの実スケールに合わせた境界）
+  function muskBucketKey(years) {
+    if (years >= 1e9) return 'cosmos';   // 10億年以上（年収55万未満）
+    if (years >= 1e8) return 'life';     // 1億〜10億年（年収55万〜165万）
+    if (years >= 1e7) return 'geo';      // 1,000万〜1億年（年収165万〜1,650万・大多数）
+    return 'human';                      // 1,000万年未満（年収1,650万円〜）
+  }
+
+  // 連続非重複でバケットから1つ選ぶ。lastMuskIndex をキーごとに保持
+  var lastMuskIndex = {};
+  function pickMuskQuip(years) {
+    var key = muskBucketKey(years);
+    var arr = MUSK_QUIPS[key];
+    var prev = (lastMuskIndex[key] === undefined) ? -1 : lastMuskIndex[key];
+    var i = Math.floor(Math.random() * arr.length);
+    if (arr.length > 1) {
+      while (i === prev) i = Math.floor(Math.random() * arr.length);
+    }
+    lastMuskIndex[key] = i;
+    return arr[i];
   }
 
   /* ============================================================
@@ -597,13 +672,28 @@
     return '約' + Math.max(1, Math.round(sec)) + '秒';
   }
 
-  function ohtaniQuip(income, ratio) {
+  // 大谷側「瞬間の格差」ジョーク。ratioに依らずランダム表示・連続非重複（10個以上）
+  var OHTANI_QUIPS = [
+    'あなたがこの文章を読む数秒で、大谷はもう数万円を稼いでいる。',
+    'トイレに行って戻ってくる間に、大谷はあなたの月収を抜いていく。',
+    'コーヒーを一杯いれる時間で、大谷はあなたに何時間分も差をつける。',
+    'あなたが信号を待つ1分で、大谷は車が買えるほど稼いでいる。',
+    'あなたが寝ている8時間で、大谷は家が一軒買える金額を積み上げる。',
+    'あなたが昼休みを取る1時間で、大谷との差はさらに開いている。',
+    'あなたがこのページを開いた瞬間から、もう差は広がり続けている。',
+    'エレベーターで上の階に着く頃には、大谷はあなたの日給を稼いでいる。',
+    'あなたが「すごい」とつぶやく一瞬で、大谷は札束を一つ増やしている。',
+    'あなたが残業して稼ぐ1時間を、大谷は瞬きする間に超えていく。',
+    'あなたがランチを選んでいる間に、大谷はあなたの一週間分を稼ぐ。',
+    'あなたが深呼吸を一回する間にも、大谷の口座は増え続けている。'
+  ];
+  var lastOhtaniIndex = -1;
+  function pickOhtaniQuip(income) {
     if (income <= 0) return '大谷が一瞬で稼ぐ額にも、まだ届いていない。';
-    if (ratio >= 1) return '大谷を超えてる。ツールやってる場合じゃない、球場へ。';
-    if (ratio >= 0.5) return '大谷とタメを張る人が、なぜこのツールを…？';
-    if (ratio >= 0.05) return 'その差、努力でどうにかなる範囲を超えてる。';
-    if (ratio >= 0.005) return '同じ1年で、これだけの差がついている。';
-    return 'コーヒー1杯ぶんの時間で、もう並ばれてる。';
+    var i = Math.floor(Math.random() * OHTANI_QUIPS.length);
+    while (i === lastOhtaniIndex) i = Math.floor(Math.random() * OHTANI_QUIPS.length);
+    lastOhtaniIndex = i;
+    return OHTANI_QUIPS[i];
   }
 
   /* ============================================================
@@ -669,6 +759,7 @@
   var rafId = null;
   var isOverCap = false;
   var lastResult = null;
+  var currentMuskYears = null; // 直近の必要年数（reroll でバケット判定に使う）
 
   function updateRangeFill() {
     var min = +rangeEl.min, max = +rangeEl.max, v = +rangeEl.value;
@@ -776,6 +867,7 @@
     var quipEl = $('r-quip');
     var muskYears = null;       // シェア用の「約◯◯万年」文字列
     var muskNumForCount = 0;
+    currentMuskYears = null;
     if (income <= 0) {
       yearsEl.textContent = '∞';
       unitEl.textContent = '';
@@ -783,11 +875,12 @@
       muskYears = '永遠（∞）';
     } else {
       var years = MUSK_JPY / incomeYen;
+      currentMuskYears = years;
       var p = muskYearsParts(years);
       unitEl.textContent = p.unit;
       muskNumForCount = p.num;
       muskYears = '約' + p.num.toLocaleString() + p.unit;
-      quipEl.textContent = muskQuip(years);
+      quipEl.textContent = pickMuskQuip(years);
     }
 
     /* ---- サブ: 大谷翔平 ---- */
@@ -795,12 +888,11 @@
     if (income <= 0) {
       ohtaniTimeStr = '一瞬';
       $('ohtani-time').textContent = '一瞬';
-      $('ohtani-quip').textContent = ohtaniQuip(0, 0);
+      $('ohtani-quip').textContent = pickOhtaniQuip(0);
     } else {
       ohtaniTimeStr = formatOhtaniTime(incomeYen);
-      var ratio = incomeYen / OHTANI_JPY;
       $('ohtani-time').textContent = ohtaniTimeStr;
-      $('ohtani-quip').textContent = ohtaniQuip(income, ratio);
+      $('ohtani-quip').textContent = pickOhtaniQuip(income);
     }
 
     /* ---- 小ネタ: 前澤友作 ---- */
@@ -842,11 +934,26 @@
       countUpInt(yearsEl, muskNumForCount, 1600);
     }
     staggerIn(['r-quip'], 1500, 0);
+    staggerIn(['btn-reroll'], 1650, 0);
     staggerIn(['ohtani-card'], 1750, 0);
     staggerIn(['maezawa-card'], 1950, 0);
   }
 
   $('btn-check').addEventListener('click', runDiagnosis);
+
+  // 「別のたとえを見る」: 同じ年収のまま、同バケットの別ジョークに差し替え（連続非重複）
+  $('btn-reroll').addEventListener('click', function () {
+    if (currentMuskYears == null) return; // 年収0（∞）のときは何もしない
+    var q = pickMuskQuip(currentMuskYears);
+    var quipEl = $('r-quip');
+    quipEl.textContent = q;
+    if (lastResult) lastResult.muskQuip = q; // 画像保存と食い違わないよう更新
+    // 軽い再フェードで「変わった」感を出す
+    quipEl.classList.remove('fade-in');
+    quipEl.style.opacity = '0';
+    void quipEl.offsetWidth;
+    quipEl.classList.add('fade-in');
+  });
   numEl.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') { numEl.blur(); runDiagnosis(); }
   });
