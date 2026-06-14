@@ -559,6 +559,7 @@
     { event: '人類が火を使い始めてから今まで',               dur: 1000000 },
     { event: '人類の祖先がチンパンジーと分かれてから今まで', dur: 7000000 },
     { event: '恐竜が絶滅してから今まで',                     dur: 66000000 },
+    { event: 'ティラノサウルスが地上を歩いていた時代から今まで', dur: 68000000 },
     { event: '哺乳類が地上に現れてから今まで',               dur: 220000000 },
     { event: '生き物が海から陸へ上がってから今まで',         dur: 400000000 },
     { event: '多細胞生物が現れてから今まで',                 dur: 600000000 },
@@ -619,12 +620,41 @@
     return '約' + Math.round(n).toLocaleString() + '回';
   }
 
-  // needed に対し論理破綻しないイベント候補（dur <= needed/3）を返す
-  function muskEventCandidates(needed) {
-    return MUSK_EVENTS.filter(function (e) { return e.dur <= needed / 3; });
+  // 倍率Mを「約376分の1」「約1.2万分の1」「約3億分の1」等へ
+  function jpFraction(m) {
+    if (m >= 1e8) {
+      var oku = m / 1e8;
+      var okuStr = (oku >= 10) ? Math.round(oku).toLocaleString()
+                               : (Math.round(oku * 10) / 10).toLocaleString();
+      return '約' + okuStr + '億分の1';
+    }
+    if (m >= 1e4) {
+      var man = m / 1e4;
+      var manStr = (man >= 10) ? Math.round(man).toLocaleString()
+                               : (Math.round(man * 10) / 10).toLocaleString();
+      return '約' + manStr + '万分の1';
+    }
+    return '約' + Math.round(m).toLocaleString() + '分の1';
   }
 
-  // 連続非重複で候補から1つ選び、正しい N を埋めた文を作る
+  // needed に対し論理破綻しないイベント候補を返す。
+  //  - repeat候補:   dur*3 <= needed（= dur <= needed/3、N=round(needed/dur)>=3）
+  //  - fraction候補: dur >= needed*3（M=round(dur/needed)>=3）
+  //  - その中間（needed/3 < dur < needed*3）は破綻回避のため除外
+  // 各候補に kind ('repeat' | 'fraction') を付与して返す。
+  function muskEventCandidates(needed) {
+    var out = [];
+    MUSK_EVENTS.forEach(function (e) {
+      if (e.dur * 3 <= needed) {
+        out.push({ event: e.event, dur: e.dur, kind: 'repeat' });
+      } else if (e.dur >= needed * 3) {
+        out.push({ event: e.event, dur: e.dur, kind: 'fraction' });
+      }
+    });
+    return out;
+  }
+
+  // 連続非重複で候補から1つ選び、repeat / fraction に応じた文を作る
   var lastMuskEvent = null;
   function pickMuskQuip(years) {
     var needed = years;
@@ -644,9 +674,20 @@
     }
     lastMuskEvent = e.event;
 
+    var durStr = jpYears(e.dur);
+
+    if (e.kind === 'fraction') {
+      var M = Math.round(e.dur / needed); // 必ず3以上
+      var mStr = jpFraction(M);
+      var fracTemplates = [
+        'あなたが追いつくまでの年月は、' + e.event + 'の、わずか' + mStr + '。それでも、人類の想像を超える長さだ。',
+        e.event + '、' + durStr + '。あなたが追いつくのは、その' + mStr + 'の時間。それでも気が遠くなる。'
+      ];
+      return fracTemplates[Math.floor(Math.random() * fracTemplates.length)];
+    }
+
     var N = Math.round(needed / e.dur); // 必ず3以上
     var nStr = jpTimes(N);
-    var durStr = jpYears(e.dur);
 
     var templates = [
       e.event + 'の時間を、' + nStr + 'くり返す。それが、あなたが追いつくまでの長さだ。',
