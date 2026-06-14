@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>イーロン・マスクに追いつくには？ | 年収を入れると出る絶望の数字</title>
-<meta name="description" content="年収を入れるだけ。イーロン・マスクに追いつくまで何万年かかるか、一発で分かる。笑うしかない。">
+<title>絶望の年収イーロン診断</title>
+<meta name="description" content="年収を入れると、イーロン・マスクに追いつくまで何万年かかるかがわかる。絶望して、笑う診断。">
+<meta property="og:title" content="絶望の年収イーロン診断">
+<meta property="og:description" content="年収を入れると、イーロン・マスクに追いつくまで何万年かかるかがわかる。絶望して、笑う診断。">
+<meta name="twitter:title" content="絶望の年収イーロン診断">
+<meta name="twitter:description" content="年収を入れると、イーロン・マスクに追いつくまで何万年かかるかがわかる。絶望して、笑う診断。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -337,48 +341,6 @@
     margin-top: 8px;
   }
 
-  /* ---------- 前澤友作 小ネタ ---------- */
-  .maezawa-card {
-    text-align: left;
-    margin-top: 14px;
-    padding: 16px 16px 14px;
-    border-radius: 16px;
-    background: linear-gradient(150deg, rgba(110,139,255,.10), rgba(155,110,255,.06));
-    border: 1px dashed rgba(110,139,255,.4);
-    opacity: 0;
-  }
-  .maezawa-card .mz-cap {
-    font-size: 11px;
-    font-weight: 700;
-    color: #9fb2ff;
-    letter-spacing: .04em;
-    margin-bottom: 8px;
-  }
-  .maezawa-card .mz-lead {
-    font-size: 12.5px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 4px;
-  }
-  .maezawa-card .mz-big {
-    font-size: 30px;
-    font-weight: 900;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.1;
-    background: var(--grad-sub);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-  .maezawa-card .mz-quip {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.6;
-    margin-top: 8px;
-  }
-
   .result-footnote {
     font-size: 10px;
     color: var(--muted);
@@ -474,8 +436,8 @@
 <div class="wrap">
   <header>
     <div class="badge">CATCH ELON MUSK</div>
-    <h1>イーロン・マスクに<br><span class="grad">追いつくには？</span></h1>
-    <p class="lead">年収を入れるだけ。追いつくまで何年かかるか、笑える数字が出る。</p>
+    <h1>絶望の<br><span class="grad">年収イーロン診断</span></h1>
+    <p class="lead">イーロン・マスクに追いつくには、何年かかる？<br>年収を入れるだけで、笑うしかない数字が出る。</p>
   </header>
 
   <!-- ===== 入力画面 ===== -->
@@ -516,15 +478,8 @@
         <div class="ohtani-quip" id="ohtani-quip"></div>
       </div>
 
-      <div class="maezawa-card" id="maezawa-card">
-        <div class="mz-cap">前澤友作 換算</div>
-        <div class="mz-lead">月に行った前澤さんに追いつくだけでも…</div>
-        <div class="mz-big" id="mz-years">--</div>
-        <div class="mz-quip" id="mz-quip"></div>
-      </div>
-
       <div class="result-footnote">
-        ※ マスクの資産は約1.1兆ドル・1ドル150円換算（2026年6月時点の概算）。大谷翔平の年収は約202億円（Forbes報道ベースの推定総収入）。前澤友作の資産は約1,500億円の概算。いずれも公表値・報道を基にしたざっくり試算で、年収を1円も使わず貯め続けた場合の単純計算。
+        ※ マスクの資産は約1.1兆ドル・1ドル150円換算（2026年6月時点の概算）。大谷翔平の年収は約202億円（Forbes報道ベースの推定総収入）。いずれも公表値・報道を基にしたざっくり試算で、年収を1円も使わず貯め続けた場合の単純計算。
       </div>
     </div>
 
@@ -568,9 +523,6 @@
 
   // 大谷翔平の年収（2026年の推定総収入・Forbes報道ベース）: 約202億円
   var OHTANI_JPY = 202_0000_0000; // 202億円
-
-  // 前澤友作の資産（概算）: 約1,500億円
-  var MAEZAWA_JPY = 1500_0000_0000; // 1,500億円
 
   /* ============================================================
      イーロン・マスク換算（主役）
@@ -720,25 +672,6 @@
     while (i === lastOhtaniIndex) i = Math.floor(Math.random() * OHTANI_QUIPS.length);
     lastOhtaniIndex = i;
     return OHTANI_QUIPS[i];
-  }
-
-  /* ============================================================
-     前澤友作 換算（小ネタ）
-     ============================================================ */
-
-  function maezawaYearsParts(years) {
-    if (years >= 1e4) return { num: Math.round(years / 1e4), unit: '万年' };
-    if (years >= 1) return { num: Math.round(years), unit: '年' };
-    return { num: 0, unit: '年未満' };
-  }
-  // マスクと前澤の資産倍率（年収に依らず一定 ≈ 1,100）。正しい値のみ埋め込む。
-  var MUSK_OVER_MAEZAWA = Math.round(MUSK_JPY / MAEZAWA_JPY);
-  function maezawaQuip(years) {
-    if (years >= 1e4) return 'それでもマスクより桁が3つマシ。前澤さんの資産はマスクの約' + MUSK_OVER_MAEZAWA.toLocaleString() + '分の1だ。';
-    if (years >= 1000) return 'お年玉を配る側には、何十世代たっても回れない。';
-    if (years >= 100) return '月旅行どころか、空港に着くのも何代先。';
-    if (years >= 1) return '貯め続ければ、いつか会えるかもしれない距離。';
-    return '前澤さんはもう射程圏内。次はマスクだ。';
   }
 
   /* ============================================================
@@ -923,20 +856,9 @@
       $('ohtani-quip').textContent = pickOhtaniQuip(income);
     }
 
-    /* ---- 小ネタ: 前澤友作 ---- */
-    if (income <= 0) {
-      $('mz-years').textContent = '∞';
-      $('mz-quip').textContent = '前澤さんにも、まず1円稼いでから。';
-    } else {
-      var mzYears = MAEZAWA_JPY / incomeYen;
-      var mp = maezawaYearsParts(mzYears);
-      $('mz-years').textContent = '約' + mp.num.toLocaleString() + mp.unit;
-      $('mz-quip').textContent = maezawaQuip(mzYears);
-    }
-
     /* ---- シェアリンク（生年収は入れない） ---- */
     var shareText = '俺がイーロン・マスクに追いつくには' + muskYears +
-      'かかるらしい #イーロンに追いつくには';
+      'かかるらしい #絶望の年収イーロン診断';
     $('btn-share').href = 'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(shareText) + '&url=' + encodeURIComponent(location.href);
 
@@ -964,7 +886,6 @@
     staggerIn(['r-quip'], 1500, 0);
     staggerIn(['btn-reroll'], 1650, 0);
     staggerIn(['ohtani-card'], 1750, 0);
-    staggerIn(['maezawa-card'], 1950, 0);
   }
 
   $('btn-check').addEventListener('click', runDiagnosis);
@@ -1119,7 +1040,7 @@
     ctx.fillText('マスク約1.1兆ドル・1ドル150円換算 / 大谷202億円・Forbes報道ベース', cx, 1146);
     ctx.fillStyle = '#ffd166';
     ctx.font = '700 30px ' + FONT;
-    ctx.fillText('イーロン・マスクに追いつくには？', cx, 1200);
+    ctx.fillText('絶望の年収イーロン診断', cx, 1200);
 
     return cv;
   }
@@ -1168,7 +1089,7 @@
       var w = window.open();
       if (w) {
         w.document.write(
-          '<title>イーロン・マスクに追いつくには？</title>' +
+          '<title>絶望の年収イーロン診断</title>' +
           '<body style="margin:0;background:#0b0e17;">' +
           '<img src="' + dataUrl + '" style="width:100%;height:auto;display:block">' +
           '</body>'
